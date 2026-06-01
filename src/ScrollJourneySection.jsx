@@ -14,10 +14,10 @@ function mapRange(p, in0, in1, out0, out1) {
 }
 
 const EVENTS = [
-  { Icon: Package,      label: 'Carga publicada',    sub: '8 pallets · Maldonado', col: '#f0a500', start: 0.05, end: 0.18 },
-  { Icon: Zap,          label: 'Match detectado',    sub: 'Transportista en ruta',  col: '#a78bfa', start: 0.20, end: 0.33 },
-  { Icon: Lock,         label: 'Pago en escrow',     sub: 'USD 130 retenido',      col: '#38bdf8', start: 0.35, end: 0.48 },
-  { Icon: CheckCircle2, label: 'Entrega confirmada', sub: 'Pago liberado',         col: '#00d68f', start: 0.50, end: 0.63 },
+  { Icon: Package,      label: 'Carga publicada',    sub: '8 pallets · Maldonado', col: '#f0a500', start: 0.00, end: 0.11 },
+  { Icon: Zap,          label: 'Match detectado',    sub: 'Transportista en ruta',  col: '#a78bfa', start: 0.13, end: 0.26 },
+  { Icon: Lock,         label: 'Pago en escrow',     sub: 'USD 130 retenido',      col: '#38bdf8', start: 0.28, end: 0.41 },
+  { Icon: CheckCircle2, label: 'Entrega confirmada', sub: 'Pago liberado',         col: '#00d68f', start: 0.43, end: 0.56 },
 ]
 
 export default function ScrollJourneySection() {
@@ -41,12 +41,12 @@ export default function ScrollJourneySection() {
     return () => window.removeEventListener('scroll', onScroll)
   }, [])
 
-  const pathLen   = mapRange(p, 0.0,  0.45, 0, 1)
-  const truckLeft = mapRange(p, 0.02, 0.60, 2, 86)   // %
+  const pathLen   = mapRange(p, 0.0,  0.38, 0, 1)
+  const truckLeft = mapRange(p, 0.0,  0.53, 2, 86)
   const truckOp   = mapRange(p, 0.0,  0.08, 0, 1)
-  const revOp     = mapRange(p, 0.55, 0.68, 0, 1)
-  const revY      = mapRange(p, 0.55, 0.68, 16, 0)
-  const revSc     = mapRange(p, 0.55, 0.68, 0.93, 1)
+  const revOp     = mapRange(p, 0.48, 0.61, 0, 1)
+  const revY      = mapRange(p, 0.48, 0.61, 16, 0)
+  const revSc     = mapRange(p, 0.48, 0.61, 0.93, 1)
 
   return (
     <div ref={outerRef} className="journey-outer">
