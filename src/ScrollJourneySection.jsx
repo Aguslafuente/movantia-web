@@ -11,27 +11,27 @@ export default function ScrollJourneySection() {
     offset: ['start start', 'end end'],
   })
 
-  // Path drawing
-  const pathLen = useTransform(scrollYProgress, [0.02, 0.52], [0, 1])
+  // Path drawing — completes in first 40% of scroll
+  const pathLen = useTransform(scrollYProgress, [0.0, 0.40], [0, 1])
 
   // Truck slides across
-  const truckLeft = useTransform(scrollYProgress, [0.05, 0.68], ['2%', '86%'])
-  const truckOp   = useTransform(scrollYProgress, [0.03, 0.10], [0, 1])
+  const truckLeft = useTransform(scrollYProgress, [0.02, 0.55], ['2%', '86%'])
+  const truckOp   = useTransform(scrollYProgress, [0.0, 0.07], [0, 1])
 
-  // Events — compressed to first 65% of scroll
-  const e1op = useTransform(scrollYProgress, [0.08, 0.18], [0, 1])
-  const e1y  = useTransform(scrollYProgress, [0.08, 0.18], [12, 0])
-  const e2op = useTransform(scrollYProgress, [0.22, 0.32], [0, 1])
-  const e2y  = useTransform(scrollYProgress, [0.22, 0.32], [12, 0])
-  const e3op = useTransform(scrollYProgress, [0.36, 0.46], [0, 1])
-  const e3y  = useTransform(scrollYProgress, [0.36, 0.46], [12, 0])
-  const e4op = useTransform(scrollYProgress, [0.50, 0.60], [0, 1])
-  const e4y  = useTransform(scrollYProgress, [0.50, 0.60], [12, 0])
+  // Events — all within 0–50%
+  const e1op = useTransform(scrollYProgress, [0.05, 0.14], [0, 1])
+  const e1y  = useTransform(scrollYProgress, [0.05, 0.14], [12, 0])
+  const e2op = useTransform(scrollYProgress, [0.16, 0.25], [0, 1])
+  const e2y  = useTransform(scrollYProgress, [0.16, 0.25], [12, 0])
+  const e3op = useTransform(scrollYProgress, [0.27, 0.36], [0, 1])
+  const e3y  = useTransform(scrollYProgress, [0.27, 0.36], [12, 0])
+  const e4op = useTransform(scrollYProgress, [0.38, 0.47], [0, 1])
+  const e4y  = useTransform(scrollYProgress, [0.38, 0.47], [12, 0])
 
-  // Revenue appears at 60%
-  const revOp = useTransform(scrollYProgress, [0.58, 0.70], [0, 1])
-  const revY  = useTransform(scrollYProgress, [0.58, 0.70], [16, 0])
-  const revSc = useTransform(scrollYProgress, [0.58, 0.70], [0.93, 1])
+  // Revenue at 45%
+  const revOp = useTransform(scrollYProgress, [0.45, 0.56], [0, 1])
+  const revY  = useTransform(scrollYProgress, [0.45, 0.56], [16, 0])
+  const revSc = useTransform(scrollYProgress, [0.45, 0.56], [0.93, 1])
 
   const EVENTS = [
     { op: e1op, y: e1y, Icon: Package,      label: 'Carga publicada',    sub: '8 pallets · Maldonado', col: '#f0a500' },
