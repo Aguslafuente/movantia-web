@@ -1,4 +1,18 @@
 /* ================================================================
+   ENTRANCE ANIMATIONS — CSS keyframes (no-JS fallback)
+   ================================================================ */
+@keyframes fadeInUp {
+  from { opacity: 0; transform: translateY(32px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+.anim-fadein {
+  animation: fadeInUp 0.7s cubic-bezier(0.22,1,0.36,1) both;
+}
+.anim-fadein-delay {
+  animation-delay: 0.2s;
+}
+
+/* ================================================================
    TOKENS — new design system
    ================================================================ */
 :root {
