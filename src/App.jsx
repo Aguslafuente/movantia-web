@@ -145,6 +145,32 @@ const LLEVAR_STEPS = [
   },
 ]
 
+/* ──────────────────────────────────────
+   BRAND MARK — inline SVG isotipo
+────────────────────────────────────── */
+function BrandMark() {
+  return (
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 40 40" fill="none" style={{ width:'100%', height:'100%' }}>
+      <defs>
+        <linearGradient id="bmG" x1="20" y1="3" x2="20" y2="31" gradientUnits="userSpaceOnUse">
+          <stop offset="0%"   stopColor="#ffd166"/>
+          <stop offset="55%"  stopColor="#f0a500"/>
+          <stop offset="100%" stopColor="#c07800"/>
+        </linearGradient>
+        <filter id="bmGlow" x="-150%" y="-150%" width="400%" height="400%">
+          <feGaussianBlur stdDeviation="2" result="b"/>
+          <feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge>
+        </filter>
+      </defs>
+      <rect x="2"  y="3" width="5" height="26" rx="2.5" fill="url(#bmG)"/>
+      <rect x="33" y="3" width="5" height="26" rx="2.5" fill="url(#bmG)"/>
+      <polygon points="8,3 13,3 20,31"  fill="url(#bmG)"/>
+      <polygon points="27,3 32,3 20,31" fill="url(#bmG)"/>
+      <circle cx="20" cy="31" r="4" fill="#f0a500" opacity="0.18" filter="url(#bmGlow)"/>
+    </svg>
+  )
+}
+
 export default function App() {
   const [role, setRole] = useState(null)
   const roleRef = useRef(null)
@@ -166,7 +192,7 @@ export default function App() {
         <div className="container header-inner">
           <a className="brand" href="#" aria-label="Movantia inicio">
             <span className="brand-mark" aria-hidden="true">
-              <img src="/movantia-logo-crop.png" alt="" />
+              <BrandMark />
             </span>
             <span>
               <span className="brand-name">Movantia</span>
