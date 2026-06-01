@@ -24,6 +24,23 @@ const ROUTES = [
   'Montevideo - Punta del Este',
 ]
 
+const ROLES = {
+  cliente: {
+    eyebrow: 'Para empresas y negocios',
+    h1: 'Manda tu carga en el retorno de un camion.',
+    sub: 'Conectamos tu mercaderia con transportistas que ya tienen ruta planificada hacia tu destino. Precios mejores, pago seguro y entrega confirmada.',
+    cta: 'Publicar mi carga',
+    whatsapp: 'https://wa.me/59898534165?text=Hola%2C%20quiero%20publicar%20una%20carga%20en%20Movantia',
+  },
+  transportista: {
+    eyebrow: 'Para transportistas y flotas',
+    h1: 'Que cada retorno vuelva facturando.',
+    sub: 'Movantia conecta tu flota con carga disponible en tu ruta de retorno. Menos kilometros vacios, mas ingreso por viaje y cobro asegurado al entregar.',
+    cta: 'Publicar mi ruta',
+    whatsapp: 'https://wa.me/59898534165?text=Hola%2C%20quiero%20publicar%20una%20ruta%20en%20Movantia',
+  },
+}
+
 /* Animated counter hook */
 function useCounter(target, duration = 1200, delay = 800) {
   const [value, setValue] = useState(0)
@@ -57,6 +74,12 @@ function useCounter(target, duration = 1200, delay = 800) {
 }
 
 export default function App() {
+  const [role, setRole] = useState(null)
+
+  if (!role) return <RolePicker onPick={setRole} />
+
+  const r = ROLES[role]
+
   return (
     <div className="site-shell">
       <div className="page-bg" aria-hidden="true">
@@ -97,23 +120,34 @@ export default function App() {
               alt="Movantia - Fill Empty Miles"
             />
 
+            <div className="role-toggle" role="group" aria-label="Tipo de usuario">
+              <button
+                className={`role-btn${role === 'cliente' ? ' active' : ''}`}
+                onClick={() => setRole('cliente')}
+              >
+                Soy cliente
+              </button>
+              <button
+                className={`role-btn${role === 'transportista' ? ' active' : ''}`}
+                onClick={() => setRole('transportista')}
+              >
+                Soy transportista
+              </button>
+            </div>
+
             <div className="eyebrow">
               <span className="eyebrow-dot" aria-hidden="true" />
               <Route size={16} aria-hidden="true" />
-              Freight matching para kilometros vacios.
+              {r.eyebrow}
             </div>
 
-            <h1>Que cada retorno vuelva facturando.</h1>
+            <h1 key={role}>{r.h1}</h1>
 
-            <p className="hero-text">
-              Movantia conecta empresas con transportistas que ya tienen ruta
-              planificada. Menos combustible desperdiciado, mas utilizacion de
-              flota y pagos retenidos hasta confirmar la entrega.
-            </p>
+            <p className="hero-text" key={role + 'sub'}>{r.sub}</p>
 
             <div className="hero-actions">
-              <a href={WHATSAPP_URL} className="button button-primary">
-                Cotizar por WhatsApp
+              <a href={r.whatsapp} className="button button-primary">
+                {r.cta}
                 <ArrowRight size={18} aria-hidden="true" />
               </a>
               <a href="#como-funciona" className="button button-secondary">
@@ -176,7 +210,7 @@ export default function App() {
           <div className="step-grid">
             <Step
               number="01"
-              title="Empresa publica carga"
+              title="Cliente publica carga"
               text="Origen, destino, peso, tipo de mercaderia, fecha y condiciones."
             />
             <Step
@@ -255,8 +289,8 @@ export default function App() {
             Mandanos origen, destino y fecha. Te decimos si hay carga o camion
             disponible para validar el primer match.
           </p>
-          <a href={WHATSAPP_URL} className="button button-primary">
-            Cotizar por WhatsApp
+          <a href={r.whatsapp} className="button button-primary">
+            {r.cta}
             <ArrowRight size={18} aria-hidden="true" />
           </a>
         </section>
@@ -420,5 +454,56 @@ function Benefit({ icon, title, text }) {
         <p>{text}</p>
       </div>
     </article>
+  )
+}
+
+function RolePicker({ onPick }) {
+  return (
+    <div className="role-picker-shell">
+      <div className="role-picker-bg" aria-hidden="true">
+        <div className="role-picker-orb role-picker-orb-1" />
+        <div className="role-picker-orb role-picker-orb-2" />
+      </div>
+
+      <div className="role-picker-inner">
+        <img
+          className="role-picker-logo"
+          src="/movantia-logo-crop.png"
+          alt="Movantia"
+        />
+
+        <p className="role-picker-label">Soy...</p>
+        <h1 className="role-picker-title">¿Quien sos?</h1>
+        <p className="role-picker-sub">
+          Elegí tu rol para ver la experiencia que te corresponde.
+        </p>
+
+        <div className="role-picker-cards">
+          <button className="role-picker-card" onClick={() => onPick('cliente')}>
+            <div className="role-picker-card-icon">
+              <Building2 size={32} />
+            </div>
+            <strong>Soy cliente</strong>
+            <span>Necesito mover mercaderia y quiero precios competitivos en rutas existentes.</span>
+            <div className="role-picker-card-cta">
+              Empezar como cliente
+              <ArrowRight size={16} />
+            </div>
+          </button>
+
+          <button className="role-picker-card role-picker-card-transporter" onClick={() => onPick('transportista')}>
+            <div className="role-picker-card-icon">
+              <Truck size={32} />
+            </div>
+            <strong>Soy transportista</strong>
+            <span>Tengo camiones con retornos vacios y quiero convertirlos en ingreso.</span>
+            <div className="role-picker-card-cta">
+              Empezar como transportista
+              <ArrowRight size={16} />
+            </div>
+          </button>
+        </div>
+      </div>
+    </div>
   )
 }
