@@ -455,7 +455,7 @@ function LlevarDemo() {
             </div>
             <div className="v2-demo-route-stat">
               <span>Ingreso est.</span>
-              <strong>USD {[0, 0, 320, 320][step] || 0}</strong>
+              <strong>USD {[0, 0, 130, 130][step] || 0}</strong>
             </div>
           </div>
         </div>
@@ -501,7 +501,7 @@ function RouteCard() {
       </div>
       <div className="revenue-box">
         <p>Ingreso recuperado estimado</p>
-        <strong>USD 320</strong>
+        <strong>USD 130</strong>
         <span>por una vuelta que antes no facturabas</span>
       </div>
     </div>
