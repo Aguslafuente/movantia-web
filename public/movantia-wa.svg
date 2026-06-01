@@ -1,0 +1,50 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" fill="none">
+  <defs>
+    <linearGradient id="gWA" x1="256" y1="100" x2="256" y2="412" gradientUnits="userSpaceOnUse">
+      <stop offset="0%"   stop-color="#ffd166"/>
+      <stop offset="55%"  stop-color="#f0a500"/>
+      <stop offset="100%" stop-color="#c07800"/>
+    </linearGradient>
+    <radialGradient id="bgGrad" cx="50%" cy="38%" r="65%">
+      <stop offset="0%"   stop-color="#0d1525"/>
+      <stop offset="100%" stop-color="#020509"/>
+    </radialGradient>
+    <filter id="waGlow" x="-60%" y="-60%" width="220%" height="220%">
+      <feGaussianBlur stdDeviation="14" result="b"/>
+      <feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge>
+    </filter>
+    <filter id="ambientGlow" x="-20%" y="-20%" width="140%" height="140%">
+      <feGaussianBlur stdDeviation="32" result="b"/>
+      <feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge>
+    </filter>
+  </defs>
+
+  <!-- Background rounded square -->
+  <rect width="512" height="512" rx="96" fill="url(#bgGrad)"/>
+
+  <!-- Ambient gold haze behind mark -->
+  <ellipse cx="256" cy="256" rx="170" ry="145" fill="rgba(240,165,0,0.07)" filter="url(#ambientGlow)"/>
+
+  <!-- ── MARK (scaled up, centered on 512×512) ──
+       Original mark: 40×40, center at (20,17) [midpoint of pillars+arrows]
+       Scale factor: ~10.5× → mark 420×294px, centered at 256,256
+       Translate: tx = 256 - 20*10.5 = 256-210 = 46   ty = 256 - 17*10.5 = 256-178.5 = 77.5
+  -->
+  <g transform="translate(46,78) scale(10.5)">
+    <!-- Left outer pillar -->
+    <rect x="2"  y="3" width="5" height="26" rx="2.5" fill="url(#gWA)"/>
+    <!-- Right outer pillar -->
+    <rect x="33" y="3" width="5" height="26" rx="2.5" fill="url(#gWA)"/>
+    <!-- Left inner arrow -->
+    <polygon points="8,3 13,3 20,31"  fill="url(#gWA)"/>
+    <!-- Right inner arrow -->
+    <polygon points="27,3 32,3 20,31" fill="url(#gWA)"/>
+  </g>
+
+  <!-- Match glow at convergence (scaled position) -->
+  <!-- Original (20,31) × 10.5 + (46,78) = (210+46, 325.5+78) = (256, 403.5) -->
+  <circle cx="256" cy="404" r="48" fill="#f0a500" opacity="0.20" filter="url(#waGlow)"/>
+
+  <!-- Small dot at exact convergence -->
+  <circle cx="256" cy="404" r="6" fill="#ffd166" opacity="0.55"/>
+</svg>
