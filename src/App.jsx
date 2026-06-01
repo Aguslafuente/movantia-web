@@ -480,9 +480,10 @@ function ChooserCard({ active, color, icon, label, desc, cta, onClick }) {
 function EnviarDemo() {
   const [step, setStep] = useState(0)
   useEffect(() => {
-    const t = setInterval(() => setStep(s => (s + 1) % 4), 2000)
-    return () => clearInterval(t)
-  }, [])
+    if (step >= 3) return
+    const t = setTimeout(() => setStep(s => s + 1), 2000)
+    return () => clearTimeout(t)
+  }, [step])
 
   const DEMO_STEPS = [
     { icon: <Package size={28}/>, label: 'Publicás tu carga', sub: 'Origen · Destino · Peso', color: '#fbbf24' },
@@ -541,9 +542,10 @@ function EnviarDemo() {
 function LlevarDemo() {
   const [step, setStep] = useState(0)
   useEffect(() => {
-    const t = setInterval(() => setStep(s => (s + 1) % 4), 2200)
-    return () => clearInterval(t)
-  }, [])
+    if (step >= 3) return
+    const t = setTimeout(() => setStep(s => s + 1), 2200)
+    return () => clearTimeout(t)
+  }, [step])
 
   const LABELS = ['Publicás retorno', 'Match encontrado', 'Carga confirmada', 'Cobro liberado']
   const COLORS = ['#64748b', '#a78bfa', '#fbbf24', '#4ade80']
