@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect, useRef, useState } from 'react'
 import {
   ArrowRight,
   BarChart3,
@@ -24,10 +24,44 @@ const ROUTES = [
   'Montevideo - Punta del Este',
 ]
 
+/* Animated counter hook */
+function useCounter(target, duration = 1200, delay = 800) {
+  const [value, setValue] = useState(0)
+  const ref = useRef(null)
+
+  useEffect(() => {
+    const el = ref.current
+    if (!el) return
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (!entry.isIntersecting) return
+        observer.disconnect()
+        setTimeout(() => {
+          const start = performance.now()
+          const tick = (now) => {
+            const pct = Math.min((now - start) / duration, 1)
+            const ease = 1 - Math.pow(1 - pct, 3)
+            setValue(Math.round(ease * target))
+            if (pct < 1) requestAnimationFrame(tick)
+          }
+          requestAnimationFrame(tick)
+        }, delay)
+      },
+      { threshold: 0.6 }
+    )
+    observer.observe(el)
+    return () => observer.disconnect()
+  }, [target, duration, delay])
+
+  return [value, ref]
+}
+
 export default function App() {
   return (
     <div className="site-shell">
-      <div className="page-bg" aria-hidden="true" />
+      <div className="page-bg" aria-hidden="true">
+        <div className="page-bg-grid" />
+      </div>
 
       <header className="site-header">
         <div className="container header-inner">
@@ -64,7 +98,8 @@ export default function App() {
             />
 
             <div className="eyebrow">
-              <Route size={18} aria-hidden="true" />
+              <span className="eyebrow-dot" aria-hidden="true" />
+              <Route size={16} aria-hidden="true" />
               Freight matching para kilometros vacios.
             </div>
 
@@ -79,7 +114,7 @@ export default function App() {
             <div className="hero-actions">
               <a href={WHATSAPP_URL} className="button button-primary">
                 Cotizar por WhatsApp
-                <ArrowRight size={20} aria-hidden="true" />
+                <ArrowRight size={18} aria-hidden="true" />
               </a>
               <a href="#como-funciona" className="button button-secondary">
                 Ver como funciona
@@ -98,9 +133,12 @@ export default function App() {
               <div className="route-card-header">
                 <div>
                   <p>Retorno vacio detectado</p>
-                  <h2>Maldonado - Montevideo</h2>
+                  <h2>Maldonado → Montevideo</h2>
                 </div>
-                <span>Match activo</span>
+                <span className="live-badge">
+                  <span className="live-dot" aria-hidden="true" />
+                  Match activo
+                </span>
               </div>
 
               <div className="route-map" aria-hidden="true">
@@ -120,7 +158,7 @@ export default function App() {
 
               <div className="revenue-box">
                 <p>Ingreso recuperado estimado</p>
-                <strong>USD 320</strong>
+                <RevenueDisplay />
                 <span>por una vuelta que antes no facturaba</span>
               </div>
             </div>
@@ -157,12 +195,12 @@ export default function App() {
         <section id="beneficios" className="container section-block benefits-section">
           <div>
             <p className="section-eyebrow">Beneficios</p>
-              <h2>Mas margen por camion. Sin inventar viajes nuevos.</h2>
-              <p>
+            <h2>Mas margen por camion. Sin inventar viajes nuevos.</h2>
+            <p>
               Cada kilometro vacio consume combustible y margen. Movantia
               convierte capacidad libre en facturacion adicional para flotas y
               mejores precios para empresas.
-              </p>
+            </p>
           </div>
 
           <div className="benefit-list">
@@ -203,7 +241,7 @@ export default function App() {
             <div className="route-list">
               {ROUTES.map((route) => (
                 <div className="route-item" key={route}>
-                  <CheckCircle2 size={21} aria-hidden="true" />
+                  <CheckCircle2 size={19} aria-hidden="true" />
                   <span>{route}</span>
                 </div>
               ))}
@@ -219,6 +257,7 @@ export default function App() {
           </p>
           <a href={WHATSAPP_URL} className="button button-primary">
             Cotizar por WhatsApp
+            <ArrowRight size={18} aria-hidden="true" />
           </a>
         </section>
       </main>
@@ -233,6 +272,13 @@ export default function App() {
   )
 }
 
+function RevenueDisplay() {
+  const [val, ref] = useCounter(320, 1400, 900)
+  return (
+    <strong ref={ref}>USD {val}</strong>
+  )
+}
+
 function RouteMapSVG() {
   return (
     <svg
@@ -241,7 +287,6 @@ function RouteMapSVG() {
       xmlns="http://www.w3.org/2000/svg"
     >
       <defs>
-        {/* Gradient left (Maldonado=gold) → right (Montevideo=green) */}
         <linearGradient id="rmGrad" x1="0%" y1="0%" x2="100%" y2="0%">
           <stop offset="0%" stopColor="#fbbf24" />
           <stop offset="100%" stopColor="#22c55e" />
@@ -250,19 +295,34 @@ function RouteMapSVG() {
           <feGaussianBlur stdDeviation="3" result="b" />
           <feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge>
         </filter>
+        <radialGradient id="mapBg" cx="50%" cy="50%" r="50%">
+          <stop offset="0%" stopColor="rgba(30,41,59,0.6)" />
+          <stop offset="100%" stopColor="rgba(9,13,21,0)" />
+        </radialGradient>
       </defs>
+
+      {/* Background glow */}
+      <ellipse cx="200" cy="88" rx="160" ry="60" fill="url(#mapBg)" />
+
+      {/* Grid lines */}
+      {[40,80,120,160,200,240,280,320,360].map(x => (
+        <line key={x} x1={x} y1="0" x2={x} y2="175" stroke="rgba(255,255,255,0.04)" strokeWidth="1" />
+      ))}
+      {[35,70,105,140].map(y => (
+        <line key={y} x1="0" y1={y} x2="400" y2={y} stroke="rgba(255,255,255,0.04)" strokeWidth="1" />
+      ))}
 
       {/* Ghost dashed background path */}
       <path
         d="M 26 128 C 80 50 320 50 374 128"
         fill="none"
-        stroke="rgba(255,255,255,0.1)"
+        stroke="rgba(255,255,255,0.08)"
         strokeWidth="2"
         strokeDasharray="6 10"
         strokeLinecap="round"
       />
 
-      {/* Active gradient path — arco izquierda→derecha */}
+      {/* Active gradient path */}
       <path
         id="rmPath"
         d="M 26 128 C 80 50 320 50 374 128"
@@ -273,37 +333,37 @@ function RouteMapSVG() {
         filter="url(#rmGlow)"
       />
 
-      {/* Origin — Maldonado (left) */}
-      <circle cx="26" cy="128" r="6" fill="#0b1018" stroke="#fbbf24" strokeWidth="2" />
-      <circle cx="26" cy="128" r="2.5" fill="#fbbf24" />
-      <text x="26" y="150" fill="#94a3b8" fontSize="9.5" fontWeight="800" letterSpacing="0.8">MALDONADO</text>
+      {/* Origin — Maldonado */}
+      <circle cx="26" cy="128" r="8" fill="rgba(11,16,24,0.9)" stroke="#fbbf24" strokeWidth="1.5" />
+      <circle cx="26" cy="128" r="3" fill="#fbbf24" />
+      <text x="26" y="152" fill="#64748b" fontSize="9" fontWeight="700" letterSpacing="0.8" textAnchor="middle">MALDONADO</text>
 
-      {/* Destination — Montevideo (right) */}
-      <circle cx="374" cy="128" r="6" fill="#0b1018" stroke="#22c55e" strokeWidth="2" />
-      <circle cx="374" cy="128" r="2.5" fill="#22c55e" />
-      <text x="374" y="150" fill="#94a3b8" fontSize="9.5" fontWeight="800" textAnchor="end" letterSpacing="0.8">MONTEVIDEO</text>
+      {/* Destination — Montevideo */}
+      <circle cx="374" cy="128" r="8" fill="rgba(11,16,24,0.9)" stroke="#22c55e" strokeWidth="1.5" />
+      <circle cx="374" cy="128" r="3" fill="#22c55e" />
+      <text x="374" y="152" fill="#64748b" fontSize="9" fontWeight="700" textAnchor="middle" letterSpacing="0.8">MONTEVIDEO</text>
 
-      {/* Truck — viaja izq→der, se mantiene derecho */}
+      {/* Truck */}
       <g>
         <animateMotion dur="5s" repeatCount="indefinite" rotate="auto" calcMode="linear">
           <mpath href="#rmPath" />
         </animateMotion>
         {/* Trailer */}
-        <rect x="-20" y="-7" width="26" height="13" rx="2" fill="#111827" stroke="rgba(251,191,36,0.45)" strokeWidth="1" />
-        <line x1="-12" y1="-7" x2="-12" y2="6" stroke="rgba(255,255,255,0.1)" strokeWidth="0.8" />
-        <line x1="-4"  y1="-7" x2="-4"  y2="6" stroke="rgba(255,255,255,0.1)" strokeWidth="0.8" />
+        <rect x="-20" y="-7" width="26" height="13" rx="2" fill="#111827" stroke="rgba(251,191,36,0.4)" strokeWidth="1" />
+        <line x1="-12" y1="-7" x2="-12" y2="6" stroke="rgba(255,255,255,0.08)" strokeWidth="0.8" />
+        <line x1="-4"  y1="-7" x2="-4"  y2="6" stroke="rgba(255,255,255,0.08)" strokeWidth="0.8" />
         {/* Cab */}
         <rect x="6" y="-9" width="14" height="16" rx="2.5" fill="#1e2d3d" stroke="#fbbf24" strokeWidth="1.5" />
         {/* Windshield */}
-        <rect x="9" y="-7" width="7" height="5" rx="1" fill="rgba(56,189,248,0.78)" />
+        <rect x="9" y="-7" width="7" height="5" rx="1" fill="rgba(56,189,248,0.75)" />
         {/* Wheels */}
-        <circle cx="-10" cy="8" r="3.5" fill="#0f172a" stroke="rgba(255,255,255,0.22)" strokeWidth="1.5" />
-        <circle cx="8"   cy="8" r="3.5" fill="#0f172a" stroke="rgba(255,255,255,0.22)" strokeWidth="1.5" />
-        <circle cx="-10" cy="8" r="1.2" fill="rgba(255,255,255,0.2)" />
-        <circle cx="8"   cy="8" r="1.2" fill="rgba(255,255,255,0.2)" />
+        <circle cx="-10" cy="8" r="3.5" fill="#0f172a" stroke="rgba(255,255,255,0.2)" strokeWidth="1.5" />
+        <circle cx="8"   cy="8" r="3.5" fill="#0f172a" stroke="rgba(255,255,255,0.2)" strokeWidth="1.5" />
+        <circle cx="-10" cy="8" r="1.2" fill="rgba(255,255,255,0.18)" />
+        <circle cx="8"   cy="8" r="1.2" fill="rgba(255,255,255,0.18)" />
         {/* Headlight */}
         <circle cx="21" cy="-1.5" r="1.8" fill="#fbbf24" />
-        <ellipse cx="21" cy="-1.5" rx="4" ry="3" fill="rgba(251,191,36,0.18)" />
+        <ellipse cx="21" cy="-1.5" rx="5" ry="3.5" fill="rgba(251,191,36,0.15)" />
       </g>
     </svg>
   )
@@ -322,7 +382,7 @@ function InfoRow({ icon, label, value }) {
   return (
     <div className="info-row">
       <div>
-        {React.cloneElement(icon, { size: 21, 'aria-hidden': true })}
+        {React.cloneElement(icon, { size: 18, 'aria-hidden': true })}
         <span>{label}</span>
       </div>
       <strong>{value}</strong>
@@ -353,7 +413,7 @@ function Benefit({ icon, title, text }) {
   return (
     <article className="benefit-card">
       <div className="benefit-icon">
-        {React.cloneElement(icon, { size: 25, 'aria-hidden': true })}
+        {React.cloneElement(icon, { size: 22, 'aria-hidden': true })}
       </div>
       <div>
         <h3>{title}</h3>
