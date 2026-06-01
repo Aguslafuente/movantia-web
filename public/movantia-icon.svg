@@ -1,0 +1,30 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 40 40" fill="none">
+  <defs>
+    <!-- Vertical gradient: bright gold → deep gold -->
+    <linearGradient id="gM" x1="20" y1="3" x2="20" y2="31" gradientUnits="userSpaceOnUse">
+      <stop offset="0%"   stop-color="#ffd166"/>
+      <stop offset="55%"  stop-color="#f0a500"/>
+      <stop offset="100%" stop-color="#c07800"/>
+    </linearGradient>
+    <!-- Glow at convergence point -->
+    <filter id="matchGlow" x="-150%" y="-150%" width="400%" height="400%">
+      <feGaussianBlur stdDeviation="2.2" result="b"/>
+      <feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge>
+    </filter>
+  </defs>
+
+  <!-- Left outer pillar -->
+  <rect x="2" y="3" width="5" height="26" rx="2.5" fill="url(#gM)"/>
+
+  <!-- Right outer pillar -->
+  <rect x="33" y="3" width="5" height="26" rx="2.5" fill="url(#gM)"/>
+
+  <!-- Left inner arrow (tapered — shaft wide at top, tip at convergence) -->
+  <polygon points="8,3 13,3 20,31" fill="url(#gM)"/>
+
+  <!-- Right inner arrow (mirror) -->
+  <polygon points="27,3 32,3 20,31" fill="url(#gM)"/>
+
+  <!-- Match point — subtle glow at convergence -->
+  <circle cx="20" cy="31" r="4.5" fill="#f0a500" opacity="0.18" filter="url(#matchGlow)"/>
+</svg>
