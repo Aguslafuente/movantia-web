@@ -1,62 +1,64 @@
-import { useRef } from 'react'
-import { motion, useScroll, useTransform } from 'motion/react'
+import { useRef, useState, useEffect } from 'react'
 import { Package, Zap, Lock, CheckCircle2 } from 'lucide-react'
 
 const PATH_D = 'M 60,88 C 220,14 540,14 700,88'
 
+// Linear interpolation
+function lerp(t, a, b) {
+  return a + (b - a) * Math.min(1, Math.max(0, t))
+}
+// Map progress [in0,in1] → [out0,out1]
+function mapRange(p, in0, in1, out0, out1) {
+  const t = Math.min(1, Math.max(0, (p - in0) / (in1 - in0)))
+  return lerp(t, out0, out1)
+}
+
+const EVENTS = [
+  { Icon: Package,      label: 'Carga publicada',    sub: '8 pallets · Maldonado', col: '#f0a500', start: 0.05, end: 0.18 },
+  { Icon: Zap,          label: 'Match detectado',    sub: 'Transportista en ruta',  col: '#a78bfa', start: 0.20, end: 0.33 },
+  { Icon: Lock,         label: 'Pago en escrow',     sub: 'USD 130 retenido',      col: '#38bdf8', start: 0.35, end: 0.48 },
+  { Icon: CheckCircle2, label: 'Entrega confirmada', sub: 'Pago liberado',         col: '#00d68f', start: 0.50, end: 0.63 },
+]
+
 export default function ScrollJourneySection() {
-  const ref = useRef(null)
-  const { scrollYProgress } = useScroll({
-    target: ref,
-    offset: ['start start', 'end end'],
-  })
+  const outerRef = useRef(null)
+  const [p, setP] = useState(0) // 0–1 progress
 
-  // Path drawing — completes in first 40% of scroll
-  const pathLen = useTransform(scrollYProgress, [0.0, 0.40], [0, 1])
+  useEffect(() => {
+    function onScroll() {
+      const el = outerRef.current
+      if (!el) return
+      const rect = el.getBoundingClientRect()
+      const scrollable = el.offsetHeight - window.innerHeight
+      if (scrollable <= 0) return
+      // How far we've scrolled into the outer div
+      const scrolled = -rect.top
+      const progress = Math.min(1, Math.max(0, scrolled / scrollable))
+      setP(progress)
+    }
+    window.addEventListener('scroll', onScroll, { passive: true })
+    onScroll()
+    return () => window.removeEventListener('scroll', onScroll)
+  }, [])
 
-  // Truck slides across
-  const truckLeft = useTransform(scrollYProgress, [0.02, 0.55], ['2%', '86%'])
-  const truckOp   = useTransform(scrollYProgress, [0.0, 0.07], [0, 1])
-
-  // Events — all within 0–50%
-  const e1op = useTransform(scrollYProgress, [0.05, 0.14], [0, 1])
-  const e1y  = useTransform(scrollYProgress, [0.05, 0.14], [12, 0])
-  const e2op = useTransform(scrollYProgress, [0.16, 0.25], [0, 1])
-  const e2y  = useTransform(scrollYProgress, [0.16, 0.25], [12, 0])
-  const e3op = useTransform(scrollYProgress, [0.27, 0.36], [0, 1])
-  const e3y  = useTransform(scrollYProgress, [0.27, 0.36], [12, 0])
-  const e4op = useTransform(scrollYProgress, [0.38, 0.47], [0, 1])
-  const e4y  = useTransform(scrollYProgress, [0.38, 0.47], [12, 0])
-
-  // Revenue at 45%
-  const revOp = useTransform(scrollYProgress, [0.45, 0.56], [0, 1])
-  const revY  = useTransform(scrollYProgress, [0.45, 0.56], [16, 0])
-  const revSc = useTransform(scrollYProgress, [0.45, 0.56], [0.93, 1])
-
-  const EVENTS = [
-    { op: e1op, y: e1y, Icon: Package,      label: 'Carga publicada',    sub: '8 pallets · Maldonado', col: '#f0a500' },
-    { op: e2op, y: e2y, Icon: Zap,          label: 'Match detectado',    sub: 'Transportista en ruta',  col: '#a78bfa' },
-    { op: e3op, y: e3y, Icon: Lock,         label: 'Pago en escrow',     sub: 'USD 130 retenido',      col: '#38bdf8' },
-    { op: e4op, y: e4y, Icon: CheckCircle2, label: 'Entrega confirmada', sub: 'Pago liberado',         col: '#00d68f' },
-  ]
+  const pathLen   = mapRange(p, 0.0,  0.45, 0, 1)
+  const truckLeft = mapRange(p, 0.02, 0.60, 2, 86)   // %
+  const truckOp   = mapRange(p, 0.0,  0.08, 0, 1)
+  const revOp     = mapRange(p, 0.55, 0.68, 0, 1)
+  const revY      = mapRange(p, 0.55, 0.68, 16, 0)
+  const revSc     = mapRange(p, 0.55, 0.68, 0.93, 1)
 
   return (
-    <div ref={ref} className="journey-outer">
+    <div ref={outerRef} className="journey-outer">
       <div className="journey-sticky">
 
-        {/* Heading — whileInView so it's always visible when section enters */}
-        <motion.div
-          className="journey-head container"
-          initial={{ opacity: 0, y: 18 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true, margin: '-10%' }}
-          transition={{ duration: 0.55, ease: [0.22, 1, 0.36, 1] }}
-        >
+        {/* Heading */}
+        <div className="journey-head container anim-fadein">
           <p className="section-eyebrow">Así funciona un match</p>
           <h2 className="journey-title">
             De retorno vacío<br />a ingreso confirmado
           </h2>
-        </motion.div>
+        </div>
 
         {/* Route map */}
         <div className="journey-map-wrap container">
@@ -86,14 +88,17 @@ export default function ScrollJourneySection() {
               strokeLinecap="round"
             />
 
-            {/* Animated path — solid gold, works reliably with pathLength */}
-            <motion.path
+            {/* Animated path via strokeDashoffset */}
+            <path
               d={PATH_D}
               stroke="#f0a500"
               strokeWidth="2.5"
               strokeLinecap="round"
               filter="url(#jGlow)"
-              style={{ pathLength: pathLen }}
+              style={{
+                strokeDasharray: 800,
+                strokeDashoffset: 800 * (1 - pathLen),
+              }}
             />
 
             {/* Origin dot */}
@@ -112,43 +117,50 @@ export default function ScrollJourneySection() {
           </div>
 
           {/* Truck */}
-          <motion.div
+          <div
             className="journey-truck"
-            style={{ left: truckLeft, opacity: truckOp }}
+            style={{ left: `${truckLeft}%`, opacity: truckOp }}
             aria-hidden="true"
           >
             <TruckMini />
-          </motion.div>
+          </div>
         </div>
 
         {/* Events */}
         <div className="journey-events container">
-          {EVENTS.map((ev, i) => (
-            <motion.div
-              key={i}
-              className="journey-event"
-              style={{ opacity: ev.op, y: ev.y }}
-            >
-              <div className="journey-event-icon" style={{ color: ev.col, borderColor: ev.col }}>
-                <ev.Icon size={15} />
+          {EVENTS.map((ev, i) => {
+            const op  = mapRange(p, ev.start, ev.end, 0, 1)
+            const ty  = mapRange(p, ev.start, ev.end, 12, 0)
+            return (
+              <div
+                key={i}
+                className="journey-event"
+                style={{ opacity: op, transform: `translateY(${ty}px)` }}
+              >
+                <div className="journey-event-icon" style={{ color: ev.col, borderColor: ev.col }}>
+                  <ev.Icon size={15} />
+                </div>
+                <p className="journey-event-label">{ev.label}</p>
+                <span className="journey-event-sub">{ev.sub}</span>
               </div>
-              <p className="journey-event-label">{ev.label}</p>
-              <span className="journey-event-sub">{ev.sub}</span>
-            </motion.div>
-          ))}
+            )
+          })}
         </div>
 
         {/* Revenue */}
-        <motion.div
+        <div
           className="journey-revenue-wrap container"
-          style={{ opacity: revOp, y: revY, scale: revSc }}
+          style={{
+            opacity: revOp,
+            transform: `translateY(${revY}px) scale(${revSc})`,
+          }}
         >
           <div className="journey-revenue">
             <span>Ingreso generado en este retorno</span>
             <strong>USD 130</strong>
             <p>Por un viaje que antes no facturabas</p>
           </div>
-        </motion.div>
+        </div>
 
       </div>
     </div>
