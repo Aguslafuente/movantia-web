@@ -2,15 +2,11 @@ import React, { useRef, useState, useEffect } from 'react'
 import { motion, AnimatePresence } from 'motion/react'
 import {
   ArrowRight,
-  ArrowDown,
   BarChart3,
   Building2,
   CheckCircle2,
   CreditCard,
-  MapPin,
-  MessageCircle,
   Package,
-  PhoneCall,
   ChevronDown,
   Route,
   Shield,
@@ -21,7 +17,7 @@ import {
   Zap,
 } from 'lucide-react'
 import './App.css'
-import ScrollTruckSection from './ScrollTruckSection'
+import ScrollJourneySection from './ScrollJourneySection'
 
 const WA = 'https://wa.me/59898534165?text=Hola%2C%20quiero%20consultar%20por%20Movantia%20Cargo'
 const WA_ENVIAR = 'https://wa.me/59898534165?text=Hola%2C%20quiero%20enviar%20una%20carga%20con%20Movantia'
@@ -228,29 +224,32 @@ export default function App() {
             </div>
 
             <h1 className="v2-hero-h1">
-              El camión<br/>
-              vuelve vacío.<br/>
-              <span className="h1-accent">Lo llenamos.</span>
+              Retornos<br/>
+              vacíos.<br/>
+              <span className="h1-accent">Ingresos reales.</span>
             </h1>
 
             <p className="v2-hero-sub">
-              Movantia conecta mercadería que necesita moverse con camiones
-              que ya tienen ruta planificada. Menos costos, más margen,
-              pago garantizado.
+              Conectamos tu carga con camiones que ya tienen la ruta.
+              Match en minutos. Pago garantizado con escrow.
             </p>
 
             <div className="v2-hero-stats">
-              <div className="v2-stat"><strong>B2B</strong><span>Sin delivery masivo</span></div>
+              <div className="v2-stat"><strong>&lt; 2h</strong><span>Tiempo al primer match</span></div>
+              <div className="v2-stat-div" />
+              <div className="v2-stat"><strong>8%</strong><span>Comisión por entrega</span></div>
               <div className="v2-stat-div" />
               <div className="v2-stat"><strong>Escrow</strong><span>Pago garantizado</span></div>
-              <div className="v2-stat-div" />
-              <div className="v2-stat"><strong>UY</strong><span>Rutas activas</span></div>
             </div>
 
-            <a href="#elegir" className="v2-scroll-cta" onClick={e=>{ e.preventDefault(); roleRef.current?.scrollIntoView({behavior:'smooth'}) }}>
-              <span>Ver cómo funciona</span>
-              <ArrowDown size={18} />
-            </a>
+            <div className="v2-hero-ctas">
+              <a href={WA_ENVIAR} className="button button-primary" target="_blank" rel="noopener">
+                Enviar carga <ArrowRight size={17} />
+              </a>
+              <a href={WA_LLEVAR} className="button button-secondary" target="_blank" rel="noopener">
+                Tengo camión
+              </a>
+            </div>
           </motion.div>
 
           <motion.div
@@ -263,7 +262,7 @@ export default function App() {
           </motion.div>
         </section>
 
-        <ScrollTruckSection />
+        <ScrollJourneySection />
 
         {/* ══════════════════════════════════════
             ROLE CHOOSER
@@ -366,6 +365,14 @@ export default function App() {
         <section className="container">
           <PricingBanner />
         </section>
+
+        {/* Mid-page CTA */}
+        <div className="container mid-cta">
+          <a href={WA} className="button button-primary" target="_blank" rel="noopener">
+            Empezar ahora — es gratis <ArrowRight size={17}/>
+          </a>
+          <p className="mid-cta-note">Sin suscripción. Solo pagás cuando hay match confirmado.</p>
+        </div>
 
         {/* ══════════════════════════════════════
             POR QUÉ MOVANTIA
