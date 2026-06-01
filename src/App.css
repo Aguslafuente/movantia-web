@@ -177,15 +177,9 @@ h1,h2,h3,h4,h5,h6,strong,.brand-name,.button {
 }
 
 .brand-mark {
-  display:block; width:52px; height:36px;
-  overflow:hidden; border-radius:8px;
-  background:rgba(240,165,0,0.08);
-  box-shadow:0 0 0 1px rgba(240,165,0,0.18), 0 6px 20px rgba(240,165,0,0.12);
-}
-
-.brand-mark img {
-  width:134px; height:36px;
-  object-fit:cover; object-position:left center;
+  display:flex; align-items:center; justify-content:center;
+  width:36px; height:36px;
+  flex:0 0 auto;
 }
 
 .brand-name {
