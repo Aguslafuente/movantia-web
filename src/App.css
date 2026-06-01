@@ -1004,7 +1004,7 @@ h1,h2,h3,h4,h5,h6,strong,.brand-name,.button {
    ================================================================ */
 .journey-outer {
   position:relative; z-index:1;
-  height:200vh;
+  height:150vh;
 }
 
 .journey-sticky {
@@ -1134,7 +1134,7 @@ h1,h2,h3,h4,h5,h6,strong,.brand-name,.button {
   .v2-how-demo { position:static; order:-1; }
   .companies-panel { grid-template-columns:1fr; }
   .nav-links { display:none; }
-  .journey-outer { height:220vh; }
+  .journey-outer { height:160vh; }
   .journey-events { grid-template-columns:1fr 1fr; gap:8px; }
   .journey-sticky { gap:20px; }
 }
@@ -1158,7 +1158,7 @@ h1,h2,h3,h4,h5,h6,strong,.brand-name,.button {
   .wa-float { padding:14px; }
   .footer-inner { flex-direction:column; gap:5px; }
   .section-block { padding:52px 0; }
-  .journey-outer { height:200vh; }
+  .journey-outer { height:140vh; }
   .journey-title { font-size:clamp(1.4rem,7vw,2rem); }
   .journey-events { grid-template-columns:1fr 1fr; gap:7px; }
   .journey-revenue { padding:16px 28px; }
