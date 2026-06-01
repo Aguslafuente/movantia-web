@@ -32,17 +32,113 @@ const ROUTES = [
 ]
 
 const ENVIAR_STEPS = [
-  { icon: <Package size={22}/>, num:'01', title:'Publicás tu carga', text:'Completás origen, destino, peso, tipo de mercadería y fecha. Tarda 2 minutos.' },
-  { icon: <Zap size={22}/>, num:'02', title:'Recibís un match', text:'Movantia cruza tu carga con transportistas que ya tienen ruta planificada hacia tu destino.' },
-  { icon: <CreditCard size={22}/>, num:'03', title:'Pagás seguro', text:'Pagás con tarjeta. El dinero queda retenido en escrow hasta confirmar la entrega.' },
-  { icon: <CheckCircle2 size={22}/>, num:'04', title:'Confirmación de entrega', text:'El transportista confirma entrega. El pago se libera automáticamente. Listo.' },
+  {
+    icon: <Package size={22}/>, num:'01', title:'Publicás tu carga',
+    text:'Completás origen, destino, peso, tipo de mercadería y fecha. Tarda 2 minutos.',
+    detail: {
+      how: 'Entrás a la plataforma y completás un formulario simple: ciudad de origen, ciudad de destino, fecha aproximada, peso o volumen de la carga, y tipo de mercadería (pallets, caja, granel, etc.).',
+      tips: [
+        'Cuanto más preciso el peso, mejor el match — los transportistas filtran por capacidad.',
+        'Podés publicar con hasta 7 días de anticipación para tener más opciones.',
+        'No necesitás cuenta bancaria ni datos de pago en este paso.',
+      ],
+      time: '2 minutos',
+    }
+  },
+  {
+    icon: <Zap size={22}/>, num:'02', title:'Recibís un match',
+    text:'Movantia cruza tu carga con transportistas que ya tienen ruta planificada hacia tu destino.',
+    detail: {
+      how: 'El algoritmo de Movantia busca transportistas con rutas ya confirmadas que pasan por tu destino. Recibís una notificación con el perfil del transportista, su calificación, tipo de camión y precio estimado.',
+      tips: [
+        'El transportista ya tiene su viaje planificado — no es un desvío, es su ruta habitual.',
+        'Podés ver valoraciones de otros clientes antes de aceptar.',
+        'Si no hay match inmediato, quedás en cola y te avisamos cuando aparezca uno.',
+      ],
+      time: 'Minutos a horas según la ruta',
+    }
+  },
+  {
+    icon: <CreditCard size={22}/>, num:'03', title:'Pagás seguro',
+    text:'Pagás con tarjeta. El dinero queda retenido en escrow hasta confirmar la entrega.',
+    detail: {
+      how: 'Una vez aceptado el match, pagás el monto acordado con tarjeta de crédito o débito. El dinero NO va directo al transportista — queda retenido en una cuenta escrow hasta que vos confirmés que la mercadería llegó bien.',
+      tips: [
+        'Si la entrega falla o hay daños, el dinero se devuelve automáticamente.',
+        'El transportista sabe que el pago está garantizado, por eso acepta con confianza.',
+        'Aceptamos Visa, Mastercard y débito uruguayo.',
+      ],
+      time: '1 minuto para completar el pago',
+    }
+  },
+  {
+    icon: <CheckCircle2 size={22}/>, num:'04', title:'Confirmación de entrega',
+    text:'El transportista confirma entrega. El pago se libera automáticamente. Listo.',
+    detail: {
+      how: 'Al llegar al destino, el transportista sube una foto o escaneá un QR para confirmar la entrega. Vos recibís una notificación. Si todo está bien, confirmás y el pago se libera. Si hay un problema, abrís una disputa.',
+      tips: [
+        'Tenés 24 horas para confirmar o disputar la entrega.',
+        'Sin tu confirmación, el dinero no se libera.',
+        'El historial de entregas queda guardado para futuras auditorías.',
+      ],
+      time: 'Confirmación en segundos desde el celular',
+    }
+  },
 ]
 
 const LLEVAR_STEPS = [
-  { icon: <Route size={22}/>, num:'01', title:'Publicás tu retorno', text:'Indicás tu ruta de vuelta, fecha, tipo de camión y espacio disponible.' },
-  { icon: <Zap size={22}/>, num:'02', title:'Match con carga disponible', text:'Te mostramos cargas compatibles con tu ruta que ya pagaron o están listas para pagar.' },
-  { icon: <Shield size={22}/>, num:'03', title:'Confirmás y cargás', text:'Aceptás las condiciones y retirás la mercadería. El pago queda garantizado.' },
-  { icon: <BarChart3 size={22}/>, num:'04', title:'Cobrás al entregar', text:'Entregás, confirmás en la app y el pago se libera. Retorno que antes no facturabas.' },
+  {
+    icon: <Route size={22}/>, num:'01', title:'Publicás tu retorno',
+    text:'Indicás tu ruta de vuelta, fecha, tipo de camión y espacio disponible.',
+    detail: {
+      how: 'Antes de salir de viaje, publicás tu ruta de regreso: ciudad de origen, destino, fecha, tipo de camión (caja seca, refrigerado, plataforma) y el espacio disponible en toneladas o m³.',
+      tips: [
+        'Publicá el retorno antes de salir — cuanto antes, más chances de match.',
+        'Podés indicar restricciones: no líquidos, no animales, solo pallets, etc.',
+        'No estás obligado a aceptar ninguna carga hasta que vos la confirmes.',
+      ],
+      time: '3 minutos completar el formulario',
+    }
+  },
+  {
+    icon: <Zap size={22}/>, num:'02', title:'Match con carga disponible',
+    text:'Te mostramos cargas compatibles con tu ruta que ya pagaron o están listas para pagar.',
+    detail: {
+      how: 'Movantia filtra cargas publicadas que coinciden con tu ruta, fechas y tipo de camión. Solo ves cargas donde el cliente ya pagó o tiene el pago aprobado — no perdés tiempo con consultas sin fondo.',
+      tips: [
+        'Las cargas aparecen ordenadas por compatibilidad con tu ruta exacta.',
+        'Podés ver la distancia de desvío si el punto de retiro está levemente fuera de ruta.',
+        'El precio ya está acordado — sin negociación.',
+      ],
+      time: 'Notificación inmediata cuando hay match',
+    }
+  },
+  {
+    icon: <Shield size={22}/>, num:'03', title:'Confirmás y cargás',
+    text:'Aceptás las condiciones y retirás la mercadería. El pago queda garantizado.',
+    detail: {
+      how: 'Aceptás la carga desde la app, te llega la dirección exacta de retiro con contacto del cliente. Retirás la mercadería, firmás el remito digital y el pago queda bloqueado a tu favor.',
+      tips: [
+        'Fotografiá la mercadería al cargarla — protección ante disputas.',
+        'El remito digital queda en tu historial para cualquier reclamo.',
+        'El dinero ya está reservado: no podés salir sin cobrar.',
+      ],
+      time: 'Confirmación en la app en 1 minuto',
+    }
+  },
+  {
+    icon: <BarChart3 size={22}/>, num:'04', title:'Cobrás al entregar',
+    text:'Entregás, confirmás en la app y el pago se libera. Retorno que antes no facturabas.',
+    detail: {
+      how: 'Al llegar al destino, el cliente o vos confirman la entrega. El pago se libera automáticamente a tu cuenta en 1-2 días hábiles. Sin facturas manuales, sin cobros pendientes.',
+      tips: [
+        'El pago llega a tu cuenta bancaria uruguaya directamente.',
+        'Movantia cobra una comisión del 8% solo si el viaje se completa.',
+        'Cada entrega suma a tu reputación y mejora tu posición en los matches futuros.',
+      ],
+      time: 'Acreditación en 1-2 días hábiles',
+    }
+  },
 ]
 
 export default function App() {
@@ -217,24 +313,7 @@ export default function App() {
                         ? 'Tu carga llega. Simple y seguro.'
                         : 'Tu retorno empieza a facturar.'}
                     </h2>
-                    <div className="v2-steps-list">
-                      {(role === 'enviar' ? ENVIAR_STEPS : LLEVAR_STEPS).map((s, i) => (
-                        <motion.div
-                          key={s.num}
-                          className="v2-step"
-                          initial={{ opacity:0, x:24 }}
-                          animate={{ opacity:1, x:0 }}
-                          transition={{ delay: i * 0.1 + .15, duration:.5, ease:[.22,1,.36,1] }}
-                        >
-                          <div className={`v2-step-icon ${role}`}>{s.icon}</div>
-                          <div>
-                            <span className="v2-step-num">{s.num}</span>
-                            <h3>{s.title}</h3>
-                            <p>{s.text}</p>
-                          </div>
-                        </motion.div>
-                      ))}
-                    </div>
+                    <StepList steps={role === 'enviar' ? ENVIAR_STEPS : LLEVAR_STEPS} role={role} />
 
                     <a
                       href={role === 'enviar' ? WA_ENVIAR : WA_LLEVAR}
@@ -297,6 +376,74 @@ export default function App() {
           <p>Uruguay · Transporte B2B · Retornos vacíos</p>
         </div>
       </footer>
+    </div>
+  )
+}
+
+/* ──────────────────────────────────────
+   STEP LIST — expandable on click
+────────────────────────────────────── */
+function StepList({ steps, role }) {
+  const [open, setOpen] = useState(null)
+
+  return (
+    <div className="v2-steps-list">
+      {steps.map((s, i) => (
+        <motion.div
+          key={s.num}
+          className={`v2-step v2-step--clickable v2-step--${role}${open === i ? ' v2-step--open' : ''}`}
+          initial={{ opacity:0, x:24 }}
+          animate={{ opacity:1, x:0 }}
+          transition={{ delay: i * 0.1 + .15, duration:.5, ease:[.22,1,.36,1] }}
+          onClick={() => setOpen(open === i ? null : i)}
+        >
+          <div className={`v2-step-icon ${role}`}>{s.icon}</div>
+          <div className="v2-step-body">
+            <div className="v2-step-header">
+              <span className="v2-step-num">{s.num}</span>
+              <h3>{s.title}</h3>
+              <span className={`v2-step-chevron${open === i ? ' open' : ''}`}>
+                <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
+                  <path d="M3 5l4 4 4-4" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"/>
+                </svg>
+              </span>
+            </div>
+            <p className="v2-step-summary">{s.text}</p>
+
+            <AnimatePresence initial={false}>
+              {open === i && (
+                <motion.div
+                  className="v2-step-detail"
+                  initial={{ height:0, opacity:0 }}
+                  animate={{ height:'auto', opacity:1 }}
+                  exit={{ height:0, opacity:0 }}
+                  transition={{ duration:.35, ease:[.22,1,.36,1] }}
+                >
+                  <div className="v2-step-detail-inner">
+                    <div className="v2-step-how">
+                      <span className="v2-step-detail-label">Cómo funciona</span>
+                      <p>{s.detail.how}</p>
+                    </div>
+                    <div className="v2-step-tips">
+                      <span className="v2-step-detail-label">A tener en cuenta</span>
+                      <ul>
+                        {s.detail.tips.map((t, ti) => <li key={ti}>{t}</li>)}
+                      </ul>
+                    </div>
+                    <div className="v2-step-time">
+                      <svg width="13" height="13" viewBox="0 0 13 13" fill="none">
+                        <circle cx="6.5" cy="6.5" r="5.5" stroke="currentColor" strokeWidth="1.3"/>
+                        <path d="M6.5 3.5v3l2 1.5" stroke="currentColor" strokeWidth="1.3" strokeLinecap="round"/>
+                      </svg>
+                      {s.detail.time}
+                    </div>
+                  </div>
+                </motion.div>
+              )}
+            </AnimatePresence>
+          </div>
+        </motion.div>
+      ))}
     </div>
   )
 }
