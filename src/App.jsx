@@ -211,12 +211,7 @@ export default function App() {
             HERO — hook inmediato
         ══════════════════════════════════════ */}
         <section className="v2-hero container">
-          <motion.div
-            className="v2-hero-copy"
-            initial={{ opacity:0, y:36 }}
-            animate={{ opacity:1, y:0 }}
-            transition={{ duration:.7, ease:[.22,1,.36,1] }}
-          >
+          <div className="v2-hero-copy anim-fadein">
             <div className="eyebrow">
               <span className="eyebrow-dot" />
               <Route size={15} />
@@ -250,16 +245,11 @@ export default function App() {
                 Tengo camión
               </a>
             </div>
-          </motion.div>
+          </div>
 
-          <motion.div
-            className="v2-hero-visual"
-            initial={{ opacity:0, y:48 }}
-            animate={{ opacity:1, y:0 }}
-            transition={{ duration:.8, delay:.2, ease:[.22,1,.36,1] }}
-          >
+          <div className="v2-hero-visual anim-fadein anim-fadein-delay">
             <RouteCard />
-          </motion.div>
+          </div>
         </section>
 
         <ScrollJourneySection />
