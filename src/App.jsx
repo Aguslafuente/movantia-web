@@ -8,12 +8,16 @@ import {
   CheckCircle2,
   CreditCard,
   MapPin,
+  MessageCircle,
   Package,
   PhoneCall,
+  ChevronDown,
   Route,
   Shield,
   ShieldCheck,
+  Star,
   Truck,
+  X,
   Zap,
 } from 'lucide-react'
 import './App.css'
@@ -331,6 +335,34 @@ export default function App() {
         </div>
 
         {/* ══════════════════════════════════════
+            PRICING CLARITY
+        ══════════════════════════════════════ */}
+        <section className="container">
+          <PricingBanner />
+        </section>
+
+        {/* ══════════════════════════════════════
+            POR QUÉ MOVANTIA
+        ══════════════════════════════════════ */}
+        <section className="container section-block">
+          <WhyMovantia />
+        </section>
+
+        {/* ══════════════════════════════════════
+            TESTIMONIALES
+        ══════════════════════════════════════ */}
+        <section className="container section-block">
+          <Testimonials />
+        </section>
+
+        {/* ══════════════════════════════════════
+            FAQ
+        ══════════════════════════════════════ */}
+        <section className="container section-block">
+          <FAQ />
+        </section>
+
+        {/* ══════════════════════════════════════
             RUTAS
         ══════════════════════════════════════ */}
         <section id="rutas" className="container section-block">
@@ -376,6 +408,8 @@ export default function App() {
           <p>Uruguay · Transporte B2B · Retornos vacíos</p>
         </div>
       </footer>
+
+      <FloatingWA />
     </div>
   )
 }
@@ -620,6 +654,278 @@ function LlevarDemo() {
         </div>
       </div>
     </div>
+  )
+}
+
+/* ──────────────────────────────────────
+   FLOATING WHATSAPP
+────────────────────────────────────── */
+function FloatingWA() {
+  const [visible, setVisible] = useState(false)
+  useEffect(() => {
+    const onScroll = () => setVisible(window.scrollY > 300)
+    window.addEventListener('scroll', onScroll, { passive: true })
+    return () => window.removeEventListener('scroll', onScroll)
+  }, [])
+  return (
+    <AnimatePresence>
+      {visible && (
+        <motion.a
+          href={WA}
+          target="_blank"
+          rel="noopener"
+          className="wa-float"
+          initial={{ opacity:0, scale:.7, y:20 }}
+          animate={{ opacity:1, scale:1, y:0 }}
+          exit={{ opacity:0, scale:.7, y:20 }}
+          transition={{ duration:.3, ease:[.22,1,.36,1] }}
+          aria-label="Contactar por WhatsApp"
+        >
+          <svg width="26" height="26" viewBox="0 0 24 24" fill="currentColor">
+            <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/>
+          </svg>
+          <span>¿Consultas?</span>
+        </motion.a>
+      )}
+    </AnimatePresence>
+  )
+}
+
+/* ──────────────────────────────────────
+   PRICING BANNER
+────────────────────────────────────── */
+function PricingBanner() {
+  return (
+    <motion.div
+      className="pricing-banner"
+      initial={{ opacity:0, y:24 }}
+      whileInView={{ opacity:1, y:0 }}
+      viewport={{ once:true, margin:'-60px' }}
+      transition={{ duration:.6, ease:[.22,1,.36,1] }}
+    >
+      <div className="pricing-item">
+        <span className="pricing-label">Para quién envía</span>
+        <strong>Sin costo fijo</strong>
+        <p>Solo pagás el flete acordado cuando hay match confirmado. Sin suscripción, sin cargos ocultos.</p>
+      </div>
+      <div className="pricing-divider" />
+      <div className="pricing-item">
+        <span className="pricing-label">Para transportistas</span>
+        <strong>8% de comisión</strong>
+        <p>Solo cobramos si completás la entrega. Si no hay match o se cancela antes de cargar, no pagás nada.</p>
+      </div>
+      <div className="pricing-divider" />
+      <div className="pricing-item pricing-item--highlight">
+        <span className="pricing-label">Escrow incluido</span>
+        <strong>Pago garantizado</strong>
+        <p>El dinero queda retenido hasta confirmar entrega. Cero riesgo para ambos lados.</p>
+      </div>
+    </motion.div>
+  )
+}
+
+/* ──────────────────────────────────────
+   WHY MOVANTIA — comparison table
+────────────────────────────────────── */
+const COMPARE_ROWS = [
+  { feature: 'Precio', traditional: 'Flete completo aunque el camión vuelva vacío', movantia: 'Pagás solo el espacio que usás' },
+  { feature: 'Tiempo', traditional: 'Días buscando transportista por teléfono', movantia: 'Match en minutos o pocas horas' },
+  { feature: 'Pago', traditional: 'Sin garantías, riesgo de impago', movantia: 'Escrow: el dinero está asegurado' },
+  { feature: 'Transparencia', traditional: 'Sin trazabilidad ni historial', movantia: 'Remito digital, confirmación de entrega, historial' },
+  { feature: 'Disponibilidad', traditional: 'Dependés de contactos conocidos', movantia: 'Red de transportistas con rutas activas en UY' },
+]
+
+function WhyMovantia() {
+  return (
+    <motion.div
+      className="why-section"
+      initial={{ opacity:0, y:28 }}
+      whileInView={{ opacity:1, y:0 }}
+      viewport={{ once:true, margin:'-60px' }}
+      transition={{ duration:.6, ease:[.22,1,.36,1] }}
+    >
+      <div className="why-head">
+        <p className="section-eyebrow">Comparativa</p>
+        <h2>¿Por qué Movantia?</h2>
+        <p>Lo que antes tomaba días y costaba de más, hoy tarda minutos y se paga justo.</p>
+      </div>
+      <div className="why-table">
+        <div className="why-table-header">
+          <div />
+          <div className="why-col-label why-col-old">Flete tradicional</div>
+          <div className="why-col-label why-col-new">Movantia</div>
+        </div>
+        {COMPARE_ROWS.map((r, i) => (
+          <motion.div
+            key={r.feature}
+            className="why-row"
+            initial={{ opacity:0, x:-16 }}
+            whileInView={{ opacity:1, x:0 }}
+            viewport={{ once:true }}
+            transition={{ delay: i * 0.07, duration:.45, ease:[.22,1,.36,1] }}
+          >
+            <div className="why-feature">{r.feature}</div>
+            <div className="why-cell why-cell--old">
+              <X size={14} className="why-x" />
+              {r.traditional}
+            </div>
+            <div className="why-cell why-cell--new">
+              <CheckCircle2 size={14} className="why-check" />
+              {r.movantia}
+            </div>
+          </motion.div>
+        ))}
+      </div>
+    </motion.div>
+  )
+}
+
+/* ──────────────────────────────────────
+   TESTIMONIALS
+────────────────────────────────────── */
+const TESTIMONIALS = [
+  {
+    name: 'Juan P.',
+    company: 'Distribuidora del Norte',
+    role: 'Cliente',
+    color: 'gold',
+    text: 'Antes pagaba el camión completo para mandar 6 pallets a Paysandú. Con Movantia encontré match en 2 horas y pagué un tercio. No lo podía creer.',
+    stars: 5,
+  },
+  {
+    name: 'Marcelo R.',
+    company: 'Transportes Río Uruguay',
+    role: 'Transportista',
+    color: 'green',
+    text: 'Mis retornos desde Rivera eran siempre en vacío. En el primer mes llené 4 viajes de vuelta. Son USD 400 que antes literalmente tiraba.',
+    stars: 5,
+  },
+  {
+    name: 'Sofía M.',
+    company: 'Importadora Costa Sur',
+    role: 'Cliente',
+    color: 'gold',
+    text: 'Lo que más me importó fue el escrow. Muchas veces tuve problemas con pagos a transportistas. Acá el sistema lo maneja solo y sin drama.',
+    stars: 5,
+  },
+]
+
+function Testimonials() {
+  return (
+    <div className="testimonials-section">
+      <motion.div
+        className="testimonials-head"
+        initial={{ opacity:0, y:24 }}
+        whileInView={{ opacity:1, y:0 }}
+        viewport={{ once:true, margin:'-60px' }}
+        transition={{ duration:.6, ease:[.22,1,.36,1] }}
+      >
+        <p className="section-eyebrow">Testimonios</p>
+        <h2>Lo que dicen los primeros usuarios</h2>
+      </motion.div>
+      <div className="testimonials-grid">
+        {TESTIMONIALS.map((t, i) => (
+          <motion.div
+            key={t.name}
+            className={`testimonial-card testimonial-card--${t.color}`}
+            initial={{ opacity:0, y:32 }}
+            whileInView={{ opacity:1, y:0 }}
+            viewport={{ once:true, margin:'-40px' }}
+            transition={{ delay: i * 0.1, duration:.55, ease:[.22,1,.36,1] }}
+          >
+            <div className="testimonial-stars">
+              {Array.from({ length: t.stars }).map((_, si) => (
+                <Star key={si} size={13} fill="currentColor" />
+              ))}
+            </div>
+            <p className="testimonial-text">"{t.text}"</p>
+            <div className="testimonial-author">
+              <div className="testimonial-avatar">{t.name[0]}</div>
+              <div>
+                <strong>{t.name}</strong>
+                <span>{t.company} · {t.role}</span>
+              </div>
+            </div>
+          </motion.div>
+        ))}
+      </div>
+    </div>
+  )
+}
+
+/* ──────────────────────────────────────
+   FAQ
+────────────────────────────────────── */
+const FAQ_ITEMS = [
+  {
+    q: '¿Qué pasa si mi carga llega dañada?',
+    a: 'El dinero queda en escrow hasta que vos confirmás que la mercadería llegó en buen estado. Si hay daños, abrís una disputa desde la app. El pago queda retenido mientras se resuelve. En casos graves, coordinamos con el transportista para llegar a un acuerdo o devolvemos el importe.',
+  },
+  {
+    q: '¿Cómo funciona el escrow exactamente?',
+    a: 'Cuando aceptás un match y pagás, el dinero no va al transportista — queda retenido en una cuenta de tercero (escrow). Solo se libera cuando vos confirmás la entrega. El transportista sabe que el pago está garantizado, lo que mejora la confianza en ambos lados.',
+  },
+  {
+    q: '¿Qué pasa si no hay match para mi carga?',
+    a: 'Quedás en cola y te avisamos por WhatsApp o email cuando aparezca un transportista compatible. No pagás nada hasta que haya match y lo aceptés. Podés cancelar la publicación en cualquier momento sin costo.',
+  },
+  {
+    q: '¿Los transportistas están verificados?',
+    a: 'Sí. Antes de aparecer en la plataforma, cada transportista pasa por un proceso de verificación: documento de identidad, habilitación del vehículo y seguro vigente. Además, cada entrega suma o resta a su reputación pública.',
+  },
+  {
+    q: '¿Qué tipos de mercadería puedo mover?',
+    a: 'Cargas secas en pallets, cajas o granel son las más comunes. También manejamos refrigerados y plataformas según disponibilidad. No aceptamos materiales peligrosos, animales vivos ni mercadería ilegal.',
+  },
+  {
+    q: '¿Cuánto tiempo tarda en aparecer un match?',
+    a: 'Depende de la ruta y la fecha. Para rutas frecuentes como Montevideo-Maldonado o Montevideo-Colonia, los matches suelen aparecer en minutos a pocas horas. Para rutas menos frecuentes puede tardar 1-2 días. Publicar con anticipación mejora las chances.',
+  },
+]
+
+function FAQ() {
+  const [open, setOpen] = useState(null)
+  return (
+    <motion.div
+      className="faq-section"
+      initial={{ opacity:0, y:24 }}
+      whileInView={{ opacity:1, y:0 }}
+      viewport={{ once:true, margin:'-60px' }}
+      transition={{ duration:.6, ease:[.22,1,.36,1] }}
+    >
+      <div className="faq-head">
+        <p className="section-eyebrow">FAQ</p>
+        <h2>Preguntas frecuentes</h2>
+        <p>Las dudas que más nos llegan antes del primer match.</p>
+      </div>
+      <div className="faq-list">
+        {FAQ_ITEMS.map((item, i) => (
+          <div
+            key={i}
+            className={`faq-item${open === i ? ' faq-item--open' : ''}`}
+            onClick={() => setOpen(open === i ? null : i)}
+          >
+            <div className="faq-question">
+              <span>{item.q}</span>
+              <ChevronDown size={18} className={`faq-chevron${open === i ? ' open' : ''}`} />
+            </div>
+            <AnimatePresence initial={false}>
+              {open === i && (
+                <motion.div
+                  className="faq-answer"
+                  initial={{ height:0, opacity:0 }}
+                  animate={{ height:'auto', opacity:1 }}
+                  exit={{ height:0, opacity:0 }}
+                  transition={{ duration:.32, ease:[.22,1,.36,1] }}
+                >
+                  <p>{item.a}</p>
+                </motion.div>
+              )}
+            </AnimatePresence>
+          </div>
+        ))}
+      </div>
+    </motion.div>
   )
 }
 
