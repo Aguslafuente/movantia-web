@@ -192,7 +192,7 @@ export default function App() {
             </span>
             <span>
               <span className="brand-name">Movantia</span>
-              <span className="brand-tagline">Cargo Matching</span>
+              <span className="brand-tagline">Fill Empty Miles</span>
             </span>
           </a>
           <nav className="nav-links">
@@ -427,7 +427,7 @@ export default function App() {
 
       <footer className="site-footer">
         <div className="container footer-inner">
-          <p>2026 Movantia. Cargo Matching.</p>
+          <p>2026 Movantia. Fill Empty Miles.</p>
           <p>Uruguay · Transporte B2B · Retornos vacíos</p>
         </div>
       </footer>
