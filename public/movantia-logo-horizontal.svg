@@ -1,41 +1,70 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 268 40" fill="none">
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 284 52" fill="none">
   <defs>
-    <linearGradient id="gH" x1="20" y1="3" x2="20" y2="31" gradientUnits="userSpaceOnUse">
-      <stop offset="0%"   stop-color="#ffd166"/>
-      <stop offset="55%"  stop-color="#f0a500"/>
-      <stop offset="100%" stop-color="#c07800"/>
-    </linearGradient>
-    <filter id="hGlow" x="-150%" y="-150%" width="400%" height="400%">
-      <feGaussianBlur stdDeviation="2" result="b"/>
+    <filter id="glow" x="-40%" y="-40%" width="180%" height="180%">
+      <feGaussianBlur stdDeviation="1.8" result="b"/>
+      <feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge>
+    </filter>
+    <filter id="softglow" x="-60%" y="-60%" width="220%" height="220%">
+      <feGaussianBlur stdDeviation="3" result="b"/>
       <feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge>
     </filter>
   </defs>
 
-  <!-- ── ISOTIPO ── -->
-  <rect x="2"  y="3" width="5" height="26" rx="2.5" fill="url(#gH)"/>
-  <rect x="33" y="3" width="5" height="26" rx="2.5" fill="url(#gH)"/>
-  <polygon points="8,3 13,3 20,31"  fill="url(#gH)"/>
-  <polygon points="27,3 32,3 20,31" fill="url(#gH)"/>
-  <circle cx="20" cy="31" r="4" fill="#f0a500" opacity="0.16" filter="url(#hGlow)"/>
+  <!-- ── MARK ── 48×48, engineered dual-vector M -->
+
+  <!-- Circuit terminal ticks at top nodes -->
+  <line x1="2"  y1="9"  x2="8"  y2="9"  stroke="#D4A843" stroke-width="1"   opacity="0.55"/>
+  <line x1="40" y1="9"  x2="46" y2="9"  stroke="#D4A843" stroke-width="1"   opacity="0.55"/>
+  <!-- Vertical stub above ticks -->
+  <line x1="5"  y1="6"  x2="5"  y2="9"  stroke="#D4A843" stroke-width="0.8" opacity="0.35"/>
+  <line x1="43" y1="6"  x2="43" y2="9"  stroke="#D4A843" stroke-width="0.8" opacity="0.35"/>
+
+  <!-- Main M — two route vectors -->
+  <polyline
+    points="10,43 10,9 24,25 38,9 38,43"
+    stroke="#D4A843" stroke-width="2.2" stroke-linejoin="miter"
+    filter="url(#glow)"
+  />
+
+  <!-- Origin / destination nodes — top (filled = active) -->
+  <circle cx="10" cy="9"  r="3.2" fill="#D4A843" filter="url(#glow)"/>
+  <circle cx="38" cy="9"  r="3.2" fill="#D4A843" filter="url(#glow)"/>
+
+  <!-- Center connection node -->
+  <circle cx="24" cy="25" r="2.2" fill="#D4A843" opacity="0.75"/>
+  <!-- Pulse ring on center -->
+  <circle cx="24" cy="25" r="5"   fill="none" stroke="#D4A843" stroke-width="0.6" opacity="0.18"/>
+
+  <!-- Bottom endpoint rings — hollow (route origin pins) -->
+  <circle cx="10" cy="43" r="2.8" fill="#07090F" stroke="#D4A843" stroke-width="1.4"/>
+  <circle cx="38" cy="43" r="2.8" fill="#07090F" stroke="#D4A843" stroke-width="1.4"/>
+
+  <!-- Baseline connector — very subtle -->
+  <line x1="13" y1="43" x2="35" y2="43" stroke="#D4A843" stroke-width="0.5" opacity="0.2"/>
+
 
   <!-- ── WORDMARK ── -->
-  <!-- MOVANTIA in Space Grotesk 800, baseline y=28, size 20px -->
+
+  <!-- MOVANTIA -->
   <text
-    x="50" y="27"
+    x="64" y="30"
     font-family="'Space Grotesk', system-ui, sans-serif"
-    font-size="21"
-    font-weight="800"
-    letter-spacing="-0.03em"
-    fill="#ffffff"
+    font-size="22"
+    font-weight="700"
+    letter-spacing="0.06em"
+    fill="#F0F2F7"
   >MOVANTIA</text>
 
-  <!-- Subtle tagline below -->
+  <!-- Precision underline — gold, partial width -->
+  <line x1="64" y1="35" x2="228" y2="35" stroke="#D4A843" stroke-width="0.7" opacity="0.45"/>
+
+  <!-- Tagline -->
   <text
-    x="51" y="37"
+    x="64" y="45"
     font-family="'DM Sans', system-ui, sans-serif"
-    font-size="8.5"
+    font-size="7.5"
     font-weight="500"
-    letter-spacing="0.06em"
-    fill="#4e5a70"
+    letter-spacing="0.18em"
+    fill="#3A4A60"
   >CARGO MATCHING</text>
 </svg>
