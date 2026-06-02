@@ -1,70 +1,63 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 284 52" fill="none">
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 80" fill="none">
   <defs>
-    <filter id="glow" x="-40%" y="-40%" width="180%" height="180%">
-      <feGaussianBlur stdDeviation="1.8" result="b"/>
-      <feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge>
-    </filter>
-    <filter id="softglow" x="-60%" y="-60%" width="220%" height="220%">
-      <feGaussianBlur stdDeviation="3" result="b"/>
-      <feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge>
-    </filter>
+    <linearGradient id="lgA" x1="11" y1="4" x2="11" y2="76" gradientUnits="userSpaceOnUse">
+      <stop offset="0%"   stop-color="#FFF8C0"/>
+      <stop offset="18%"  stop-color="#F5CA40"/>
+      <stop offset="65%"  stop-color="#C88A20"/>
+      <stop offset="100%" stop-color="#8B5E10"/>
+    </linearGradient>
+    <linearGradient id="lgB" x1="28" y1="4" x2="28" y2="76" gradientUnits="userSpaceOnUse">
+      <stop offset="0%"   stop-color="#D4A030"/>
+      <stop offset="55%"  stop-color="#A07018"/>
+      <stop offset="100%" stop-color="#6A4210"/>
+    </linearGradient>
+    <linearGradient id="lgC" x1="66" y1="4" x2="66" y2="76" gradientUnits="userSpaceOnUse">
+      <stop offset="0%"   stop-color="#BF8020"/>
+      <stop offset="55%"  stop-color="#7A5010"/>
+      <stop offset="100%" stop-color="#3E2008"/>
+    </linearGradient>
+    <linearGradient id="lgSlashEdge" x1="50" y1="2" x2="28" y2="78" gradientUnits="userSpaceOnUse">
+      <stop offset="0%"   stop-color="#FFF8C0" stop-opacity="0.85"/>
+      <stop offset="60%"  stop-color="#F0C040" stop-opacity="0.3"/>
+      <stop offset="100%" stop-color="#C88A20" stop-opacity="0"/>
+    </linearGradient>
+    <clipPath id="mClip">
+      <polygon points="2,76 8,4 20,4 40,44 60,4 72,4 78,76 66,76 40,62 14,76"/>
+    </clipPath>
   </defs>
 
-  <!-- ── MARK ── 48×48, engineered dual-vector M -->
+  <!-- ═══ MARK — faceted 3D M ═══ -->
+  <!-- F1: left outer leg — bright gold -->
+  <polygon points="2,76 14,76 20,4 8,4"           fill="url(#lgA)"/>
+  <!-- F2: left inner diagonal — medium gold -->
+  <polygon points="14,76 38,76 44,42 20,4"         fill="url(#lgB)"/>
+  <!-- F3: center notch — near black -->
+  <polygon points="38,76 42,76 40,62"              fill="#0A0600"/>
+  <!-- F4: right inner diagonal — medium-dark gold -->
+  <polygon points="42,76 66,76 60,4 36,42"         fill="url(#lgB)"/>
+  <!-- F5: right outer leg — dark gold -->
+  <polygon points="66,76 78,76 72,4 60,4"          fill="url(#lgC)"/>
 
-  <!-- Circuit terminal ticks at top nodes -->
-  <line x1="2"  y1="9"  x2="8"  y2="9"  stroke="#D4A843" stroke-width="1"   opacity="0.55"/>
-  <line x1="40" y1="9"  x2="46" y2="9"  stroke="#D4A843" stroke-width="1"   opacity="0.55"/>
-  <!-- Vertical stub above ticks -->
-  <line x1="5"  y1="6"  x2="5"  y2="9"  stroke="#D4A843" stroke-width="0.8" opacity="0.35"/>
-  <line x1="43" y1="6"  x2="43" y2="9"  stroke="#D4A843" stroke-width="0.8" opacity="0.35"/>
+  <!-- Diagonal slash cut — clipped to M -->
+  <g clip-path="url(#mClip)">
+    <polygon points="34,0 52,0 28,80 10,80"        fill="#080500" opacity="0.88"/>
+    <!-- Bright slash edge -->
+    <polygon points="50,0 56,0 32,80 26,80"        fill="url(#lgSlashEdge)"/>
+  </g>
 
-  <!-- Main M — two route vectors -->
-  <polyline
-    points="10,43 10,9 24,25 38,9 38,43"
-    stroke="#D4A843" stroke-width="2.2" stroke-linejoin="miter"
-    filter="url(#glow)"
-  />
-
-  <!-- Origin / destination nodes — top (filled = active) -->
-  <circle cx="10" cy="9"  r="3.2" fill="#D4A843" filter="url(#glow)"/>
-  <circle cx="38" cy="9"  r="3.2" fill="#D4A843" filter="url(#glow)"/>
-
-  <!-- Center connection node -->
-  <circle cx="24" cy="25" r="2.2" fill="#D4A843" opacity="0.75"/>
-  <!-- Pulse ring on center -->
-  <circle cx="24" cy="25" r="5"   fill="none" stroke="#D4A843" stroke-width="0.6" opacity="0.18"/>
-
-  <!-- Bottom endpoint rings — hollow (route origin pins) -->
-  <circle cx="10" cy="43" r="2.8" fill="#07090F" stroke="#D4A843" stroke-width="1.4"/>
-  <circle cx="38" cy="43" r="2.8" fill="#07090F" stroke="#D4A843" stroke-width="1.4"/>
-
-  <!-- Baseline connector — very subtle -->
-  <line x1="13" y1="43" x2="35" y2="43" stroke="#D4A843" stroke-width="0.5" opacity="0.2"/>
-
-
-  <!-- ── WORDMARK ── -->
-
-  <!-- MOVANTIA -->
+  <!-- ═══ WORDMARK ═══ -->
   <text
-    x="64" y="30"
-    font-family="'Space Grotesk', system-ui, sans-serif"
-    font-size="22"
-    font-weight="700"
-    letter-spacing="0.06em"
-    fill="#F0F2F7"
+    x="96" y="48"
+    font-family="'Space Grotesk', system-ui, Arial, sans-serif"
+    font-size="34" font-weight="800"
+    letter-spacing="-0.01em"
+    fill="#FFFFFF"
   >MOVANTIA</text>
-
-  <!-- Precision underline — gold, partial width -->
-  <line x1="64" y1="35" x2="228" y2="35" stroke="#D4A843" stroke-width="0.7" opacity="0.45"/>
-
-  <!-- Tagline -->
   <text
-    x="64" y="45"
-    font-family="'DM Sans', system-ui, sans-serif"
-    font-size="7.5"
-    font-weight="500"
-    letter-spacing="0.18em"
-    fill="#3A4A60"
-  >CARGO MATCHING</text>
+    x="98" y="66"
+    font-family="'DM Sans', system-ui, Arial, sans-serif"
+    font-size="12" font-weight="400"
+    letter-spacing="0.12em"
+    fill="#5A6880"
+  >Fill Empty Miles</text>
 </svg>
