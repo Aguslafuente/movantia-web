@@ -6,4 +6,46 @@
     <changefreq>weekly</changefreq>
     <priority>1.0</priority>
   </url>
+  <url>
+    <loc>https://www.movantia.lat/fletes-montevideo-maldonado</loc>
+    <lastmod>2025-06-02</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://www.movantia.lat/fletes-montevideo-rivera</loc>
+    <lastmod>2025-06-02</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://www.movantia.lat/fletes-montevideo-paysandu</loc>
+    <lastmod>2025-06-02</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://www.movantia.lat/fletes-montevideo-colonia</loc>
+    <lastmod>2025-06-02</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://www.movantia.lat/fletes-montevideo-punta-del-este</loc>
+    <lastmod>2025-06-02</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://www.movantia.lat/mudanzas-montevideo</loc>
+    <lastmod>2025-06-02</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://www.movantia.lat/flete-express-uruguay</loc>
+    <lastmod>2025-06-02</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
 </urlset>
