@@ -9,7 +9,7 @@ const ROUTES = {
     destino: 'Maldonado',
     slug: 'fletes-montevideo-maldonado',
     title: 'Fletes Montevideo → Maldonado | Movantia',
-    desc: 'Encontrá flete entre Montevideo y Maldonado en minutos. Pago garantizado con escrow. Camiones verificados para todo tipo de carga.',
+    desc: 'Encontrá flete entre Montevideo y Maldonado en minutos. Pago protegido. Camiones verificados para todo tipo de carga.',
     keywords: 'flete Montevideo Maldonado, transporte Maldonado Montevideo, carga Maldonado',
     tiempoEstimado: '1h 45min',
     distancia: '140 km',
@@ -21,7 +21,7 @@ const ROUTES = {
     destino: 'Rivera',
     slug: 'fletes-montevideo-rivera',
     title: 'Fletes Montevideo → Rivera | Movantia',
-    desc: 'Flete de Montevideo a Rivera con transportistas verificados. Match en horas. Pago seguro con escrow. Sin pagar el camión completo.',
+    desc: 'Flete de Montevideo a Rivera con transportistas verificados. Match en horas. Pago seguro con pago protegido. Sin pagar el camión completo.',
     keywords: 'flete Montevideo Rivera, transporte Rivera Uruguay, carga norte Uruguay',
     tiempoEstimado: '4h 30min',
     distancia: '390 km',
@@ -45,7 +45,7 @@ const ROUTES = {
     destino: 'Colonia',
     slug: 'fletes-montevideo-colonia',
     title: 'Fletes Montevideo → Colonia del Sacramento | Movantia',
-    desc: 'Flete entre Montevideo y Colonia del Sacramento. Match rápido, transportistas verificados y pago con escrow garantizado.',
+    desc: 'Flete entre Montevideo y Colonia del Sacramento. Match rápido, transportistas verificados y pago protegido.',
     keywords: 'flete Montevideo Colonia, transporte Colonia Sacramento, carga Colonia',
     tiempoEstimado: '2h 30min',
     distancia: '177 km',
@@ -179,11 +179,11 @@ export default function RoutePage({ slug }) {
           {(isExpress ? [
             { icon: <Zap size={20}/>, title:'Publicás tu pedido', desc:'Describís qué necesitás mover, dónde y cuándo. Dos minutos.' },
             { icon: <Truck size={20}/>, title:'Recibís cotizaciones', desc:'Transportistas de tu zona ven el pedido y te mandan su precio.' },
-            { icon: <Shield size={20}/>, title:'Elegís y cobrás con escrow', desc:'Pagás seguro. El dinero solo se libera cuando recibís todo bien.' },
+            { icon: <Shield size={20}/>, title:'Elegís y pagás protegido', desc:'Pagás seguro. El dinero solo se libera cuando recibís todo bien.' },
           ] : [
             { icon: <Zap size={20}/>, title:'Publicás tu carga', desc:`Indicás que necesitás mover mercadería de ${route.origen} a ${route.destino}.` },
             { icon: <Truck size={20}/>, title:'Match con camión en ruta', desc:`Te conectamos con un transportista que ya tiene planificado ese trayecto.` },
-            { icon: <Shield size={20}/>, title:'Pagás con escrow', desc:'El dinero queda retenido hasta confirmar la entrega. Cero riesgo.' },
+            { icon: <Shield size={20}/>, title:'Pagás con pago protegido', desc:'El dinero queda retenido hasta confirmar la entrega. Cero riesgo.' },
           ]).map((s, i) => (
             <div key={i} style={{ display:'flex', gap:'16px', alignItems:'flex-start', background:'#0D1018', borderRadius:'10px', padding:'18px' }}>
               <div style={{ color:'#D4A843', marginTop:'2px', flexShrink:0 }}>{s.icon}</div>
@@ -202,7 +202,7 @@ export default function RoutePage({ slug }) {
         <h2 style={{ fontSize:'24px', fontWeight:700, marginBottom:'28px' }}>Sin las molestias del flete tradicional</h2>
         <div style={{ display:'grid', gridTemplateColumns:'repeat(auto-fit,minmax(200px,1fr))', gap:'14px' }}>
           {[
-            { icon:<CheckCircle2 size={18}/>, label:'Pago garantizado con escrow' },
+            { icon:<CheckCircle2 size={18}/>, label:'Pago protegido' },
             { icon:<CheckCircle2 size={18}/>, label:'Transportistas verificados' },
             { icon:<CheckCircle2 size={18}/>, label:'Sin pagar el camión completo' },
             { icon:<CheckCircle2 size={18}/>, label:'Match en minutos u horas' },
