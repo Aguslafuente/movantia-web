@@ -63,9 +63,9 @@ const ENVIAR_STEPS = [
   },
   {
     icon: <CreditCard size={22}/>, num:'03', title:'Pagás seguro',
-    text:'Pagás con tarjeta. El dinero queda retenido en escrow hasta confirmar la entrega.',
+    text:'Pagás con tarjeta. El dinero queda protegido hasta confirmar la entrega.',
     detail: {
-      how: 'Una vez aceptado el match, pagás el monto acordado con tarjeta de crédito o débito. El dinero NO va directo al transportista — queda retenido en una cuenta escrow hasta que vos confirmés que la mercadería llegó bien.',
+      how: 'Una vez aceptado el match, pagás el monto acordado con tarjeta de crédito o débito. El dinero NO va directo al transportista — queda protegido hasta que vos confirmés que la mercadería llegó bien.',
       tips: [
         'Si la entrega falla o hay daños, el dinero se devuelve automáticamente.',
         'El transportista sabe que el pago está garantizado, por eso acepta con confianza.',
@@ -173,9 +173,9 @@ const EXPRESS_STEPS = [
   },
   {
     icon: <CreditCard size={22}/>, num:'03', title:'Elegís y pagás seguro',
-    text:'Seleccionás la cotización que más te cierra. El pago queda en escrow hasta la entrega.',
+    text:'Seleccionás la cotización que más te cierra. El pago queda protegido hasta la entrega.',
     detail: {
-      how: 'Elegís al transportista que preferas por precio, calificación o disponibilidad. Pagás con tarjeta o débito. El dinero queda retenido en escrow — solo se libera cuando confirmás que recibiste todo bien.',
+      how: 'Elegís al transportista que preferas por precio, calificación o disponibilidad. Pagás con tarjeta o débito. El dinero queda protegido — solo se libera cuando confirmás que recibiste todo bien.',
       tips: [
         'Si hay algún problema con la entrega, el dinero se devuelve.',
         'El transportista sabe que el pago está garantizado antes de salir.',
@@ -306,7 +306,7 @@ function MainPage({ role, setRole, roleRef, howRef, pickRole }) {
               <div className="v2-stat-div" />
               <div className="v2-stat"><strong>8%</strong><span>Comisión por entrega</span></div>
               <div className="v2-stat-div" />
-              <div className="v2-stat"><strong>Escrow</strong><span>Pago garantizado</span></div>
+              <div className="v2-stat"><strong>Pago protegido</strong><span>Pago garantizado</span></div>
             </div>
 
             <div className="v2-hero-ctas">
@@ -637,7 +637,7 @@ function EnviarDemo() {
   const DEMO_STEPS = [
     { icon: <Package size={28}/>, label: 'Publicás tu carga', sub: 'Origen · Destino · Peso', color: '#fbbf24' },
     { icon: <Zap size={28}/>,     label: 'Match detectado',   sub: 'Transportista disponible', color: '#a78bfa' },
-    { icon: <CreditCard size={28}/>, label: 'Pago en escrow', sub: 'Dinero retenido seguro', color: '#38bdf8' },
+    { icon: <CreditCard size={28}/>, label: 'Pago protegido', sub: 'Dinero retenido seguro', color: '#38bdf8' },
     { icon: <CheckCircle2 size={28}/>, label: '¡Entregado!',  sub: 'Pago liberado', color: '#4ade80' },
   ]
 
@@ -831,7 +831,7 @@ function PricingBanner() {
       </div>
       <div className="pricing-divider" />
       <div className="pricing-item pricing-item--highlight">
-        <span className="pricing-label">Escrow incluido</span>
+        <span className="pricing-label">Pago protegido incluido</span>
         <strong>Pago garantizado</strong>
         <p>El dinero queda retenido hasta confirmar entrega. Cero riesgo para ambos lados.</p>
       </div>
@@ -845,7 +845,7 @@ function PricingBanner() {
 const COMPARE_ROWS = [
   { feature: 'Precio', traditional: 'Flete completo aunque el camión vuelva vacío', movantia: 'Pagás solo el espacio que usás' },
   { feature: 'Tiempo', traditional: 'Días buscando transportista por teléfono', movantia: 'Match en minutos o pocas horas' },
-  { feature: 'Pago', traditional: 'Sin garantías, riesgo de impago', movantia: 'Escrow: el dinero está asegurado' },
+  { feature: 'Pago', traditional: 'Sin garantías, riesgo de impago', movantia: 'Pago protegido — el dinero está asegurado' },
   { feature: 'Transparencia', traditional: 'Sin trazabilidad ni historial', movantia: 'Remito digital, confirmación de entrega, historial' },
   { feature: 'Disponibilidad', traditional: 'Dependés de contactos conocidos', movantia: 'Red de transportistas con rutas activas en UY' },
 ]
@@ -920,7 +920,7 @@ const TESTIMONIALS = [
     company: 'Importadora Costa Sur',
     role: 'Cliente',
     color: 'gold',
-    text: 'Lo que más me importó fue el escrow. Muchas veces tuve problemas con pagos a transportistas. Acá el sistema lo maneja solo y sin drama.',
+    text: 'Lo que más me importó fue el pago protegido. Muchas veces tuve problemas con pagos a transportistas. Acá el sistema lo maneja solo y sin drama.',
     stars: 5,
   },
 ]
@@ -974,11 +974,11 @@ function Testimonials() {
 const FAQ_ITEMS = [
   {
     q: '¿Qué pasa si mi carga llega dañada?',
-    a: 'El dinero queda en escrow hasta que vos confirmás que la mercadería llegó en buen estado. Si hay daños, abrís una disputa desde la app. El pago queda retenido mientras se resuelve. En casos graves, coordinamos con el transportista para llegar a un acuerdo o devolvemos el importe.',
+    a: 'El dinero queda en pago protegido hasta que vos confirmás que la mercadería llegó en buen estado. Si hay daños, abrís una disputa desde la app. El pago queda retenido mientras se resuelve. En casos graves, coordinamos con el transportista para llegar a un acuerdo o devolvemos el importe.',
   },
   {
-    q: '¿Cómo funciona el escrow exactamente?',
-    a: 'Cuando aceptás un match y pagás, el dinero no va al transportista — queda retenido en una cuenta de tercero (escrow). Solo se libera cuando vos confirmás la entrega. El transportista sabe que el pago está garantizado, lo que mejora la confianza en ambos lados.',
+    q: '¿Cómo funciona el pago protegido?',
+    a: 'Cuando aceptás un match y pagás, el dinero no va al transportista — queda retenido — no va al transportista hasta que confirmás. Solo se libera cuando vos confirmás la entrega. El transportista sabe que el pago está garantizado, lo que mejora la confianza en ambos lados.',
   },
   {
     q: '¿Qué pasa si no hay match para mi carga?',
@@ -1066,7 +1066,7 @@ function RouteCard() {
       <div className="info-list">
         <InfoRow icon={<Truck />}      label="Viaje"  value="Vuelve vacío" />
         <InfoRow icon={<Building2 />}  label="Carga"  value="8 pallets" />
-        <InfoRow icon={<CreditCard />} label="Pago"   value="Tarjeta / escrow" />
+        <InfoRow icon={<CreditCard />} label="Pago"   value="Tarjeta — pago protegido" />
         <InfoRow icon={<ShieldCheck />}label="Seguro" value="Verificado" />
       </div>
       <div className="revenue-box">
