@@ -19,9 +19,10 @@ import {
 import './App.css'
 import ScrollJourneySection from './ScrollJourneySection'
 
-const WA = 'https://wa.me/59898534165?text=Hola%2C%20quiero%20consultar%20por%20Movantia%20Cargo'
-const WA_ENVIAR = 'https://wa.me/59898534165?text=Hola%2C%20quiero%20enviar%20una%20carga%20con%20Movantia'
-const WA_LLEVAR = 'https://wa.me/59898534165?text=Hola%2C%20quiero%20llevar%20carga%20con%20Movantia'
+const WA = 'https://wa.me/59898534165?text=Hola%2C%20quiero%20consultar%20por%20Movantia'
+const WA_ENVIAR = 'https://wa.me/59898534165?text=Hola%2C%20quiero%20enviar%20carga%20%E2%80%94%20Carga%20en%20ruta'
+const WA_LLEVAR = 'https://wa.me/59898534165?text=Hola%2C%20tengo%20cami%C3%B3n%20y%20quiero%20sumarme%20a%20Movantia'
+const WA_EXPRESS = 'https://wa.me/59898534165?text=Hola%2C%20necesito%20un%20flete%20express%20%E2%80%94%20Movantia'
 
 const ROUTES = [
   'Montevideo - Maldonado',
@@ -141,6 +142,61 @@ const LLEVAR_STEPS = [
   },
 ]
 
+const EXPRESS_STEPS = [
+  {
+    icon: <Package size={22}/>, num:'01', title:'Publicás tu pedido',
+    text:'Describís qué necesitás mover, desde dónde, hacia dónde y cuándo. Tarda 2 minutos.',
+    detail: {
+      how: 'Completás un formulario simple: qué es lo que querés mover (muebles, cajas, mercadería, etc.), punto de retiro, punto de entrega, fecha y cualquier detalle especial (frágil, pesado, requiere ayuda para carga).',
+      tips: [
+        'Podés pedir para hoy mismo o programar con anticipación.',
+        'Incluí fotos si el objeto es grande o irregular — ayuda a cotizar mejor.',
+        'No necesitás saber el precio de antemano, eso lo definen los transportistas.',
+      ],
+      time: '2 minutos completar el pedido',
+    }
+  },
+  {
+    icon: <Zap size={22}/>, num:'02', title:'Recibís cotizaciones',
+    text:'Transportistas disponibles en tu zona ven el pedido y te mandan su precio.',
+    detail: {
+      how: 'Los transportistas registrados en Movantia con camionetas, furgones o camiones chicos ven tu pedido y envían su cotización con precio, tiempo estimado y perfil verificado.',
+      tips: [
+        'Podés ver la calificación y experiencia de cada transportista antes de elegir.',
+        'Las cotizaciones llegan en minutos durante el horario activo.',
+        'No estás obligado a aceptar ninguna si no te convence.',
+      ],
+      time: 'Cotizaciones en minutos',
+    }
+  },
+  {
+    icon: <CreditCard size={22}/>, num:'03', title:'Elegís y pagás seguro',
+    text:'Seleccionás la cotización que más te cierra. El pago queda en escrow hasta la entrega.',
+    detail: {
+      how: 'Elegís al transportista que preferas por precio, calificación o disponibilidad. Pagás con tarjeta o débito. El dinero queda retenido en escrow — solo se libera cuando confirmás que recibiste todo bien.',
+      tips: [
+        'Si hay algún problema con la entrega, el dinero se devuelve.',
+        'El transportista sabe que el pago está garantizado antes de salir.',
+        'Aceptamos Visa, Mastercard y débito uruguayo.',
+      ],
+      time: '1 minuto para confirmar y pagar',
+    }
+  },
+  {
+    icon: <CheckCircle2 size={22}/>, num:'04', title:'Recibís y confirmás',
+    text:'El transportista llega, entrega todo bien. Confirmás y el pago se libera. Listo.',
+    detail: {
+      how: 'Al recibir tu encargo, confirmás la entrega desde la app o por WhatsApp. El pago se libera al transportista automáticamente. Si algo está mal, abrís una disputa y el dinero queda retenido.',
+      tips: [
+        'Tenés 24 horas para confirmar o disputar después de la entrega.',
+        'Podés calificar al transportista para ayudar a la comunidad.',
+        'El historial de todos tus fletes queda guardado en tu cuenta.',
+      ],
+      time: '1 click para confirmar la entrega',
+    }
+  },
+]
+
 /* ──────────────────────────────────────
    BRAND MARK — inline SVG isotipo
 ────────────────────────────────────── */
@@ -215,18 +271,18 @@ export default function App() {
             <div className="eyebrow">
               <span className="eyebrow-dot" />
               <Route size={15} />
-              Freight matching · Uruguay
+              Marketplace de transporte · Uruguay
             </div>
 
             <h1 className="v2-hero-h1">
-              Retornos<br/>
-              vacíos.<br/>
-              <span className="h1-accent">Ingresos reales.</span>
+              Mové lo que<br/>
+              necesitás.<br/>
+              <span className="h1-accent">Cuando lo necesitás.</span>
             </h1>
 
             <p className="v2-hero-sub">
-              Conectamos tu carga con camiones que ya tienen la ruta.
-              Match en minutos. Pago garantizado con escrow.
+              Fletes largos, mudanzas, cargas chicas. Conectamos a quien necesita
+              mover algo con el transportista indicado. Match en minutos, pago garantizado.
             </p>
 
             <div className="v2-hero-stats">
@@ -239,10 +295,10 @@ export default function App() {
 
             <div className="v2-hero-ctas">
               <a href={WA_ENVIAR} className="button button-primary" target="_blank" rel="noopener">
-                Enviar carga <ArrowRight size={17} />
+                Necesito un flete <ArrowRight size={17} />
               </a>
               <a href={WA_LLEVAR} className="button button-secondary" target="_blank" rel="noopener">
-                Tengo camión
+                Soy transportista
               </a>
             </div>
           </div>
@@ -277,17 +333,26 @@ export default function App() {
               active={role === 'enviar'}
               color="gold"
               icon={<Package size={36} />}
-              label="Enviar carga"
-              desc="Tengo mercadería y necesito transportarla a otro punto del país sin pagar flete completo."
+              label="Carga en ruta"
+              desc="Tengo mercadería para mover en ruta larga. Quiero un camión que ya va hacia ese destino."
               cta="Quiero enviar"
               onClick={() => pickRole('enviar')}
+            />
+            <ChooserCard
+              active={role === 'express'}
+              color="blue"
+              icon={<Zap size={36} />}
+              label="Flete express"
+              desc="Necesito una mudanza, envío chico o flete puntual. Subo el pedido y recibo cotizaciones."
+              cta="Pedir cotización"
+              onClick={() => pickRole('express')}
             />
             <ChooserCard
               active={role === 'llevar'}
               color="green"
               icon={<Truck size={36} />}
-              label="Llevar carga"
-              desc="Tengo un camión con espacio libre en el retorno y quiero convertir esos kilómetros en ingreso."
+              label="Soy transportista"
+              desc="Tengo camión, camioneta o utilitario. Quiero recibir pedidos y no volver vacío nunca más."
               cta="Quiero llevar"
               onClick={() => pickRole('llevar')}
             />
@@ -311,10 +376,13 @@ export default function App() {
                 {/* toggle */}
                 <div className="v2-how-toggle">
                   <button className={`role-btn${role==='enviar'?' active':''}`} onClick={()=>setRole('enviar')}>
-                    <Package size={15}/> Enviar carga
+                    <Package size={15}/> Carga en ruta
+                  </button>
+                  <button className={`role-btn${role==='express'?' active':''}`} onClick={()=>setRole('express')}>
+                    <Zap size={15}/> Flete express
                   </button>
                   <button className={`role-btn${role==='llevar'?' active':''}`} onClick={()=>setRole('llevar')}>
-                    <Truck size={15}/> Llevar carga
+                    <Truck size={15}/> Transportista
                   </button>
                 </div>
 
@@ -326,20 +394,24 @@ export default function App() {
 
                   {/* Right: steps */}
                   <div className="v2-how-steps">
-                    <p className="section-eyebrow">{role === 'enviar' ? 'Para clientes' : 'Para transportistas'}</p>
+                    <p className="section-eyebrow">
+                      {role === 'enviar' ? 'Carga en ruta' : role === 'express' ? 'Flete express' : 'Para transportistas'}
+                    </p>
                     <h2 className="v2-how-title">
                       {role === 'enviar'
                         ? 'Tu carga llega. Simple y seguro.'
+                        : role === 'express'
+                        ? 'Pedís, cotizás, confirmás.'
                         : 'Tu retorno empieza a facturar.'}
                     </h2>
-                    <StepList steps={role === 'enviar' ? ENVIAR_STEPS : LLEVAR_STEPS} role={role} />
+                    <StepList steps={role === 'enviar' ? ENVIAR_STEPS : role === 'express' ? EXPRESS_STEPS : LLEVAR_STEPS} role={role} />
 
                     <a
-                      href={role === 'enviar' ? WA_ENVIAR : WA_LLEVAR}
+                      href={role === 'enviar' ? WA_ENVIAR : role === 'express' ? WA_EXPRESS : WA_LLEVAR}
                       className="button button-primary v2-how-cta"
                       target="_blank" rel="noopener"
                     >
-                      {role === 'enviar' ? 'Publicar mi carga' : 'Publicar mi ruta'}
+                      {role === 'enviar' ? 'Publicar mi carga' : role === 'express' ? 'Pedir cotización' : 'Publicar mi ruta'}
                       <ArrowRight size={18} />
                     </a>
                   </div>
@@ -413,22 +485,26 @@ export default function App() {
             CTA FINAL
         ══════════════════════════════════════ */}
         <section id="contacto" className="container contact-section">
-          <h2>¿Tenés una ruta con kilómetros vacíos?</h2>
+          <h2>¿Necesitás mover algo o tenés vehículo disponible?</h2>
           <p>
-            Mandanos origen, destino y fecha. Te decimos si hay carga o camión
-            disponible para validar el primer match.
+            Mandanos un mensaje por WhatsApp. En minutos te conectamos con
+            la otra parte del match.
           </p>
-          <a href={WA} className="button button-primary" target="_blank" rel="noopener">
-            Cotizar por WhatsApp
-            <ArrowRight size={18} />
-          </a>
+          <div style={{ display:'flex', gap:'12px', flexWrap:'wrap', justifyContent:'center' }}>
+            <a href={WA_EXPRESS} className="button button-primary" target="_blank" rel="noopener">
+              Necesito un flete <ArrowRight size={18} />
+            </a>
+            <a href={WA_LLEVAR} className="button button-secondary" target="_blank" rel="noopener">
+              Soy transportista
+            </a>
+          </div>
         </section>
       </main>
 
       <footer className="site-footer">
         <div className="container footer-inner">
           <p>2026 Movantia. Fill Empty Miles.</p>
-          <p>Uruguay · Transporte B2B · Retornos vacíos</p>
+          <p>Uruguay · Fletes largos · Fletes express · Retornos vacíos</p>
         </div>
       </footer>
 
