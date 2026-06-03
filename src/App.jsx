@@ -1,5 +1,7 @@
 import React, { useRef, useState, useEffect } from 'react'
+import { Routes, Route as RRoute, useParams } from 'react-router-dom'
 import { motion, AnimatePresence } from 'motion/react'
+import RoutePage from './RoutePage.jsx'
 import {
   ArrowRight,
   BarChart3,
@@ -223,6 +225,11 @@ function BrandMark() {
   )
 }
 
+function RoutePageWrapper() {
+  const { slug } = useParams()
+  return <RoutePage slug={slug} />
+}
+
 export default function App() {
   const [role, setRole] = useState(null)
   const roleRef = useRef(null)
@@ -233,6 +240,15 @@ export default function App() {
     setTimeout(() => howRef.current?.scrollIntoView({ behavior: 'smooth', block: 'start' }), 80)
   }
 
+  return (
+    <Routes>
+      <RRoute path="/:slug" element={<RoutePageWrapper />} />
+      <RRoute path="/" element={<MainPage role={role} setRole={setRole} roleRef={roleRef} howRef={howRef} pickRole={pickRole} />} />
+    </Routes>
+  )
+}
+
+function MainPage({ role, setRole, roleRef, howRef, pickRole }) {
   return (
     <div className="site-shell">
       <div className="page-bg" aria-hidden="true">
