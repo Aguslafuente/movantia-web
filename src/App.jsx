@@ -311,10 +311,10 @@ function MainPage({ role, setRole, roleRef, howRef, pickRole }) {
 
             <div className="v2-hero-ctas">
               <a href={WA_ENVIAR} className="button button-primary" target="_blank" rel="noopener">
-                Necesito un flete <ArrowRight size={17} />
+                Escribinos por WhatsApp <ArrowRight size={17} />
               </a>
-              <a href={WA_LLEVAR} className="button button-secondary" target="_blank" rel="noopener">
-                Soy transportista
+              <a href={WA_LLEVAR} style={{ color:'var(--text-muted,#8695AE)', fontSize:'14px', textDecoration:'none', alignSelf:'center' }} target="_blank" rel="noopener">
+                Soy transportista →
               </a>
             </div>
           </div>
@@ -362,6 +362,7 @@ function MainPage({ role, setRole, roleRef, howRef, pickRole }) {
               desc="Necesito una mudanza, envío chico o flete puntual. Subo el pedido y recibo cotizaciones."
               cta="Pedir cotización"
               onClick={() => pickRole('express')}
+              badge="Más buscado"
             />
             <ChooserCard
               active={role === 'llevar'}
@@ -446,8 +447,8 @@ function MainPage({ role, setRole, roleRef, howRef, pickRole }) {
 
         {/* Mid-page CTA */}
         <div className="container mid-cta">
-          <a href={WA} className="button button-primary" target="_blank" rel="noopener">
-            Empezar ahora — es gratis <ArrowRight size={17}/>
+          <a href={WA_EXPRESS} className="button button-primary" target="_blank" rel="noopener">
+            Escribinos por WhatsApp — respondemos hoy <ArrowRight size={17}/>
           </a>
           <p className="mid-cta-note">Sin suscripción. Solo pagás cuando hay match confirmado.</p>
         </div>
@@ -600,7 +601,7 @@ function StepList({ steps, role }) {
 /* ──────────────────────────────────────
    CHOOSER CARD
 ────────────────────────────────────── */
-function ChooserCard({ active, color, icon, label, desc, cta, onClick }) {
+function ChooserCard({ active, color, icon, label, desc, cta, onClick, badge }) {
   return (
     <motion.button
       className={`v2-chooser-card v2-chooser-card--${color}${active ? ' active' : ''}`}
@@ -611,7 +612,15 @@ function ChooserCard({ active, color, icon, label, desc, cta, onClick }) {
       whileInView={{ opacity:1, y:0 }}
       viewport={{ once:true, margin:'-60px' }}
       transition={{ duration:.55, ease:[.22,1,.36,1] }}
+      style={{ position:'relative' }}
     >
+      {badge && (
+        <span style={{
+          position:'absolute', top:'-10px', left:'50%', transform:'translateX(-50%)',
+          background:'#38BDF8', color:'#020509', fontSize:'10px', fontWeight:700,
+          padding:'3px 10px', borderRadius:'20px', whiteSpace:'nowrap', letterSpacing:'.04em'
+        }}>{badge}</span>
+      )}
       <div className="v2-chooser-card-icon">{icon}</div>
       <strong>{label}</strong>
       <span>{desc}</span>
@@ -999,7 +1008,7 @@ const FAQ_ITEMS = [
 ]
 
 function FAQ() {
-  const [open, setOpen] = useState(null)
+  const [open, setOpen] = useState(0)
   return (
     <motion.div
       className="faq-section"
@@ -1039,6 +1048,12 @@ function FAQ() {
             </AnimatePresence>
           </div>
         ))}
+      </div>
+      <div style={{ marginTop:'32px', textAlign:'center', padding:'24px', background:'rgba(10,16,28,0.8)', borderRadius:'12px', border:'1px solid rgba(255,255,255,0.07)' }}>
+        <p style={{ color:'#8695AE', marginBottom:'12px', fontSize:'15px' }}>¿Todavía tenés dudas? Te respondemos en minutos.</p>
+        <a href="https://wa.me/59898534165?text=Hola%2C%20tengo%20una%20consulta%20sobre%20Movantia" className="button button-primary" target="_blank" rel="noopener">
+          Escribinos por WhatsApp <ArrowRight size={16} />
+        </a>
       </div>
     </motion.div>
   )
