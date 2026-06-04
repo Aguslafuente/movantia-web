@@ -685,7 +685,7 @@ function EnviarDemo() {
 
         {step === 3 && (
           <div className="v2-demo-success">
-            <strong>USD 260 liberado</strong>
+            <strong>$10.400 liberados</strong>
             <span>Entrega confirmada · Maldonado</span>
           </div>
         )}
@@ -762,7 +762,7 @@ function LlevarDemo() {
             </div>
             <div className="v2-demo-route-stat">
               <span>Ingreso est.</span>
-              <strong>USD {[0, 0, 130, 130][step] || 0}</strong>
+              <strong>$ {[0, 0, 5200, 5200][step] || 0}</strong>
             </div>
           </div>
         </div>
@@ -921,7 +921,7 @@ const TESTIMONIALS = [
     company: 'Transportes Río Uruguay',
     role: 'Transportista',
     color: 'green',
-    text: 'Mis retornos desde Rivera eran siempre en vacío. En el primer mes llené 4 viajes de vuelta. Son USD 400 que antes literalmente tiraba.',
+    text: 'Mis retornos desde Rivera eran siempre en vacío. En el primer mes llené 4 viajes de vuelta. Son $16.000 que antes literalmente tiraba.',
     stars: 5,
   },
   {
@@ -1086,7 +1086,7 @@ function RouteCard() {
       </div>
       <div className="revenue-box">
         <p>Ingreso recuperado estimado</p>
-        <strong>USD 130</strong>
+        <strong>$5.200</strong>
         <span>por una vuelta que antes no facturabas</span>
       </div>
     </div>
