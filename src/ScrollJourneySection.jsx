@@ -16,7 +16,7 @@ function mapRange(p, in0, in1, out0, out1) {
 const EVENTS = [
   { Icon: Package,      label: 'Carga publicada',    sub: '8 pallets · Maldonado', col: '#f0a500', start: 0.00, end: 0.10 },
   { Icon: Zap,          label: 'Match detectado',    sub: 'Transportista en ruta',  col: '#a78bfa', start: 0.03, end: 0.16 },
-  { Icon: Lock,         label: 'Pago protegido',     sub: 'USD 130 retenido',      col: '#38bdf8', start: 0.17, end: 0.30 },
+  { Icon: Lock,         label: 'Pago protegido',     sub: '$5.200 retenidos',      col: '#38bdf8', start: 0.17, end: 0.30 },
   { Icon: CheckCircle2, label: 'Entrega confirmada', sub: 'Pago liberado',         col: '#00d68f', start: 0.32, end: 0.46 },
 ]
 
@@ -157,7 +157,7 @@ export default function ScrollJourneySection() {
         >
           <div className="journey-revenue">
             <span>Ingreso generado en este retorno</span>
-            <strong>USD 130</strong>
+            <strong>$5.200</strong>
             <p>Por un viaje que antes no facturabas</p>
           </div>
         </div>
