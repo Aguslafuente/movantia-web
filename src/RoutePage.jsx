@@ -13,7 +13,7 @@ const ROUTES = {
     keywords: 'flete Montevideo Maldonado, transporte Maldonado Montevideo, carga Maldonado',
     tiempoEstimado: '1h 45min',
     distancia: '140 km',
-    precioEstimado: 'USD 90–180',
+    precioEstimado: '$3.600–$7.200',
     retorno: true,
   },
   'fletes-montevideo-rivera': {
@@ -25,7 +25,7 @@ const ROUTES = {
     keywords: 'flete Montevideo Rivera, transporte Rivera Uruguay, carga norte Uruguay',
     tiempoEstimado: '4h 30min',
     distancia: '390 km',
-    precioEstimado: 'USD 200–380',
+    precioEstimado: '$8.000–$15.200',
     retorno: true,
   },
   'fletes-montevideo-paysandu': {
@@ -37,7 +37,7 @@ const ROUTES = {
     keywords: 'flete Montevideo Paysandú, transporte litoral Uruguay, carga Paysandú',
     tiempoEstimado: '3h 30min',
     distancia: '378 km',
-    precioEstimado: 'USD 180–340',
+    precioEstimado: '$7.200–$13.600',
     retorno: true,
   },
   'fletes-montevideo-colonia': {
@@ -49,7 +49,7 @@ const ROUTES = {
     keywords: 'flete Montevideo Colonia, transporte Colonia Sacramento, carga Colonia',
     tiempoEstimado: '2h 30min',
     distancia: '177 km',
-    precioEstimado: 'USD 100–200',
+    precioEstimado: '$4.000–$8.000',
     retorno: true,
   },
   'fletes-montevideo-punta-del-este': {
@@ -61,7 +61,7 @@ const ROUTES = {
     keywords: 'flete Montevideo Punta del Este, transporte Maldonado, carga costa',
     tiempoEstimado: '1h 30min',
     distancia: '139 km',
-    precioEstimado: 'USD 90–170',
+    precioEstimado: '$3.600–$6.800',
     retorno: true,
   },
   'mudanzas-montevideo': {
