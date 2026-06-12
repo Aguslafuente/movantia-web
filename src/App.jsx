@@ -349,86 +349,178 @@ function DevBar() {
   )
 }
 
-/* ── helpers ─────────────────────────────── */
+/* ── design tokens ───────────────────────── */
 const S = {
-  /* layout */
-  page:   { background: '#07090F', minHeight: '100vh', color: '#E8EDF5', fontFamily: "'Space Grotesk', sans-serif" },
-  wrap:   { maxWidth: 1120, margin: '0 auto', padding: '0 24px' },
-  /* text */
-  eyebrow: { color: '#D4A843', fontSize: 11, fontWeight: 700, letterSpacing: '0.12em', textTransform: 'uppercase', margin: '0 0 10px' },
-  h2:      { fontSize: 'clamp(26px, 4vw, 36px)', fontWeight: 800, color: '#E8EDF5', letterSpacing: '-0.025em', margin: '0 0 12px' },
-  muted:   { color: 'rgba(232,237,245,0.55)', fontSize: 15, lineHeight: 1.65 },
-  /* cards */
-  card:    { background: 'rgba(255,255,255,0.04)', border: '1px solid rgba(255,255,255,0.08)', borderRadius: 16, padding: '28px 24px' },
-  /* dividers */
-  divHr:   { borderTop: '1px solid rgba(255,255,255,0.07)' },
+  page:       { background: '#07090F', minHeight: '100vh', color: '#E8EDF5', fontFamily: "'Space Grotesk', sans-serif" },
+  wrap:       { maxWidth: 1120, margin: '0 auto', padding: '0 24px' },
+  eyebrow:    { color: '#D4A843', fontSize: 11, fontWeight: 700, letterSpacing: '0.12em', textTransform: 'uppercase', margin: '0 0 10px' },
+  h2:         { fontSize: 'clamp(26px, 4vw, 36px)', fontWeight: 800, color: '#E8EDF5', letterSpacing: '-0.025em', margin: '0 0 12px' },
+  muted:      { color: 'rgba(232,237,245,0.55)', fontSize: 15, lineHeight: 1.65 },
+  card:       { background: 'rgba(255,255,255,0.04)', border: '1px solid rgba(255,255,255,0.08)', borderRadius: 16, padding: '28px 24px' },
+  divHr:      { borderTop: '1px solid rgba(255,255,255,0.07)' },
   sectionAlt: { background: 'rgba(255,255,255,0.025)', borderTop: '1px solid rgba(255,255,255,0.06)', borderBottom: '1px solid rgba(255,255,255,0.06)' },
 }
 
+/* ── nav anchor link ─────────────────────── */
 function NavLink({ href, children }) {
   return (
-    <a href={href} style={{ color: 'rgba(232,237,245,0.6)', fontSize: 14, fontWeight: 500, padding: '6px 12px', borderRadius: 8, textDecoration: 'none' }}
+    <a href={href} style={{ color: 'rgba(232,237,245,0.6)', fontSize: 14, fontWeight: 500, padding: '6px 12px', borderRadius: 8, textDecoration: 'none', transition: 'color .15s, background .15s' }}
       onMouseEnter={e => { e.currentTarget.style.color = '#E8EDF5'; e.currentTarget.style.background = 'rgba(255,255,255,0.06)' }}
       onMouseLeave={e => { e.currentTarget.style.color = 'rgba(232,237,245,0.6)'; e.currentTarget.style.background = 'transparent' }}
     >{children}</a>
   )
 }
 
-function DemoBtn({ role, label, path, primary }) {
-  function go() {
-    try { localStorage.setItem('dev_role', role) } catch(e) {}
-    window.location.href = path
-  }
-  const styles = primary
-    ? { background: '#D4A843', color: '#07090F', border: 'none' }
-    : { background: 'rgba(255,255,255,0.07)', color: '#E8EDF5', border: '1px solid rgba(255,255,255,0.14)' }
+/* ── customer access button ─────────────── */
+function AccessBtn({ role, path, primary, children }) {
+  function go() { try { localStorage.setItem('dev_role', role) } catch(e) {} window.location.href = path }
   return (
     <button onClick={go} style={{
-      ...styles, display: 'inline-flex', alignItems: 'center', gap: 8,
-      borderRadius: 10, padding: '12px 26px', fontSize: 15, fontWeight: 700,
+      display: 'inline-flex', alignItems: 'center', gap: 8,
+      background: primary ? '#D4A843' : 'rgba(255,255,255,0.07)',
+      color:      primary ? '#07090F' : '#E8EDF5',
+      border:     primary ? 'none'    : '1px solid rgba(255,255,255,0.14)',
+      borderRadius: 10, padding: '13px 28px', fontSize: 15, fontWeight: 700,
       cursor: 'pointer', transition: 'opacity .15s',
     }}
-    onMouseEnter={e => e.currentTarget.style.opacity = '.82'}
+    onMouseEnter={e => e.currentTarget.style.opacity = '.85'}
     onMouseLeave={e => e.currentTarget.style.opacity = '1'}
-    >{label}</button>
+    >{children}</button>
   )
 }
 
+/* ── admin password modal ────────────────── */
+const ADMIN_PW = 'agustin10'
+
+function AdminModal({ onClose }) {
+  const [pw, setPw] = useState('')
+  const [err, setErr] = useState(false)
+  const inputRef = useRef(null)
+  useEffect(() => { setTimeout(() => inputRef.current?.focus(), 60) }, [])
+
+  function attempt() {
+    if (pw === ADMIN_PW) {
+      try { localStorage.setItem('dev_role', 'admin') } catch(e) {}
+      window.location.href = '/admin'
+    } else {
+      setErr(true)
+      setPw('')
+      setTimeout(() => { setErr(false); inputRef.current?.focus() }, 1400)
+    }
+  }
+
+  return (
+    <div
+      onClick={e => { if (e.target === e.currentTarget) onClose() }}
+      style={{
+        position: 'fixed', inset: 0, zIndex: 200,
+        background: 'rgba(0,0,0,0.72)', backdropFilter: 'blur(8px)',
+        display: 'flex', alignItems: 'center', justifyContent: 'center', padding: 24,
+      }}
+    >
+      <div style={{
+        background: '#131720', border: '1px solid rgba(255,255,255,0.12)',
+        borderRadius: 18, padding: '36px 32px', width: 340, maxWidth: '100%',
+        boxShadow: '0 32px 64px rgba(0,0,0,0.6)',
+      }}>
+        <div style={{ textAlign: 'center', marginBottom: 28 }}>
+          <div style={{
+            width: 52, height: 52, borderRadius: 14, background: 'rgba(212,168,67,0.1)',
+            border: '1px solid rgba(212,168,67,0.25)', display: 'flex',
+            alignItems: 'center', justifyContent: 'center', margin: '0 auto 16px',
+          }}>
+            <ShieldCheck size={24} style={{ color: '#D4A843' }} />
+          </div>
+          <h3 style={{ fontSize: 20, fontWeight: 800, color: '#E8EDF5', margin: '0 0 6px', letterSpacing: '-0.02em' }}>Acceso Administrador</h3>
+          <p style={{ ...S.muted, fontSize: 13, margin: 0 }}>Ingresá la contraseña para continuar</p>
+        </div>
+
+        <input
+          ref={inputRef}
+          type="password"
+          value={pw}
+          placeholder="Contraseña"
+          onChange={e => { setPw(e.target.value); setErr(false) }}
+          onKeyDown={e => e.key === 'Enter' && attempt()}
+          style={{
+            width: '100%', boxSizing: 'border-box',
+            background: 'rgba(255,255,255,0.06)',
+            border: `1.5px solid ${err ? '#ef4444' : 'rgba(255,255,255,0.12)'}`,
+            borderRadius: 9, padding: '12px 15px', fontSize: 15,
+            color: '#E8EDF5', outline: 'none', marginBottom: 8,
+            fontFamily: "'Space Grotesk', sans-serif",
+            transition: 'border-color .2s',
+          }}
+        />
+        {err && (
+          <p style={{ color: '#ef4444', fontSize: 12, margin: '0 0 10px', textAlign: 'center', fontWeight: 600 }}>
+            Contraseña incorrecta
+          </p>
+        )}
+
+        <button onClick={attempt} style={{
+          width: '100%', marginTop: err ? 0 : 8,
+          background: '#D4A843', color: '#07090F', border: 'none',
+          borderRadius: 9, padding: '12px', fontSize: 15, fontWeight: 800,
+          cursor: 'pointer', transition: 'opacity .15s', marginBottom: 8,
+        }}
+        onMouseEnter={e => e.currentTarget.style.opacity = '.88'}
+        onMouseLeave={e => e.currentTarget.style.opacity = '1'}
+        >Entrar</button>
+
+        <button onClick={onClose} style={{
+          width: '100%', background: 'transparent',
+          color: 'rgba(232,237,245,0.4)', border: 'none',
+          borderRadius: 9, padding: '9px', fontSize: 13,
+          cursor: 'pointer', transition: 'color .15s',
+        }}
+        onMouseEnter={e => e.currentTarget.style.color = 'rgba(232,237,245,0.7)'}
+        onMouseLeave={e => e.currentTarget.style.color = 'rgba(232,237,245,0.4)'}
+        >Cancelar</button>
+      </div>
+    </div>
+  )
+}
+
+/* ── main landing page ───────────────────── */
 function MainPage() {
+  const [adminModal, setAdminModal] = useState(false)
+
   return (
     <div style={S.page}>
-      <DevBar />
+      {adminModal && <AdminModal onClose={() => setAdminModal(false)} />}
 
       {/* ── NAVBAR ─────────────────────────────── */}
       <header style={{
         position: 'sticky', top: 0, zIndex: 100,
-        background: 'rgba(7,9,15,0.93)', backdropFilter: 'blur(14px)',
+        background: 'rgba(7,9,15,0.94)', backdropFilter: 'blur(14px)',
         borderBottom: '1px solid rgba(255,255,255,0.07)',
       }}>
-        <div style={{ ...S.wrap, display: 'flex', alignItems: 'center', height: 58, gap: 8 }}>
-          <a href="/" style={{ display: 'flex', alignItems: 'center', gap: 10, textDecoration: 'none', flexShrink: 0, marginRight: 16 }}>
+        <div style={{ ...S.wrap, display: 'flex', alignItems: 'center', height: 60, gap: 4 }}>
+          {/* logo */}
+          <a href="/" style={{ display: 'flex', alignItems: 'center', gap: 10, textDecoration: 'none', flexShrink: 0, marginRight: 20 }}>
             <span style={{ width: 30, height: 30, display: 'flex' }}><BrandMark /></span>
             <span style={{ fontWeight: 800, fontSize: 17, color: '#E8EDF5', letterSpacing: '-0.02em' }}>Movantia</span>
           </a>
 
+          {/* anchor nav */}
           <nav style={{ display: 'flex', gap: 2, flex: 1 }}>
-            <NavLink href="/admin">Métricas</NavLink>
-            <NavLink href="/admin/companies">Empresas</NavLink>
-            <NavLink href="/admin/trips">Vueltas</NavLink>
-            <NavLink href="/admin/bookings">Reservas</NavLink>
-            <NavLink href="/admin/incidents">Incidencias</NavLink>
+            <NavLink href="#como-funciona">Cómo funciona</NavLink>
+            <NavLink href="#numeros">Precios</NavLink>
+            <NavLink href="#beneficios">Beneficios</NavLink>
+            <NavLink href="#demo">Probalo gratis</NavLink>
           </nav>
 
-          <button onClick={() => { try { localStorage.setItem('dev_role', 'admin') } catch(e) {} window.location.href = '/admin' }}
-            style={{
-              display: 'flex', alignItems: 'center', gap: 6,
-              background: 'rgba(212,168,67,0.1)', border: '1px solid rgba(212,168,67,0.28)',
-              color: '#D4A843', borderRadius: 8, padding: '7px 16px',
-              fontSize: 13, fontWeight: 700, cursor: 'pointer', flexShrink: 0,
-              transition: 'background .15s',
-            }}
-            onMouseEnter={e => e.currentTarget.style.background = 'rgba(212,168,67,0.18)'}
-            onMouseLeave={e => e.currentTarget.style.background = 'rgba(212,168,67,0.1)'}
+          {/* admin (hidden for customers) */}
+          <button onClick={() => setAdminModal(true)} style={{
+            display: 'flex', alignItems: 'center', gap: 6,
+            background: 'rgba(255,255,255,0.04)', border: '1px solid rgba(255,255,255,0.1)',
+            color: 'rgba(232,237,245,0.45)', borderRadius: 8, padding: '7px 14px',
+            fontSize: 13, fontWeight: 600, cursor: 'pointer', flexShrink: 0,
+            transition: 'color .15s, background .15s',
+          }}
+          onMouseEnter={e => { e.currentTarget.style.background = 'rgba(212,168,67,0.1)'; e.currentTarget.style.color = '#D4A843'; e.currentTarget.style.borderColor = 'rgba(212,168,67,0.25)' }}
+          onMouseLeave={e => { e.currentTarget.style.background = 'rgba(255,255,255,0.04)'; e.currentTarget.style.color = 'rgba(232,237,245,0.45)'; e.currentTarget.style.borderColor = 'rgba(255,255,255,0.1)' }}
           >
             <ShieldCheck size={14} /> Admin
           </button>
@@ -437,77 +529,87 @@ function MainPage() {
 
       <main>
         {/* ── HERO ─────────────────────────────────── */}
-        <section style={{ textAlign: 'center', padding: 'clamp(56px,8vw,96px) 24px clamp(48px,6vw,80px)' }}>
-          <div style={{ maxWidth: 660, margin: '0 auto' }}>
+        <section style={{ textAlign: 'center', padding: 'clamp(64px,9vw,108px) 24px clamp(56px,7vw,88px)' }}>
+          <div style={{ maxWidth: 680, margin: '0 auto' }}>
             {/* badge */}
             <div style={{
-              display: 'inline-flex', alignItems: 'center', gap: 8,
-              background: 'rgba(212,168,67,0.1)', border: '1px solid rgba(212,168,67,0.28)',
-              color: '#D4A843', borderRadius: 20, padding: '5px 16px',
-              fontSize: 12, fontWeight: 700, letterSpacing: '0.03em', marginBottom: 36,
+              display: 'inline-flex', alignItems: 'center', gap: 8, marginBottom: 36,
+              background: 'rgba(0,214,143,0.08)', border: '1px solid rgba(0,214,143,0.22)',
+              color: '#00D68F', borderRadius: 20, padding: '5px 16px',
+              fontSize: 12, fontWeight: 700, letterSpacing: '0.04em',
             }}>
-              <span style={{ width: 7, height: 7, background: '#D4A843', borderRadius: '50%' }} />
-              MVP funcional · datos demo precargados
+              <span style={{ width: 7, height: 7, background: '#00D68F', borderRadius: '50%' }} />
+              Plataforma 100% gratuita para empezar · sin tarjeta
             </div>
 
             {/* heading */}
             <h1 style={{
-              fontSize: 'clamp(44px,7vw,76px)', fontWeight: 900,
-              lineHeight: 1.08, letterSpacing: '-0.035em',
-              color: '#E8EDF5', margin: '0 0 24px',
+              fontSize: 'clamp(46px,7vw,80px)', fontWeight: 900,
+              lineHeight: 1.06, letterSpacing: '-0.038em',
+              color: '#E8EDF5', margin: '0 0 26px',
             }}>
               Volvés vacío.<br />
               <span style={{ color: '#D4A843' }}>Vendé ese espacio.</span>
             </h1>
 
             {/* subtitle */}
-            <p style={{ ...S.muted, fontSize: 18, maxWidth: 500, margin: '0 auto 40px' }}>
-              Marketplace de cargas para retornos vacíos en Uruguay. Las empresas de transporte
-              publican su espacio libre; los consumidores reservan m³ por su ruta.
+            <p style={{ ...S.muted, fontSize: 18, maxWidth: 520, margin: '0 auto 44px' }}>
+              Conectamos empresas de transporte con carga disponible en su ruta de retorno.
+              Más ingresos para el transportista, precios justos para el cliente.
             </p>
 
-            {/* CTAs */}
-            <div style={{ display: 'flex', gap: 12, justifyContent: 'center', flexWrap: 'wrap', marginBottom: 20 }}>
-              <DemoBtn role="transporter" label={<><Truck size={16} /> Soy transportista</>} path="/app/transporter" primary />
-              <DemoBtn role="consumer" label={<><Package size={16} /> Quiero enviar carga</>} path="/app/send" />
+            {/* primary CTAs */}
+            <div style={{ display: 'flex', gap: 14, justifyContent: 'center', flexWrap: 'wrap', marginBottom: 22 }}>
+              <AccessBtn role="transporter" path="/app/transporter" primary>
+                <Truck size={17} /> Soy transportista
+              </AccessBtn>
+              <AccessBtn role="consumer" path="/app/send">
+                <Package size={17} /> Quiero enviar carga
+              </AccessBtn>
             </div>
 
-            <a href="/app/auth/login" style={{ color: 'rgba(232,237,245,0.38)', fontSize: 13, textDecoration: 'none' }}
-              onMouseEnter={e => e.currentTarget.style.color = 'rgba(232,237,245,0.65)'}
-              onMouseLeave={e => e.currentTarget.style.color = 'rgba(232,237,245,0.38)'}
-            >o iniciar sesión / cambiar de perfil</a>
+            <p style={{ color: 'rgba(232,237,245,0.3)', fontSize: 13, margin: 0 }}>
+              Acceso inmediato · datos de prueba precargados · sin registro
+            </p>
           </div>
         </section>
 
         {/* ── CÓMO FUNCIONA ──────────────────────── */}
-        <section style={{ ...S.sectionAlt, padding: 'clamp(48px,6vw,80px) 24px' }}>
+        <section id="como-funciona" style={{ ...S.sectionAlt, padding: 'clamp(56px,7vw,88px) 24px' }}>
           <div style={S.wrap}>
-            <div style={{ textAlign: 'center', marginBottom: 48 }}>
-              <p style={S.eyebrow}>Proceso</p>
-              <h2 style={S.h2}>Cómo funciona</h2>
+            <div style={{ textAlign: 'center', marginBottom: 52 }}>
+              <p style={S.eyebrow}>El proceso</p>
+              <h2 style={S.h2}>Cómo funciona Movantia</h2>
+              <p style={{ ...S.muted, maxWidth: 460, margin: '0 auto' }}>
+                Tres pasos simples separan un camión vacío de un ingreso extra.
+              </p>
             </div>
-            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit,minmax(260px,1fr))', gap: 20 }}>
+            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit,minmax(270px,1fr))', gap: 20 }}>
               {[
                 {
-                  num: '01', icon: <Truck size={26} />,
-                  title: 'Empresa publica su vuelta vacía',
-                  desc: 'La empresa ingresa su ruta de retorno, fecha, espacio disponible en m³ y tipo de vehículo. Tarda 2 minutos.',
+                  num: '01', icon: <Truck size={26} />, color: '#D4A843',
+                  title: 'Publicás tu vuelta vacía',
+                  desc: 'Ingresás tu ruta de retorno, la fecha, el espacio libre en m³ y el tipo de vehículo. En 2 minutos tu vuelta está visible para potenciales clientes.',
                 },
                 {
-                  num: '02', icon: <Package size={26} />,
-                  title: 'Consumidor reserva m³',
-                  desc: 'El cliente busca vueltas disponibles en su zona, elige la que le conviene y reserva el espacio que necesita pagando USD 50/m³.',
+                  num: '02', icon: <Package size={26} />, color: '#00D68F',
+                  title: 'Un cliente reserva espacio',
+                  desc: 'El consumidor busca vueltas disponibles en su zona, ve las opciones y reserva los m³ que necesita. El pago queda protegido hasta la entrega.',
                 },
                 {
-                  num: '03', icon: <ShieldCheck size={26} />,
-                  title: 'PIN de retiro y entrega',
-                  desc: 'Al retirar y entregar la carga se confirma con un PIN de 4 dígitos. El pago se libera automáticamente al transportista.',
+                  num: '03', icon: <ShieldCheck size={26} />, color: '#a78bfa',
+                  title: 'PIN confirma, vos cobrás',
+                  desc: 'Al retirar y entregar la carga se usa un PIN de 4 dígitos. La confirmación es instantánea y el pago se libera automáticamente a tu cuenta.',
                 },
               ].map((step, i) => (
-                <div key={i} style={S.card}>
-                  <div style={{ display: 'flex', alignItems: 'center', gap: 10, marginBottom: 18 }}>
-                    <span style={{ fontWeight: 800, fontSize: 12, color: 'rgba(212,168,67,0.55)', letterSpacing: '0.06em' }}>{step.num}</span>
-                    <span style={{ color: '#D4A843' }}>{step.icon}</span>
+                <div key={i} style={{ ...S.card, position: 'relative', overflow: 'hidden' }}>
+                  <div style={{
+                    position: 'absolute', top: 0, left: 0, right: 0, height: 3,
+                    background: `linear-gradient(90deg, ${step.color}60, transparent)`,
+                  }} />
+                  <div style={{ display: 'flex', alignItems: 'center', gap: 10, marginBottom: 20 }}>
+                    <span style={{ fontWeight: 900, fontSize: 13, color: `${step.color}60`, letterSpacing: '0.06em' }}>{step.num}</span>
+                    <span style={{ color: step.color }}>{step.icon}</span>
                   </div>
                   <h3 style={{ fontSize: 16, fontWeight: 700, color: '#E8EDF5', margin: '0 0 10px', letterSpacing: '-0.01em' }}>{step.title}</h3>
                   <p style={{ ...S.muted, fontSize: 14, margin: 0 }}>{step.desc}</p>
@@ -517,106 +619,148 @@ function MainPage() {
           </div>
         </section>
 
-        {/* ── EJEMPLO ECONÓMICO ──────────────────── */}
-        <section style={{ padding: 'clamp(48px,6vw,80px) 24px' }}>
+        {/* ── NÚMEROS / EJEMPLO ECONÓMICO ─────────── */}
+        <section id="numeros" style={{ padding: 'clamp(56px,7vw,88px) 24px' }}>
           <div style={S.wrap}>
-            <div style={{ textAlign: 'center', marginBottom: 48 }}>
-              <p style={S.eyebrow}>Transparencia</p>
-              <h2 style={S.h2}>Ejemplo económico</h2>
-              <p style={{ ...S.muted, margin: '6px auto 0', maxWidth: 400 }}>USD 50 por m³ · Comisión 20% · Mínimo USD 15</p>
+            <div style={{ textAlign: 'center', marginBottom: 52 }}>
+              <p style={S.eyebrow}>Los números</p>
+              <h2 style={S.h2}>¿Cuánto podés ganar?</h2>
+              <p style={{ ...S.muted, maxWidth: 440, margin: '0 auto' }}>
+                Precio de referencia USD 50/m³ · Comisión plataforma 20% · Mínimo USD 15
+              </p>
             </div>
 
             <div style={{
               background: 'rgba(255,255,255,0.03)', border: '1px solid rgba(255,255,255,0.08)',
-              borderRadius: 20, maxWidth: 760, margin: '0 auto', overflow: 'hidden',
+              borderRadius: 20, maxWidth: 780, margin: '0 auto', overflow: 'hidden',
             }}>
               <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3,1fr)' }}>
                 {[
-                  { label: 'Cliente paga',          amount: 'USD 100', sub: '2 m³ × USD 50/m³',   hl: false, color: '#E8EDF5' },
-                  { label: 'Comisión 20%',           amount: 'USD 20',  sub: 'Plataforma Movantia', hl: false, color: 'rgba(212,168,67,0.9)' },
-                  { label: 'Transportista recibe',   amount: 'USD 80',  sub: '80% del cobro',       hl: true,  color: '#00D68F' },
+                  { label: 'El cliente paga',         num: 'USD 100', sub: '2 m³ × USD 50/m³',    hl: false, color: '#E8EDF5'          },
+                  { label: 'Comisión Movantia',        num: 'USD 20',  sub: 'Solo 20% de comisión', hl: false, color: 'rgba(212,168,67,0.85)' },
+                  { label: 'Vos recibís',              num: 'USD 80',  sub: '80% neto garantizado', hl: true,  color: '#00D68F'          },
                 ].map((item, i) => (
                   <div key={i} style={{
-                    textAlign: 'center', padding: 'clamp(20px,3vw,36px) 16px',
-                    background: item.hl ? 'rgba(0,214,143,0.06)' : 'transparent',
+                    textAlign: 'center',
+                    padding: 'clamp(24px,3.5vw,40px) 16px',
+                    background: item.hl ? 'rgba(0,214,143,0.07)' : 'transparent',
                     borderLeft: i > 0 ? '1px solid rgba(255,255,255,0.07)' : 'none',
                   }}>
-                    <p style={{ fontSize: 11, fontWeight: 700, color: 'rgba(232,237,245,0.45)', textTransform: 'uppercase', letterSpacing: '0.08em', margin: '0 0 14px' }}>{item.label}</p>
-                    <p style={{ fontSize: 'clamp(28px,4vw,42px)', fontWeight: 900, color: item.color, letterSpacing: '-0.04em', margin: '0 0 6px' }}>{item.amount}</p>
-                    <p style={{ fontSize: 13, color: 'rgba(232,237,245,0.4)', margin: 0 }}>{item.sub}</p>
+                    <p style={{ fontSize: 11, fontWeight: 700, color: 'rgba(232,237,245,0.4)', textTransform: 'uppercase', letterSpacing: '0.09em', margin: '0 0 16px' }}>{item.label}</p>
+                    <p style={{ fontSize: 'clamp(30px,4.5vw,46px)', fontWeight: 900, color: item.color, letterSpacing: '-0.04em', margin: '0 0 6px' }}>{item.num}</p>
+                    <p style={{ fontSize: 13, color: 'rgba(232,237,245,0.38)', margin: item.hl ? '0 0 14px' : 0 }}>{item.sub}</p>
                     {item.hl && (
                       <span style={{
-                        display: 'inline-block', marginTop: 14,
-                        background: 'rgba(0,214,143,0.12)', border: '1px solid rgba(0,214,143,0.28)',
-                        borderRadius: 6, padding: '3px 10px', fontSize: 11, fontWeight: 700, color: '#00D68F',
-                      }}>Pago garantizado</span>
+                        display: 'inline-block',
+                        background: 'rgba(0,214,143,0.13)', border: '1px solid rgba(0,214,143,0.3)',
+                        borderRadius: 6, padding: '4px 11px', fontSize: 11, fontWeight: 700, color: '#00D68F',
+                      }}>✓ Pago protegido</span>
                     )}
                   </div>
                 ))}
               </div>
             </div>
+
+            {/* mini note */}
+            <p style={{ ...S.muted, textAlign: 'center', fontSize: 13, marginTop: 20 }}>
+              Solo pagás comisión cuando hay entrega confirmada. Si el viaje no se concreta, no hay costo.
+            </p>
           </div>
         </section>
 
         {/* ── BENEFICIOS ─────────────────────────── */}
-        <section style={{ ...S.sectionAlt, padding: 'clamp(48px,6vw,80px) 24px' }}>
-          <div style={{ ...S.wrap, display: 'grid', gridTemplateColumns: 'repeat(auto-fit,minmax(280px,1fr))', gap: 48 }}>
-            {[
-              {
-                icon: <Truck size={22} />, title: 'Para empresas',
-                items: ['No cambiás tu operativa','Vendés capacidad ociosa','Cobrás el 80% por m³','Reglas claras: sin desvíos forzados','Aceptación automática opcional'],
-              },
-              {
-                icon: <Package size={22} />, title: 'Para consumidores',
-                items: ['Enviás sin contratar flete completo','Precio por m³ transparente','Solo vueltas que pasan por tu zona','PIN de retiro y entrega','Seguimiento de estado'],
-              },
-            ].map((col, i) => (
-              <div key={i}>
-                <div style={{ display: 'flex', alignItems: 'center', gap: 10, marginBottom: 24 }}>
-                  <span style={{ color: '#D4A843' }}>{col.icon}</span>
-                  <h3 style={{ fontSize: 18, fontWeight: 800, color: '#E8EDF5', margin: 0, letterSpacing: '-0.015em' }}>{col.title}</h3>
+        <section id="beneficios" style={{ ...S.sectionAlt, padding: 'clamp(56px,7vw,88px) 24px' }}>
+          <div style={{ ...S.wrap }}>
+            <div style={{ textAlign: 'center', marginBottom: 52 }}>
+              <p style={S.eyebrow}>Para quién es</p>
+              <h2 style={S.h2}>Diseñado para dos lados del viaje</h2>
+            </div>
+            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit,minmax(280px,1fr))', gap: 32 }}>
+              {[
+                {
+                  icon: <Truck size={24} />, color: '#D4A843',
+                  title: 'Para empresas de transporte',
+                  badge: '🚚 Transportistas',
+                  items: [
+                    'No cambiás tu ruta ni tu operativa',
+                    'Convertís un retorno vacío en ingreso real',
+                    'Cobrás el 80% neto por m³ vendido',
+                    'Sin desvíos: solo cargas en tu ruta exacta',
+                    'Aceptación automática o manual, vos decidís',
+                  ],
+                },
+                {
+                  icon: <Package size={24} />, color: '#00D68F',
+                  title: 'Para consumidores y empresas que envían',
+                  badge: '📦 Consumidores',
+                  items: [
+                    'No pagás un flete completo si no lo necesitás',
+                    'Precio por m³ claro desde el inicio',
+                    'Solo ves vueltas que pasan por tu zona',
+                    'Retiro y entrega confirmados con PIN',
+                    'Seguimiento en tiempo real del estado',
+                  ],
+                },
+              ].map((col, i) => (
+                <div key={i} style={{ ...S.card }}>
+                  <div style={{ display: 'flex', alignItems: 'center', gap: 10, marginBottom: 6 }}>
+                    <span style={{ color: col.color }}>{col.icon}</span>
+                    <span style={{
+                      background: `${col.color}15`, border: `1px solid ${col.color}30`,
+                      color: col.color, borderRadius: 20, padding: '3px 10px',
+                      fontSize: 11, fontWeight: 700,
+                    }}>{col.badge}</span>
+                  </div>
+                  <h3 style={{ fontSize: 17, fontWeight: 700, color: '#E8EDF5', margin: '14px 0 18px', letterSpacing: '-0.015em' }}>{col.title}</h3>
+                  <ul style={{ listStyle: 'none', padding: 0, margin: 0, display: 'flex', flexDirection: 'column', gap: 12 }}>
+                    {col.items.map((item, j) => (
+                      <li key={j} style={{ display: 'flex', alignItems: 'flex-start', gap: 10, color: 'rgba(232,237,245,0.78)', fontSize: 14, lineHeight: 1.5 }}>
+                        <CheckCircle2 size={15} style={{ color: col.color, flexShrink: 0, marginTop: 2 }} />
+                        {item}
+                      </li>
+                    ))}
+                  </ul>
                 </div>
-                <ul style={{ listStyle: 'none', padding: 0, margin: 0, display: 'flex', flexDirection: 'column', gap: 13 }}>
-                  {col.items.map((item, j) => (
-                    <li key={j} style={{ display: 'flex', alignItems: 'flex-start', gap: 10, color: 'rgba(232,237,245,0.8)', fontSize: 15, lineHeight: 1.5 }}>
-                      <CheckCircle2 size={16} style={{ color: '#00D68F', flexShrink: 0, marginTop: 2 }} />
-                      {item}
-                    </li>
-                  ))}
-                </ul>
-              </div>
-            ))}
+              ))}
+            </div>
           </div>
         </section>
 
-        {/* ── PROBÁ EL MVP ───────────────────────── */}
-        <section style={{ padding: 'clamp(64px,8vw,100px) 24px', textAlign: 'center' }}>
-          <div style={{ maxWidth: 560, margin: '0 auto' }}>
-            <h2 style={{ ...S.h2, fontSize: 'clamp(30px,5vw,46px)', marginBottom: 14 }}>Probá el MVP ahora</h2>
-            <p style={{ ...S.muted, marginBottom: 40 }}>
-              Datos demo listos. Ingresá como empresa, consumidor o administrador.
+        {/* ── PROBÁ AHORA ────────────────────────── */}
+        <section id="demo" style={{ padding: 'clamp(72px,9vw,108px) 24px', textAlign: 'center' }}>
+          <div style={{ maxWidth: 580, margin: '0 auto' }}>
+            <p style={S.eyebrow}>Sin registro, sin tarjeta</p>
+            <h2 style={{ ...S.h2, fontSize: 'clamp(32px,5vw,50px)', marginBottom: 16 }}>
+              Probalo ahora mismo
+            </h2>
+            <p style={{ ...S.muted, marginBottom: 44 }}>
+              Datos de demo precargados. Explorá la plataforma completa como empresa
+              de transporte o como consumidor, sin crear cuenta.
             </p>
-            <div style={{ display: 'flex', gap: 12, justifyContent: 'center', flexWrap: 'wrap' }}>
-              <DemoBtn role="transporter" label={<><Truck size={15}/> Empresa</>}    path="/app/transporter" primary />
-              <DemoBtn role="consumer"    label={<><Package size={15}/> Consumidor</>} path="/app/send" />
-              <button onClick={() => { try { localStorage.setItem('dev_role','admin') } catch(e){} window.location.href='/admin' }}
-                style={{
-                  display:'inline-flex', alignItems:'center', gap:8,
-                  background:'transparent', color:'rgba(232,237,245,0.55)',
-                  border:'1px solid rgba(255,255,255,0.12)',
-                  borderRadius:10, padding:'12px 26px', fontSize:15, fontWeight:600,
-                  cursor:'pointer', transition:'opacity .15s',
-                }}
-                onMouseEnter={e => e.currentTarget.style.opacity = '.75'}
-                onMouseLeave={e => e.currentTarget.style.opacity = '1'}
-              ><ShieldCheck size={15}/> Admin</button>
+            <div style={{ display: 'flex', gap: 14, justifyContent: 'center', flexWrap: 'wrap' }}>
+              <AccessBtn role="transporter" path="/app/transporter" primary>
+                <Truck size={16} /> Entrar como empresa
+              </AccessBtn>
+              <AccessBtn role="consumer" path="/app/send">
+                <Package size={16} /> Entrar como consumidor
+              </AccessBtn>
+              <button onClick={() => setAdminModal(true)} style={{
+                display: 'inline-flex', alignItems: 'center', gap: 8,
+                background: 'transparent', color: 'rgba(232,237,245,0.4)',
+                border: '1px solid rgba(255,255,255,0.1)',
+                borderRadius: 10, padding: '13px 24px', fontSize: 14, fontWeight: 600,
+                cursor: 'pointer', transition: 'opacity .15s',
+              }}
+              onMouseEnter={e => e.currentTarget.style.opacity = '.7'}
+              onMouseLeave={e => e.currentTarget.style.opacity = '1'}
+              ><ShieldCheck size={14} /> Admin</button>
             </div>
           </div>
         </section>
       </main>
 
       {/* ── FOOTER ─────────────────────────────── */}
-      <footer style={{ ...S.divHr, padding: '28px 24px', textAlign: 'center', color: 'rgba(232,237,245,0.28)', fontSize: 13 }}>
+      <footer style={{ ...S.divHr, padding: '28px 24px', textAlign: 'center', color: 'rgba(232,237,245,0.25)', fontSize: 13 }}>
         2026 Movantia · Fill Empty Miles · Uruguay
       </footer>
     </div>
