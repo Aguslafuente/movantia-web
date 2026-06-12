@@ -367,13 +367,16 @@ function NavLink({ href, children }) {
     if (href.startsWith('#')) {
       e.preventDefault()
       const id = href.slice(1)
-      const el = document.getElementById(id)
-      if (el) {
-        const offset = 68 // sticky header height
-        const top = el.getBoundingClientRect().top + window.scrollY - offset
-        window.scrollTo({ top, behavior: 'smooth' })
-        window.history.pushState(null, '', href)
-      }
+      window.history.pushState(null, '', href)
+      // Use setTimeout so React Router re-render finishes before we scroll
+      setTimeout(() => {
+        const el = document.getElementById(id)
+        if (el) {
+          const offset = 68 // sticky header height
+          const top = el.getBoundingClientRect().top + window.scrollY - offset
+          window.scrollTo({ top, behavior: 'smooth' })
+        }
+      }, 0)
     }
   }
   return (
