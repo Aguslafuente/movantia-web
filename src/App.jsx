@@ -1,5 +1,5 @@
 import React, { useRef, useState, useEffect } from 'react'
-import { Routes, Route as RRoute, useParams, useNavigate } from 'react-router-dom'
+import { Routes, Route as RRoute, useParams } from 'react-router-dom'
 import { motion, AnimatePresence } from 'motion/react'
 import RoutePage from './RoutePage.jsx'
 
@@ -308,14 +308,11 @@ export default function App() {
 }
 
 function DevBar() {
-  const { devLogin } = useAuth()
-  const navigate = useNavigate()
-
+  // No hooks — usa localStorage directo para evitar crashes de contexto
   function enter(role) {
-    devLogin(role)
-    if (role === 'transporter') navigate('/app/transporter')
-    else if (role === 'consumer') navigate('/app/send')
-    else if (role === 'admin') navigate('/admin')
+    try { localStorage.setItem('dev_role', role) } catch (e) {}
+    const paths = { transporter: '/app/transporter', consumer: '/app/send', admin: '/admin' }
+    window.location.href = paths[role]
   }
 
   return (
@@ -350,7 +347,6 @@ function DevBar() {
             fontWeight: 600,
             cursor: 'pointer',
             fontFamily: 'Space Grotesk, sans-serif',
-            transition: 'background 0.15s',
           }}
           onMouseEnter={e => e.currentTarget.style.background = `${color}18`}
           onMouseLeave={e => e.currentTarget.style.background = 'transparent'}
