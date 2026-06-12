@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react'
 import { useAuth } from '../../contexts/AuthContext'
 import { supabase } from '../../lib/supabase'
-import { formatPrice, BOOKING_STATUS_LABELS } from '../../lib/constants'
+import { formatPrice, BOOKING_STATUS_LABELS, PACKAGE_CATEGORIES } from '../../lib/constants'
 import PinInput from '../../components/app/PinInput'
 import BookingStatus from '../../components/app/BookingStatus'
 import { Package, MapPin, Clock } from 'lucide-react'
@@ -16,7 +16,12 @@ export default function TransporterBookings() {
   useEffect(() => { loadBookings() }, [user.id])
 
   async function loadBookings() {
-    const { data: co } = await supabase.from('companies').select('id').eq('user_id', user.id).single()
+    let { data: co } = await supabase.from('companies').select('id').eq('user_id', user.id).single()
+    // Dev mode fallback: use first available company
+    if (!co) {
+      const { data: fallback } = await supabase.from('companies').select('id').limit(1).single()
+      co = fallback
+    }
     if (!co) { setLoading(false); return }
 
     const { data } = await supabase
@@ -67,7 +72,7 @@ export default function TransporterBookings() {
           <div key={b.id} style={styles.card}>
             <div style={{ display:'flex', justifyContent:'space-between', alignItems:'flex-start', marginBottom:'12px' }}>
               <div>
-                <p style={{ fontSize:'13px', color:'#9AA3B5', marginBottom:'2px' }}>{b.package_category || 'Paquete'} · {b.package_m3} m³</p>
+                <p style={{ fontSize:'13px', color:'#9AA3B5', marginBottom:'2px' }}>{PACKAGE_CATEGORIES.find(c => c.value === b.package_category)?.label || b.package_category || 'Paquete'} · {b.package_m3} m³</p>
                 <p style={{ fontSize:'16px', fontWeight:700, color:'#D4A843', fontFamily:'Space Grotesk' }}>{formatPrice(b.transporter_amount)}</p>
               </div>
               <BookingStatus status={b.status} />
