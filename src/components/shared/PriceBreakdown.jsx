@@ -13,10 +13,10 @@ export default function PriceBreakdown({ total, fee, payout, volumeM3, compact =
     <div style={{ background: '#0D1018', border: '1px solid rgba(255,255,255,0.07)', borderRadius: '12px', padding: '16px' }}>
       <p style={{ fontSize: '12px', color: '#9AA3B5', fontWeight: 600, marginBottom: '12px' }}>DESGLOSE DE PRECIO</p>
       {volumeM3 != null && (
-        <Row label={`${volumeM3} m³ × USD ${BUSINESS_RULES.PRICE_PER_M3}/m³`} value={formatPrice(volumeM3 * BUSINESS_RULES.PRICE_PER_M3)} sub />
+        <Row label={`${volumeM3} m³ × ${formatPrice(BUSINESS_RULES.PRICE_PER_M3)}/m³`} value={formatPrice(volumeM3 * BUSINESS_RULES.PRICE_PER_M3)} sub />
       )}
       {volumeM3 != null && total > volumeM3 * BUSINESS_RULES.PRICE_PER_M3 && (
-        <Row label="Mínimo aplicado" value={`USD ${BUSINESS_RULES.MIN_ORDER_PRICE}`} sub />
+        <Row label="Mínimo aplicado" value={formatPrice(BUSINESS_RULES.MIN_ORDER_PRICE)} sub />
       )}
       <div style={{ borderTop: '1px solid rgba(255,255,255,0.06)', margin: '8px 0' }} />
       <Row label="Total cliente paga" value={formatPrice(total)} color="#D4A843" bold />
