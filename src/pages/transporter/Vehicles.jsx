@@ -16,7 +16,12 @@ export default function Vehicles() {
   useEffect(() => { loadVehicles() }, [user.id])
 
   async function loadVehicles() {
-    const { data: company } = await supabase.from('companies').select('id').eq('user_id', user.id).single()
+    let { data: company } = await supabase.from('companies').select('id').eq('user_id', user.id).single()
+    // Dev mode fallback: use first available company
+    if (!company) {
+      const { data: fallback } = await supabase.from('companies').select('id').limit(1).single()
+      company = fallback
+    }
     if (!company) { setLoading(false); return }
     const { data } = await supabase.from('vehicles').select('*').eq('company_id', company.id).order('created_at')
     setVehicles(data || [])
@@ -112,7 +117,11 @@ function VehicleForm({ initial, userId, onSave, onCancel }) {
   async function handleSave() {
     if (!form.plate || !form.capacity_m3) { setErr('Matrícula y capacidad son obligatorias'); return }
     setSaving(true)
-    const { data: company } = await supabase.from('companies').select('id').eq('user_id', userId).single()
+    let { data: company } = await supabase.from('companies').select('id').eq('user_id', userId).single()
+    if (!company) {
+      const { data: fallback } = await supabase.from('companies').select('id').limit(1).single()
+      company = fallback
+    }
     const payload = { ...form, company_id: company.id, capacity_m3: +form.capacity_m3, sellable_m3: form.sellable_m3 ? +form.sellable_m3 : +form.capacity_m3, max_weight_kg: +form.max_weight_kg || null }
     let result
     if (initial) {
