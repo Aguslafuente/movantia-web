@@ -2,9 +2,9 @@
 // BUSINESS RULES
 // ─────────────────────────────────────────────
 export const BUSINESS_RULES = {
-  PRICE_PER_M3: 50,
-  MIN_ORDER_PRICE: 15,
-  PLATFORM_COMMISSION: 0.20,
+  PRICE_PER_M3: 2000,
+  MIN_ORDER_PRICE: 600,
+  PLATFORM_COMMISSION: 0.12,
   MAX_DETOUR_KM: 1.0,
   MAX_WAIT_MINUTES: 3,
 }
@@ -37,8 +37,9 @@ export function getPriceBreakdown(volumeM3) {
 }
 
 export function formatPrice(amount) {
-  if (amount == null) return 'USD 0'
-  return `USD ${Number(amount).toFixed(0)}`
+  if (amount == null) return '$0'
+  const n = Math.round(Number(amount))
+  return `$${n.toString().replace(/\B(?=(\d{3})+(?!\d))/g, '.')}`
 }
 
 export function generatePin() {
