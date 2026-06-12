@@ -3,7 +3,7 @@ import { PACKAGE_CATEGORIES } from '../../lib/constants'
 
 export default function PackagePicker({ value, onChange }) {
   const [customDims, setCustomDims] = useState({ l: '', w: '', h: '' })
-  const selected = PACKAGE_CATEGORIES.find(c => c.id === value)
+  const selected = PACKAGE_CATEGORIES.find(c => c.value === value)
 
   function handleCustom(field, val) {
     const next = { ...customDims, [field]: val }
@@ -20,12 +20,12 @@ export default function PackagePicker({ value, onChange }) {
       <div style={{ display:'grid', gridTemplateColumns:'repeat(auto-fill,minmax(140px,1fr))', gap:'10px', marginBottom:'16px' }}>
         {PACKAGE_CATEGORIES.map(cat => (
           <button
-            key={cat.id}
+            key={cat.value}
             type="button"
-            onClick={() => { if (cat.id !== 'custom') onChange(cat.id, cat.m3) }}
+            onClick={() => { onChange(cat.value, cat.m3) }}
             style={{
-              background: value === cat.id ? 'rgba(212,168,67,0.12)' : '#0D1018',
-              border: `1.5px solid ${value === cat.id ? '#D4A843' : 'rgba(255,255,255,0.1)'}`,
+              background: value === cat.value ? 'rgba(212,168,67,0.12)' : '#0D1018',
+              border: `1.5px solid ${value === cat.value ? '#D4A843' : 'rgba(255,255,255,0.1)'}`,
               borderRadius:'10px', padding:'14px 10px', cursor:'pointer', textAlign:'left',
               color:'#E8EDF5', transition:'all .15s',
             }}
@@ -38,7 +38,7 @@ export default function PackagePicker({ value, onChange }) {
         ))}
       </div>
 
-      {value === 'custom' && (
+      {(value === 'otro' || value === 'custom') && (
         <div style={{ background:'#0D1018', border:'1.5px solid rgba(255,255,255,0.1)', borderRadius:'10px', padding:'16px' }}>
           <p style={{ fontSize:'13px', color:'#9AA3B5', marginBottom:'12px' }}>Ingresá las medidas en centímetros:</p>
           <div style={{ display:'grid', gridTemplateColumns:'1fr 1fr 1fr', gap:'10px' }}>
