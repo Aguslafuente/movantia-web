@@ -531,7 +531,7 @@ function MainPage() {
               fontSize: 12, fontWeight: 700, letterSpacing: '0.04em',
             }}>
               <span style={{ width: 7, height: 7, background: '#D4A843', borderRadius: '50%' }} />
-              Pago protegido con escrow · 12% de comisión · Uruguay
+              Pago con escrow · 12% comisión · Pesos uruguayos · Uruguay
             </div>
 
             <h1 style={{
@@ -597,7 +597,7 @@ function MainPage() {
                 <ul style={{ listStyle: 'none', padding: 0, margin: '0 0 28px', display: 'flex', flexDirection: 'column', gap: 10 }}>
                   {[
                     'Publicás en 2 min: ruta, fecha, m³ disponibles',
-                    'USD 50/m³ de referencia — precio por espacio, no por flete completo',
+                    '$2.000/m³ de referencia — precio por espacio, no por flete completo',
                     'Solo cargas en tu ruta exacta, sin desvíos',
                     'El 88% del cobro es tuyo (comisión 12%)',
                   ].map((t,i) => (
@@ -610,7 +610,7 @@ function MainPage() {
                   <p style={{ color: 'rgba(232,237,245,0.5)', fontSize: 12, margin: '0 0 4px', fontWeight: 600, textTransform: 'uppercase', letterSpacing: '0.08em' }}>Ejemplo real</p>
                   <p style={{ color: '#E8EDF5', fontSize: 14, margin: 0 }}>
                     Camión vuelve vacío de Maldonado. Cargás 3 m³ de mercadería de un cliente.
-                    <strong style={{ color: '#D4A843' }}> +USD 120 en un viaje que ya ibas a hacer.</strong>
+                    <strong style={{ color: '#D4A843' }}> +$4.800 en un viaje que ya ibas a hacer.</strong>
                   </p>
                 </div>
               </div>
@@ -723,9 +723,9 @@ function MainPage() {
                 </div>
                 <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr 1fr', gap: 1, background: 'rgba(255,255,255,0.06)', borderRadius: 10, overflow: 'hidden', marginBottom: 16 }}>
                   {[
-                    { l:'Cliente paga', v:'USD 100', s:'2 m³ × $50' },
-                    { l:'Comisión 12%', v:'USD 12',  s:'Plataforma' },
-                    { l:'Vos recibís',  v:'USD 88',  s:'88% neto', hl: true },
+                    { l:'Cliente paga', v:'$4.000', s:'2 m³ × $2.000' },
+                    { l:'Comisión 12%', v:'$480',   s:'Plataforma' },
+                    { l:'Vos recibís',  v:'$3.520', s:'88% neto', hl: true },
                   ].map((c,i) => (
                     <div key={i} style={{ textAlign:'center', padding:'14px 8px', background: c.hl ? 'rgba(0,214,143,0.08)' : 'rgba(7,9,15,0.5)' }}>
                       <p style={{ fontSize:10, color:'rgba(232,237,245,0.4)', fontWeight:700, textTransform:'uppercase', letterSpacing:'0.07em', margin:'0 0 6px' }}>{c.l}</p>
@@ -734,7 +734,7 @@ function MainPage() {
                     </div>
                   ))}
                 </div>
-                <p style={{ ...S.muted, fontSize: 13, margin: 0 }}>Precio de referencia USD 50/m³ · mínimo USD 15 · comisión 12% solo si hay entrega confirmada</p>
+                <p style={{ ...S.muted, fontSize: 13, margin: 0 }}>Precio de referencia $2.000/m³ · mínimo $600 · comisión 12% solo si hay entrega confirmada</p>
               </div>
 
               {/* Flete urbano */}
@@ -745,9 +745,9 @@ function MainPage() {
                 </div>
                 <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr 1fr', gap: 1, background: 'rgba(255,255,255,0.06)', borderRadius: 10, overflow: 'hidden', marginBottom: 16 }}>
                   {[
-                    { l:'Cliente paga', v:'USD 50',  s:'Ej. 1 mueble' },
-                    { l:'Comisión 12%', v:'USD 6',   s:'Plataforma' },
-                    { l:'Vos recibís',  v:'USD 44',  s:'88% neto', hl: true },
+                    { l:'Cliente paga', v:'$2.000', s:'Ej. 1 mueble' },
+                    { l:'Comisión 12%', v:'$240',   s:'Plataforma' },
+                    { l:'Vos recibís',  v:'$1.760', s:'88% neto', hl: true },
                   ].map((c,i) => (
                     <div key={i} style={{ textAlign:'center', padding:'14px 8px', background: c.hl ? 'rgba(0,214,143,0.08)' : 'rgba(7,9,15,0.5)' }}>
                       <p style={{ fontSize:10, color:'rgba(232,237,245,0.4)', fontWeight:700, textTransform:'uppercase', letterSpacing:'0.07em', margin:'0 0 6px' }}>{c.l}</p>
@@ -756,7 +756,7 @@ function MainPage() {
                     </div>
                   ))}
                 </div>
-                <p style={{ ...S.muted, fontSize: 13, margin: 0 }}>Precio libre pactado entre cliente y conductor · comisión 12% vía escrow · pago liberado al confirmar entrega</p>
+                <p style={{ ...S.muted, fontSize: 13, margin: 0 }}>Precio libre pactado entre cliente y conductor · comisión 12% vía escrow · en pesos uruguayos</p>
               </div>
             </div>
           </div>
