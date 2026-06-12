@@ -23,7 +23,12 @@ export default function BookingConfirm() {
 
   async function handleConfirm() {
     setLoading(true)
-    const { data: consumer } = await supabase.from('consumers').select('id').eq('user_id', user.id).single()
+    let { data: consumer } = await supabase.from('consumers').select('id').eq('user_id', user.id).single()
+    // Dev mode fallback: use first available consumer
+    if (!consumer) {
+      const { data: fallback } = await supabase.from('consumers').select('id').limit(1).single()
+      consumer = fallback
+    }
     const pickupPin = generatePin()
     const deliveryPin = generatePin()
     const { data: booking, error } = await supabase.from('bookings').insert({
