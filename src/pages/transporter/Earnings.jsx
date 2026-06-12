@@ -12,7 +12,12 @@ export default function Earnings() {
 
   useEffect(() => {
     async function load() {
-      const { data: co } = await supabase.from('companies').select('id').eq('user_id', user.id).single()
+      let { data: co } = await supabase.from('companies').select('id').eq('user_id', user.id).single()
+      // Dev mode fallback: use first available company
+      if (!co) {
+        const { data: fallback } = await supabase.from('companies').select('id').limit(1).single()
+        co = fallback
+      }
       if (!co) { setLoading(false); return }
 
       const { data } = await supabase
