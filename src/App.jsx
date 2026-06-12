@@ -363,8 +363,21 @@ const S = {
 
 /* ── nav anchor link ─────────────────────── */
 function NavLink({ href, children }) {
+  function handleClick(e) {
+    if (href.startsWith('#')) {
+      e.preventDefault()
+      const id = href.slice(1)
+      const el = document.getElementById(id)
+      if (el) {
+        const offset = 68 // sticky header height
+        const top = el.getBoundingClientRect().top + window.scrollY - offset
+        window.scrollTo({ top, behavior: 'smooth' })
+        window.history.pushState(null, '', href)
+      }
+    }
+  }
   return (
-    <a href={href} style={{ color: 'rgba(232,237,245,0.6)', fontSize: 14, fontWeight: 500, padding: '6px 12px', borderRadius: 8, textDecoration: 'none', transition: 'color .15s, background .15s' }}
+    <a href={href} onClick={handleClick} style={{ color: 'rgba(232,237,245,0.6)', fontSize: 14, fontWeight: 500, padding: '6px 12px', borderRadius: 8, textDecoration: 'none', transition: 'color .15s, background .15s' }}
       onMouseEnter={e => { e.currentTarget.style.color = '#E8EDF5'; e.currentTarget.style.background = 'rgba(255,255,255,0.06)' }}
       onMouseLeave={e => { e.currentTarget.style.color = 'rgba(232,237,245,0.6)'; e.currentTarget.style.background = 'transparent' }}
     >{children}</a>
