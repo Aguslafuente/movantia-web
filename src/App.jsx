@@ -374,7 +374,7 @@ function NavLink({ href, children }) {
         if (el) {
           const offset = 68 // sticky header height
           const top = el.getBoundingClientRect().top + window.scrollY - offset
-          window.scrollTo({ top, behavior: 'smooth' })
+          window.scrollTo({ top, behavior: 'instant' })
         }
       }, 0)
     }
