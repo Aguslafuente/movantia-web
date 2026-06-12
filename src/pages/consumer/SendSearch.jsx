@@ -12,7 +12,7 @@ export default function SendSearch() {
   const [packageM3, setPackageM3] = useState(null)
   const [fragile, setFragile] = useState(false)
 
-  const price = packageM3 ? packageM3 * BUSINESS_RULES.PRICE_PER_M3_DEFAULT : null
+  const price = packageM3 ? Math.max(packageM3 * BUSINESS_RULES.PRICE_PER_M3, BUSINESS_RULES.MIN_ORDER_PRICE) : null
 
   function handlePackageChange(category, m3) {
     setPackageCategory(category)
