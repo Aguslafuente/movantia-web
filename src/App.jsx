@@ -14,6 +14,14 @@ import TransporterDashboard from './pages/transporter/TransporterDashboard.jsx'
 import NewReturn from './pages/transporter/NewReturn.jsx'
 import TransporterBookings from './pages/transporter/TransporterBookings.jsx'
 import Earnings from './pages/transporter/Earnings.jsx'
+import Vehicles from './pages/transporter/Vehicles.jsx'
+import FrequentRoutes from './pages/transporter/FrequentRoutes.jsx'
+import TripDetail from './pages/transporter/TripDetail.jsx'
+import AdminDashboard from './pages/admin/AdminDashboard.jsx'
+import AdminCompanies from './pages/admin/AdminCompanies.jsx'
+import AdminTrips from './pages/admin/AdminTrips.jsx'
+import AdminBookings from './pages/admin/AdminBookings.jsx'
+import AdminIncidents from './pages/admin/AdminIncidents.jsx'
 import SendSearch from './pages/consumer/SendSearch.jsx'
 import SendOptions from './pages/consumer/SendOptions.jsx'
 import BookingConfirm from './pages/consumer/BookingConfirm.jsx'
@@ -270,6 +278,16 @@ export default function App() {
       <RRoute path="/app/transporter/new-return" element={<AuthGuard requiredRole="transporter"><AppLayout><NewReturn /></AppLayout></AuthGuard>} />
       <RRoute path="/app/transporter/bookings" element={<AuthGuard requiredRole="transporter"><AppLayout><TransporterBookings /></AppLayout></AuthGuard>} />
       <RRoute path="/app/transporter/earnings" element={<AuthGuard requiredRole="transporter"><AppLayout><Earnings /></AppLayout></AuthGuard>} />
+      <RRoute path="/app/transporter/vehicles" element={<AuthGuard requiredRole="transporter"><AppLayout><Vehicles /></AppLayout></AuthGuard>} />
+      <RRoute path="/app/transporter/routes" element={<AuthGuard requiredRole="transporter"><AppLayout><FrequentRoutes /></AppLayout></AuthGuard>} />
+      <RRoute path="/app/transporter/trips/:id" element={<AuthGuard requiredRole="transporter"><AppLayout><TripDetail /></AppLayout></AuthGuard>} />
+
+      {/* Admin app */}
+      <RRoute path="/admin" element={<AuthGuard requiredRole="admin"><AppLayout><AdminDashboard /></AppLayout></AuthGuard>} />
+      <RRoute path="/admin/companies" element={<AuthGuard requiredRole="admin"><AppLayout><AdminCompanies /></AppLayout></AuthGuard>} />
+      <RRoute path="/admin/trips" element={<AuthGuard requiredRole="admin"><AppLayout><AdminTrips /></AppLayout></AuthGuard>} />
+      <RRoute path="/admin/bookings" element={<AuthGuard requiredRole="admin"><AppLayout><AdminBookings /></AppLayout></AuthGuard>} />
+      <RRoute path="/admin/incidents" element={<AuthGuard requiredRole="admin"><AppLayout><AdminIncidents /></AppLayout></AuthGuard>} />
 
       {/* Consumer app */}
       <RRoute path="/app/send" element={<AuthGuard requiredRole="consumer"><AppLayout><SendSearch /></AppLayout></AuthGuard>} />
