@@ -1,5 +1,5 @@
 import React, { useRef, useState, useEffect } from 'react'
-import { Routes, Route as RRoute, useParams } from 'react-router-dom'
+import { Routes, Route as RRoute, useParams, useNavigate } from 'react-router-dom'
 import { motion, AnimatePresence } from 'motion/react'
 import RoutePage from './RoutePage.jsx'
 
@@ -307,12 +307,69 @@ export default function App() {
   )
 }
 
+function DevBar() {
+  const { devLogin } = useAuth()
+  const navigate = useNavigate()
+
+  function enter(role) {
+    devLogin(role)
+    if (role === 'transporter') navigate('/app/transporter')
+    else if (role === 'consumer') navigate('/app/send')
+    else if (role === 'admin') navigate('/admin')
+  }
+
+  return (
+    <div style={{
+      background: 'rgba(212,168,67,0.06)',
+      borderBottom: '1px solid rgba(212,168,67,0.15)',
+      padding: '8px 20px',
+      display: 'flex',
+      alignItems: 'center',
+      justifyContent: 'center',
+      gap: '12px',
+      flexWrap: 'wrap',
+    }}>
+      <span style={{ fontSize: '11px', color: 'rgba(212,168,67,0.5)', fontWeight: 700, letterSpacing: '1px' }}>
+        DEMO →
+      </span>
+      {[
+        { role: 'transporter', label: '🚚 Transportista', color: '#D4A843' },
+        { role: 'consumer',    label: '📦 Consumidor',    color: '#00D68F' },
+        { role: 'admin',       label: '🛡️ Admin',         color: '#a78bfa' },
+      ].map(({ role, label, color }) => (
+        <button
+          key={role}
+          onClick={() => enter(role)}
+          style={{
+            background: 'transparent',
+            border: `1px solid ${color}50`,
+            color,
+            borderRadius: '20px',
+            padding: '4px 14px',
+            fontSize: '12px',
+            fontWeight: 600,
+            cursor: 'pointer',
+            fontFamily: 'Space Grotesk, sans-serif',
+            transition: 'background 0.15s',
+          }}
+          onMouseEnter={e => e.currentTarget.style.background = `${color}18`}
+          onMouseLeave={e => e.currentTarget.style.background = 'transparent'}
+        >
+          {label}
+        </button>
+      ))}
+    </div>
+  )
+}
+
 function MainPage({ role, setRole, roleRef, howRef, pickRole }) {
   return (
     <div className="site-shell">
       <div className="page-bg" aria-hidden="true">
         <div className="page-bg-grid" />
       </div>
+
+      <DevBar />
 
       {/* HEADER */}
       <header className="site-header">
