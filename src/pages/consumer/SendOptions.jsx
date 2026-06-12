@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react'
 import { useLocation, useNavigate } from 'react-router-dom'
 import { supabase } from '../../lib/supabase'
-import { haversineDistance, formatPrice } from '../../lib/constants'
+import { haversineDistance, formatPrice, BUSINESS_RULES } from '../../lib/constants'
 import { Clock, Star, Truck, ArrowRight } from 'lucide-react'
 
 export default function SendOptions() {
@@ -68,7 +68,7 @@ function ReturnCard({ r, state, onSelect }) {
   const windowStart = new Date(returnTime.getTime() - 10 * 60000)
   const windowEnd = new Date(returnTime.getTime() + 10 * 60000)
   const available = r.available_m3 - (r.used_m3 || 0)
-  const price = state.packageM3 * r.price_per_m3
+  const price = state.price
 
   return (
     <div style={styles.card}>
@@ -86,7 +86,7 @@ function ReturnCard({ r, state, onSelect }) {
         </div>
         <div style={{ textAlign:'right' }}>
           <div style={{ fontSize:'22px', fontWeight:800, color:'#D4A843', fontFamily:'Space Grotesk' }}>{formatPrice(price)}</div>
-          <div style={{ fontSize:'11px', color:'#9AA3B5' }}>{formatPrice(r.price_per_m3)}/m³</div>
+          <div style={{ fontSize:'11px', color:'#9AA3B5' }}>{formatPrice(BUSINESS_RULES.PRICE_PER_M3)}/m³</div>
         </div>
       </div>
 
