@@ -2,7 +2,7 @@ import { useState } from 'react'
 import { useLocation, useNavigate, useParams } from 'react-router-dom'
 import { useAuth } from '../../contexts/AuthContext'
 import { supabase } from '../../lib/supabase'
-import { generatePin, formatPrice, BUSINESS_RULES } from '../../lib/constants'
+import { generatePin, formatPrice, BUSINESS_RULES, PACKAGE_CATEGORIES } from '../../lib/constants'
 import { CheckCircle2, Shield, Clock } from 'lucide-react'
 
 export default function BookingConfirm() {
@@ -15,9 +15,11 @@ export default function BookingConfirm() {
 
   if (!state) { navigate('/app/send'); return null }
 
-  const { returnData, packageCategory, packageM3, price, pickupAddress, deliveryAddress, fragile } = state
+  const { returnData, packageCategory, packageM3, price: rawPrice, pickupAddress, deliveryAddress, fragile } = state
+  const price = (rawPrice && !isNaN(rawPrice)) ? rawPrice : Math.max(packageM3 * BUSINESS_RULES.PRICE_PER_M3, BUSINESS_RULES.MIN_ORDER_PRICE)
   const platformFee = price * BUSINESS_RULES.PLATFORM_COMMISSION
   const transporterAmount = price - platformFee
+  const categoryLabel = PACKAGE_CATEGORIES.find(c => c.value === packageCategory)?.label || packageCategory || 'Paquete personalizado'
 
   async function handleConfirm() {
     setLoading(true)
@@ -88,7 +90,7 @@ export default function BookingConfirm() {
 
       {/* Summary */}
       <div style={styles.summaryCard}>
-        <Row label="Paquete" value={packageCategory || 'Paquete personalizado'} />
+        <Row label="Paquete" value={categoryLabel} />
         <Row label="Volumen" value={`${packageM3} m³`} />
         <Row label="Retiro" value={pickupAddress} />
         <Row label="Entrega" value={deliveryAddress} />
