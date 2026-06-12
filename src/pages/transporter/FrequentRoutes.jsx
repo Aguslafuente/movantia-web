@@ -17,7 +17,12 @@ export default function FrequentRoutes() {
   useEffect(() => { init() }, [user.id])
 
   async function init() {
-    const { data: c } = await supabase.from('companies').select('id').eq('user_id', user.id).single()
+    let { data: c } = await supabase.from('companies').select('id').eq('user_id', user.id).single()
+    // Dev mode fallback: use first available company
+    if (!c) {
+      const { data: fallback } = await supabase.from('companies').select('id').limit(1).single()
+      c = fallback
+    }
     if (!c) { setLoading(false); return }
     setCompany(c)
     const [{ data: r }, { data: v }] = await Promise.all([
