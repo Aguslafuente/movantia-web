@@ -17,7 +17,7 @@ export default function AppLayout({ children }) {
     { to: '/app/transporter/new-return', label: 'Activar vuelta', icon: Plus },
     { to: '/app/transporter/bookings', label: 'Reservas', icon: Package },
     { to: '/app/transporter/earnings', label: 'Ganancias', icon: DollarSign },
-    { to: '/app/transporter/history', label: 'Historial', icon: History },
+    { to: '/app/transporter/earnings', label: 'Historial', icon: History },
   ]
 
   const consumerNav = [
