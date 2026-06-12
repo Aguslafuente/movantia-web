@@ -2,6 +2,23 @@ import React, { useRef, useState, useEffect } from 'react'
 import { Routes, Route as RRoute, useParams } from 'react-router-dom'
 import { motion, AnimatePresence } from 'motion/react'
 import RoutePage from './RoutePage.jsx'
+
+// App pages
+import AuthGuard from './components/app/AuthGuard.jsx'
+import AppLayout from './components/app/AppLayout.jsx'
+import Login from './pages/auth/Login.jsx'
+import Register from './pages/auth/Register.jsx'
+import RegisterCompany from './pages/auth/RegisterCompany.jsx'
+import RegisterConsumer from './pages/auth/RegisterConsumer.jsx'
+import TransporterDashboard from './pages/transporter/TransporterDashboard.jsx'
+import NewReturn from './pages/transporter/NewReturn.jsx'
+import TransporterBookings from './pages/transporter/TransporterBookings.jsx'
+import Earnings from './pages/transporter/Earnings.jsx'
+import SendSearch from './pages/consumer/SendSearch.jsx'
+import SendOptions from './pages/consumer/SendOptions.jsx'
+import BookingConfirm from './pages/consumer/BookingConfirm.jsx'
+import Tracking from './pages/consumer/Tracking.jsx'
+import SendHistory from './pages/consumer/SendHistory.jsx'
 import {
   ArrowRight,
   BarChart3,
@@ -242,6 +259,26 @@ export default function App() {
 
   return (
     <Routes>
+      {/* Auth */}
+      <RRoute path="/app/auth/login" element={<Login />} />
+      <RRoute path="/app/auth/register" element={<Register />} />
+      <RRoute path="/app/auth/register/company" element={<RegisterCompany />} />
+      <RRoute path="/app/auth/register/consumer" element={<RegisterConsumer />} />
+
+      {/* Transporter app */}
+      <RRoute path="/app/transporter" element={<AuthGuard requiredRole="transporter"><AppLayout><TransporterDashboard /></AppLayout></AuthGuard>} />
+      <RRoute path="/app/transporter/new-return" element={<AuthGuard requiredRole="transporter"><AppLayout><NewReturn /></AppLayout></AuthGuard>} />
+      <RRoute path="/app/transporter/bookings" element={<AuthGuard requiredRole="transporter"><AppLayout><TransporterBookings /></AppLayout></AuthGuard>} />
+      <RRoute path="/app/transporter/earnings" element={<AuthGuard requiredRole="transporter"><AppLayout><Earnings /></AppLayout></AuthGuard>} />
+
+      {/* Consumer app */}
+      <RRoute path="/app/send" element={<AuthGuard requiredRole="consumer"><AppLayout><SendSearch /></AppLayout></AuthGuard>} />
+      <RRoute path="/app/send/options" element={<AuthGuard requiredRole="consumer"><AppLayout><SendOptions /></AppLayout></AuthGuard>} />
+      <RRoute path="/app/send/booking/:id" element={<AuthGuard requiredRole="consumer"><AppLayout><BookingConfirm /></AppLayout></AuthGuard>} />
+      <RRoute path="/app/send/tracking/:id" element={<AuthGuard requiredRole="consumer"><AppLayout><Tracking /></AppLayout></AuthGuard>} />
+      <RRoute path="/app/send/history" element={<AuthGuard requiredRole="consumer"><AppLayout><SendHistory /></AppLayout></AuthGuard>} />
+
+      {/* Landing + SEO routes */}
       <RRoute path="/:slug" element={<RoutePageWrapper />} />
       <RRoute path="/" element={<MainPage role={role} setRole={setRole} roleRef={roleRef} howRef={howRef} pickRole={pickRole} />} />
     </Routes>
