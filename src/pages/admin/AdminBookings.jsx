@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
 import { supabase } from '../../lib/supabase'
-import { BOOKING_STATUS_LABELS, formatPrice } from '../../lib/constants'
+import { BOOKING_STATUS_LABELS, PACKAGE_CATEGORIES, formatPrice } from '../../lib/constants'
 import StatusBadge from '../../components/shared/StatusBadge'
 
 export default function AdminBookings() {
@@ -63,7 +63,7 @@ export default function AdminBookings() {
             </p>
             <div style={{ display: 'flex', justifyContent: 'space-between' }}>
               <span style={{ fontSize: '12px', color: '#9AA3B5' }}>
-                {b.package_category} · {b.package_m3} m³ ·
+                {PACKAGE_CATEGORIES.find(c => c.value === b.package_category)?.label || b.package_category} · {b.package_m3} m³ ·
                 {new Date(b.created_at).toLocaleDateString('es-UY')}
               </span>
               <span style={{ color: '#D4A843', fontWeight: 700, fontSize: '13px', fontFamily: 'Space Grotesk' }}>
