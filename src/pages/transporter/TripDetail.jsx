@@ -4,7 +4,7 @@ import { useAuth } from '../../contexts/AuthContext'
 import { supabase } from '../../lib/supabase'
 import {
   BOOKING_STATUS_LABELS, TRIP_STATUS_LABELS,
-  formatPrice, generatePin,
+  PACKAGE_CATEGORIES, formatPrice, generatePin,
 } from '../../lib/constants'
 import StatusBadge from '../../components/shared/StatusBadge'
 import Timeline from '../../components/shared/Timeline'
@@ -180,7 +180,7 @@ export default function TripDetail() {
               📦 {b.pickup_address} → {b.delivery_address}
             </p>
             <p style={{ fontSize: '12px', color: '#9AA3B5', marginBottom: '10px' }}>
-              {b.package_category} · {b.package_m3} m³ · {formatPrice(b.price_total)}
+              {PACKAGE_CATEGORIES.find(c => c.value === b.package_category)?.label || b.package_category} · {b.package_m3} m³ · {formatPrice(b.price_total)}
               {b.package_needs_help && ' · ⚠️ Necesita ayuda'}
             </p>
 
