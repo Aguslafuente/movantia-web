@@ -86,7 +86,7 @@ function ReturnCard({ r, state, onSelect }) {
         </div>
         <div style={{ textAlign:'right' }}>
           <div style={{ fontSize:'22px', fontWeight:800, color:'#D4A843', fontFamily:'Space Grotesk' }}>{formatPrice(price)}</div>
-          <div style={{ fontSize:'11px', color:'#9AA3B5' }}>USD {r.price_per_m3}/m³</div>
+          <div style={{ fontSize:'11px', color:'#9AA3B5' }}>{formatPrice(r.price_per_m3)}/m³</div>
         </div>
       </div>
 
