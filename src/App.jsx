@@ -497,21 +497,16 @@ function MainPage() {
         borderBottom: '1px solid rgba(255,255,255,0.07)',
       }}>
         <div style={{ ...S.wrap, display: 'flex', alignItems: 'center', height: 60, gap: 4 }}>
-          {/* logo */}
           <a href="/" style={{ display: 'flex', alignItems: 'center', gap: 10, textDecoration: 'none', flexShrink: 0, marginRight: 20 }}>
             <span style={{ width: 30, height: 30, display: 'flex' }}><BrandMark /></span>
             <span style={{ fontWeight: 800, fontSize: 17, color: '#E8EDF5', letterSpacing: '-0.02em' }}>Movantia</span>
           </a>
-
-          {/* anchor nav */}
           <nav style={{ display: 'flex', gap: 2, flex: 1 }}>
+            <NavLink href="#servicios">Servicios</NavLink>
             <NavLink href="#como-funciona">Cómo funciona</NavLink>
             <NavLink href="#numeros">Precios</NavLink>
-            <NavLink href="#beneficios">Beneficios</NavLink>
             <NavLink href="#demo">Probalo gratis</NavLink>
           </nav>
-
-          {/* admin (hidden for customers) */}
           <button onClick={() => setAdminModal(true)} style={{
             display: 'flex', alignItems: 'center', gap: 6,
             background: 'rgba(255,255,255,0.04)', border: '1px solid rgba(255,255,255,0.1)',
@@ -519,19 +514,16 @@ function MainPage() {
             fontSize: 13, fontWeight: 600, cursor: 'pointer', flexShrink: 0,
             transition: 'color .15s, background .15s',
           }}
-          onMouseEnter={e => { e.currentTarget.style.background = 'rgba(212,168,67,0.1)'; e.currentTarget.style.color = '#D4A843'; e.currentTarget.style.borderColor = 'rgba(212,168,67,0.25)' }}
-          onMouseLeave={e => { e.currentTarget.style.background = 'rgba(255,255,255,0.04)'; e.currentTarget.style.color = 'rgba(232,237,245,0.45)'; e.currentTarget.style.borderColor = 'rgba(255,255,255,0.1)' }}
-          >
-            <ShieldCheck size={14} /> Admin
-          </button>
+          onMouseEnter={e => { e.currentTarget.style.background='rgba(212,168,67,0.1)'; e.currentTarget.style.color='#D4A843'; e.currentTarget.style.borderColor='rgba(212,168,67,0.25)' }}
+          onMouseLeave={e => { e.currentTarget.style.background='rgba(255,255,255,0.04)'; e.currentTarget.style.color='rgba(232,237,245,0.45)'; e.currentTarget.style.borderColor='rgba(255,255,255,0.1)' }}
+          ><ShieldCheck size={14} /> Admin</button>
         </div>
       </header>
 
       <main>
         {/* ── HERO ─────────────────────────────────── */}
         <section style={{ textAlign: 'center', padding: 'clamp(64px,9vw,108px) 24px clamp(56px,7vw,88px)' }}>
-          <div style={{ maxWidth: 680, margin: '0 auto' }}>
-            {/* badge */}
+          <div style={{ maxWidth: 720, margin: '0 auto' }}>
             <div style={{
               display: 'inline-flex', alignItems: 'center', gap: 8, marginBottom: 36,
               background: 'rgba(0,214,143,0.08)', border: '1px solid rgba(0,214,143,0.22)',
@@ -539,187 +531,255 @@ function MainPage() {
               fontSize: 12, fontWeight: 700, letterSpacing: '0.04em',
             }}>
               <span style={{ width: 7, height: 7, background: '#00D68F', borderRadius: '50%' }} />
-              Plataforma 100% gratuita para empezar · sin tarjeta
+              Gratis para empezar · sin tarjeta · Uruguay
             </div>
 
-            {/* heading */}
             <h1 style={{
-              fontSize: 'clamp(46px,7vw,80px)', fontWeight: 900,
+              fontSize: 'clamp(42px,6.5vw,76px)', fontWeight: 900,
               lineHeight: 1.06, letterSpacing: '-0.038em',
               color: '#E8EDF5', margin: '0 0 26px',
             }}>
-              Volvés vacío.<br />
-              <span style={{ color: '#D4A843' }}>Vendé ese espacio.</span>
+              Conectamos cargas<br />
+              <span style={{ color: '#D4A843' }}>con transportistas.</span>
             </h1>
 
-            {/* subtitle */}
-            <p style={{ ...S.muted, fontSize: 18, maxWidth: 520, margin: '0 auto 44px' }}>
-              Conectamos empresas de transporte con carga disponible en su ruta de retorno.
-              Más ingresos para el transportista, precios justos para el cliente.
+            <p style={{ ...S.muted, fontSize: 18, maxWidth: 560, margin: '0 auto 18px' }}>
+              ¿Tenés un camión que vuelve vacío de Maldonado? ¿Tenés una Sprinter disponible
+              en Montevideo? Publicá y recibí clientes.
+            </p>
+            <p style={{ ...S.muted, fontSize: 18, maxWidth: 560, margin: '0 auto 46px' }}>
+              ¿Necesitás mover mercadería entre ciudades o un mueble dentro de la ciudad?
+              Encontramos el transportista ideal en minutos.
             </p>
 
-            {/* primary CTAs */}
             <div style={{ display: 'flex', gap: 14, justifyContent: 'center', flexWrap: 'wrap', marginBottom: 22 }}>
               <AccessBtn role="transporter" path="/app/transporter" primary>
                 <Truck size={17} /> Soy transportista
               </AccessBtn>
               <AccessBtn role="consumer" path="/app/send">
-                <Package size={17} /> Quiero enviar carga
+                <Package size={17} /> Necesito mover algo
               </AccessBtn>
             </div>
-
-            <p style={{ color: 'rgba(232,237,245,0.3)', fontSize: 13, margin: 0 }}>
-              Acceso inmediato · datos de prueba precargados · sin registro
+            <p style={{ color: 'rgba(232,237,245,0.28)', fontSize: 13, margin: 0 }}>
+              Acceso inmediato · datos de prueba incluidos · sin registro
             </p>
+          </div>
+        </section>
+
+        {/* ── DOS SERVICIOS ──────────────────────── */}
+        <section id="servicios" style={{ ...S.sectionAlt, padding: 'clamp(56px,7vw,88px) 24px' }}>
+          <div style={S.wrap}>
+            <div style={{ textAlign: 'center', marginBottom: 52 }}>
+              <p style={S.eyebrow}>Dos servicios</p>
+              <h2 style={S.h2}>Larga distancia o dentro de la ciudad</h2>
+              <p style={{ ...S.muted, maxWidth: 500, margin: '0 auto' }}>
+                Ya sea que vayas de Montevideo a Maldonado o que estés activo en el barrio,
+                Movantia te conecta con la carga.
+              </p>
+            </div>
+
+            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit,minmax(320px,1fr))', gap: 24 }}>
+              {/* Servicio 1 — Vuelta vacía */}
+              <div style={{ ...S.card, position: 'relative', overflow: 'hidden', padding: '32px 28px' }}>
+                <div style={{ position: 'absolute', top: 0, left: 0, right: 0, height: 4, background: 'linear-gradient(90deg,#D4A843,#f0a500aa)' }} />
+                <div style={{ display: 'inline-flex', alignItems: 'center', gap: 8, marginBottom: 20, background: 'rgba(212,168,67,0.1)', border: '1px solid rgba(212,168,67,0.25)', borderRadius: 20, padding: '4px 14px' }}>
+                  <Truck size={14} style={{ color: '#D4A843' }} />
+                  <span style={{ color: '#D4A843', fontSize: 12, fontWeight: 700 }}>Larga distancia</span>
+                </div>
+                <h3 style={{ fontSize: 22, fontWeight: 800, color: '#E8EDF5', margin: '0 0 12px', letterSpacing: '-0.02em' }}>
+                  Vuelta vacía
+                </h3>
+                <p style={{ ...S.muted, fontSize: 15, margin: '0 0 22px' }}>
+                  Tenés un camión que vuelve vacío de Punta del Este, Rivera o Colonia.
+                  Publicás tu ruta y vendés el espacio libre en m³ a clientes que necesitan
+                  mandar carga por esa misma ruta.
+                </p>
+                <ul style={{ listStyle: 'none', padding: 0, margin: '0 0 28px', display: 'flex', flexDirection: 'column', gap: 10 }}>
+                  {[
+                    'Publicás en 2 min: ruta, fecha, m³ disponibles',
+                    'USD 50/m³ de referencia — precio por espacio, no por flete completo',
+                    'Solo cargas en tu ruta exacta, sin desvíos',
+                    'El 80% del cobro es tuyo',
+                  ].map((t,i) => (
+                    <li key={i} style={{ display: 'flex', gap: 10, color: 'rgba(232,237,245,0.78)', fontSize: 14, lineHeight: 1.5 }}>
+                      <CheckCircle2 size={15} style={{ color: '#D4A843', flexShrink: 0, marginTop: 2 }} /> {t}
+                    </li>
+                  ))}
+                </ul>
+                <div style={{ padding: '14px 16px', background: 'rgba(212,168,67,0.07)', border: '1px solid rgba(212,168,67,0.18)', borderRadius: 10 }}>
+                  <p style={{ color: 'rgba(232,237,245,0.5)', fontSize: 12, margin: '0 0 4px', fontWeight: 600, textTransform: 'uppercase', letterSpacing: '0.08em' }}>Ejemplo real</p>
+                  <p style={{ color: '#E8EDF5', fontSize: 14, margin: 0 }}>
+                    Camión vuelve vacío de Maldonado. Cargás 3 m³ de mercadería de un cliente.
+                    <strong style={{ color: '#D4A843' }}> +USD 120 en un viaje que ya ibas a hacer.</strong>
+                  </p>
+                </div>
+              </div>
+
+              {/* Servicio 2 — Flete urbano */}
+              <div style={{ ...S.card, position: 'relative', overflow: 'hidden', padding: '32px 28px' }}>
+                <div style={{ position: 'absolute', top: 0, left: 0, right: 0, height: 4, background: 'linear-gradient(90deg,#00D68F,#00d68faa)' }} />
+                <div style={{ display: 'inline-flex', alignItems: 'center', gap: 8, marginBottom: 20, background: 'rgba(0,214,143,0.08)', border: '1px solid rgba(0,214,143,0.22)', borderRadius: 20, padding: '4px 14px' }}>
+                  <Zap size={14} style={{ color: '#00D68F' }} />
+                  <span style={{ color: '#00D68F', fontSize: 12, fontWeight: 700 }}>Fletes urbanos</span>
+                </div>
+                <h3 style={{ fontSize: 22, fontWeight: 800, color: '#E8EDF5', margin: '0 0 12px', letterSpacing: '-0.02em' }}>
+                  Conductor activo en la ciudad
+                </h3>
+                <p style={{ ...S.muted, fontSize: 15, margin: '0 0 22px' }}>
+                  Tenés una Sprinter, Transit o camioneta y querés trabajar dentro de Montevideo,
+                  Maldonado u otra ciudad. Publicás que estás disponible y los clientes
+                  te envían pedidos de carga en tu zona.
+                </p>
+                <ul style={{ listStyle: 'none', padding: 0, margin: '0 0 28px', display: 'flex', flexDirection: 'column', gap: 10 }}>
+                  {[
+                    'Publicás tu disponibilidad por zona y horario',
+                    'Recibís pedidos: mudanzas, muebles, bultos, encomiendas',
+                    'Ejemplo: mueble de Ciudad Vieja al Prado',
+                    'Precio acordado antes de salir, pago garantizado',
+                  ].map((t,i) => (
+                    <li key={i} style={{ display: 'flex', gap: 10, color: 'rgba(232,237,245,0.78)', fontSize: 14, lineHeight: 1.5 }}>
+                      <CheckCircle2 size={15} style={{ color: '#00D68F', flexShrink: 0, marginTop: 2 }} /> {t}
+                    </li>
+                  ))}
+                </ul>
+                <div style={{ padding: '14px 16px', background: 'rgba(0,214,143,0.06)', border: '1px solid rgba(0,214,143,0.18)', borderRadius: 10 }}>
+                  <p style={{ color: 'rgba(232,237,245,0.5)', fontSize: 12, margin: '0 0 4px', fontWeight: 600, textTransform: 'uppercase', letterSpacing: '0.08em' }}>Ejemplo real</p>
+                  <p style={{ color: '#E8EDF5', fontSize: 14, margin: 0 }}>
+                    Estás en Montevideo con tu Sprinter. Cliente sube un mueble — Ciudad Vieja al Prado.
+                    <strong style={{ color: '#00D68F' }}> Lo confirmás, lo llevás, cobrás.</strong>
+                  </p>
+                </div>
+              </div>
+            </div>
           </div>
         </section>
 
         {/* ── CÓMO FUNCIONA ──────────────────────── */}
-        <section id="como-funciona" style={{ ...S.sectionAlt, padding: 'clamp(56px,7vw,88px) 24px' }}>
+        <section id="como-funciona" style={{ padding: 'clamp(56px,7vw,88px) 24px' }}>
           <div style={S.wrap}>
             <div style={{ textAlign: 'center', marginBottom: 52 }}>
               <p style={S.eyebrow}>El proceso</p>
-              <h2 style={S.h2}>Cómo funciona Movantia</h2>
-              <p style={{ ...S.muted, maxWidth: 460, margin: '0 auto' }}>
-                Tres pasos simples separan un camión vacío de un ingreso extra.
-              </p>
-            </div>
-            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit,minmax(270px,1fr))', gap: 20 }}>
-              {[
-                {
-                  num: '01', icon: <Truck size={26} />, color: '#D4A843',
-                  title: 'Publicás tu vuelta vacía',
-                  desc: 'Ingresás tu ruta de retorno, la fecha, el espacio libre en m³ y el tipo de vehículo. En 2 minutos tu vuelta está visible para potenciales clientes.',
-                },
-                {
-                  num: '02', icon: <Package size={26} />, color: '#00D68F',
-                  title: 'Un cliente reserva espacio',
-                  desc: 'El consumidor busca vueltas disponibles en su zona, ve las opciones y reserva los m³ que necesita. El pago queda protegido hasta la entrega.',
-                },
-                {
-                  num: '03', icon: <ShieldCheck size={26} />, color: '#a78bfa',
-                  title: 'PIN confirma, vos cobrás',
-                  desc: 'Al retirar y entregar la carga se usa un PIN de 4 dígitos. La confirmación es instantánea y el pago se libera automáticamente a tu cuenta.',
-                },
-              ].map((step, i) => (
-                <div key={i} style={{ ...S.card, position: 'relative', overflow: 'hidden' }}>
-                  <div style={{
-                    position: 'absolute', top: 0, left: 0, right: 0, height: 3,
-                    background: `linear-gradient(90deg, ${step.color}60, transparent)`,
-                  }} />
-                  <div style={{ display: 'flex', alignItems: 'center', gap: 10, marginBottom: 20 }}>
-                    <span style={{ fontWeight: 900, fontSize: 13, color: `${step.color}60`, letterSpacing: '0.06em' }}>{step.num}</span>
-                    <span style={{ color: step.color }}>{step.icon}</span>
-                  </div>
-                  <h3 style={{ fontSize: 16, fontWeight: 700, color: '#E8EDF5', margin: '0 0 10px', letterSpacing: '-0.01em' }}>{step.title}</h3>
-                  <p style={{ ...S.muted, fontSize: 14, margin: 0 }}>{step.desc}</p>
-                </div>
-              ))}
-            </div>
-          </div>
-        </section>
-
-        {/* ── NÚMEROS / EJEMPLO ECONÓMICO ─────────── */}
-        <section id="numeros" style={{ padding: 'clamp(56px,7vw,88px) 24px' }}>
-          <div style={S.wrap}>
-            <div style={{ textAlign: 'center', marginBottom: 52 }}>
-              <p style={S.eyebrow}>Los números</p>
-              <h2 style={S.h2}>¿Cuánto podés ganar?</h2>
-              <p style={{ ...S.muted, maxWidth: 440, margin: '0 auto' }}>
-                Precio de referencia USD 50/m³ · Comisión plataforma 20% · Mínimo USD 15
-              </p>
+              <h2 style={S.h2}>Simple para todos</h2>
             </div>
 
-            <div style={{
-              background: 'rgba(255,255,255,0.03)', border: '1px solid rgba(255,255,255,0.08)',
-              borderRadius: 20, maxWidth: 780, margin: '0 auto', overflow: 'hidden',
-            }}>
-              <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3,1fr)' }}>
+            <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 48 }}>
+              {/* Para transportistas */}
+              <div>
+                <p style={{ fontSize: 13, fontWeight: 700, color: '#D4A843', letterSpacing: '0.06em', textTransform: 'uppercase', margin: '0 0 20px', display: 'flex', alignItems: 'center', gap: 8 }}>
+                  <Truck size={15} /> Para transportistas
+                </p>
                 {[
-                  { label: 'El cliente paga',         num: 'USD 100', sub: '2 m³ × USD 50/m³',    hl: false, color: '#E8EDF5'          },
-                  { label: 'Comisión Movantia',        num: 'USD 20',  sub: 'Solo 20% de comisión', hl: false, color: 'rgba(212,168,67,0.85)' },
-                  { label: 'Vos recibís',              num: 'USD 80',  sub: '80% neto garantizado', hl: true,  color: '#00D68F'          },
-                ].map((item, i) => (
-                  <div key={i} style={{
-                    textAlign: 'center',
-                    padding: 'clamp(24px,3.5vw,40px) 16px',
-                    background: item.hl ? 'rgba(0,214,143,0.07)' : 'transparent',
-                    borderLeft: i > 0 ? '1px solid rgba(255,255,255,0.07)' : 'none',
-                  }}>
-                    <p style={{ fontSize: 11, fontWeight: 700, color: 'rgba(232,237,245,0.4)', textTransform: 'uppercase', letterSpacing: '0.09em', margin: '0 0 16px' }}>{item.label}</p>
-                    <p style={{ fontSize: 'clamp(30px,4.5vw,46px)', fontWeight: 900, color: item.color, letterSpacing: '-0.04em', margin: '0 0 6px' }}>{item.num}</p>
-                    <p style={{ fontSize: 13, color: 'rgba(232,237,245,0.38)', margin: item.hl ? '0 0 14px' : 0 }}>{item.sub}</p>
-                    {item.hl && (
-                      <span style={{
-                        display: 'inline-block',
-                        background: 'rgba(0,214,143,0.13)', border: '1px solid rgba(0,214,143,0.3)',
-                        borderRadius: 6, padding: '4px 11px', fontSize: 11, fontWeight: 700, color: '#00D68F',
-                      }}>✓ Pago protegido</span>
-                    )}
+                  { num:'01', title:'Publicás tu disponibilidad', desc:'Vuelta de larga distancia o conductor urbano activo. Ruta, fecha, vehículo y espacio libre.' },
+                  { num:'02', title:'Recibís un cliente',         desc:'Movantia cruza tu oferta con quien necesita mover algo por esa ruta o zona.' },
+                  { num:'03', title:'Confirmás y cobrás',         desc:'PIN de retiro y entrega. El pago se libera automáticamente. Sin facturación manual.' },
+                ].map((s,i) => (
+                  <div key={i} style={{ display: 'flex', gap: 16, marginBottom: i < 2 ? 28 : 0 }}>
+                    <div style={{ flexShrink: 0, width: 36, height: 36, borderRadius: 10, background: 'rgba(212,168,67,0.1)', border: '1px solid rgba(212,168,67,0.25)', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 12, fontWeight: 800, color: '#D4A843' }}>{s.num}</div>
+                    <div>
+                      <p style={{ fontSize: 15, fontWeight: 700, color: '#E8EDF5', margin: '0 0 4px' }}>{s.title}</p>
+                      <p style={{ ...S.muted, fontSize: 13, margin: 0 }}>{s.desc}</p>
+                    </div>
+                  </div>
+                ))}
+              </div>
+
+              {/* Para clientes */}
+              <div>
+                <p style={{ fontSize: 13, fontWeight: 700, color: '#00D68F', letterSpacing: '0.06em', textTransform: 'uppercase', margin: '0 0 20px', display: 'flex', alignItems: 'center', gap: 8 }}>
+                  <Package size={15} /> Para quien envía
+                </p>
+                {[
+                  { num:'01', title:'Subís tu carga',          desc:'Descripción, origen, destino y fecha. Puede ser mercadería entre ciudades o un mueble dentro de Montevideo.' },
+                  { num:'02', title:'Encontramos el match',    desc:'Movantia busca un transportista disponible que pase por tu zona o ruta. Ves precio y perfil antes de confirmar.' },
+                  { num:'03', title:'Pagás seguro, recibís',   desc:'El pago queda protegido hasta que confirmás la entrega con PIN. Sin sorpresas.' },
+                ].map((s,i) => (
+                  <div key={i} style={{ display: 'flex', gap: 16, marginBottom: i < 2 ? 28 : 0 }}>
+                    <div style={{ flexShrink: 0, width: 36, height: 36, borderRadius: 10, background: 'rgba(0,214,143,0.08)', border: '1px solid rgba(0,214,143,0.22)', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 12, fontWeight: 800, color: '#00D68F' }}>{s.num}</div>
+                    <div>
+                      <p style={{ fontSize: 15, fontWeight: 700, color: '#E8EDF5', margin: '0 0 4px' }}>{s.title}</p>
+                      <p style={{ ...S.muted, fontSize: 13, margin: 0 }}>{s.desc}</p>
+                    </div>
                   </div>
                 ))}
               </div>
             </div>
-
-            {/* mini note */}
-            <p style={{ ...S.muted, textAlign: 'center', fontSize: 13, marginTop: 20 }}>
-              Solo pagás comisión cuando hay entrega confirmada. Si el viaje no se concreta, no hay costo.
-            </p>
           </div>
         </section>
 
-        {/* ── BENEFICIOS ─────────────────────────── */}
-        <section id="beneficios" style={{ ...S.sectionAlt, padding: 'clamp(56px,7vw,88px) 24px' }}>
-          <div style={{ ...S.wrap }}>
+        {/* ── NÚMEROS ────────────────────────────── */}
+        <section id="numeros" style={{ ...S.sectionAlt, padding: 'clamp(56px,7vw,88px) 24px' }}>
+          <div style={S.wrap}>
             <div style={{ textAlign: 'center', marginBottom: 52 }}>
-              <p style={S.eyebrow}>Para quién es</p>
-              <h2 style={S.h2}>Diseñado para dos lados del viaje</h2>
+              <p style={S.eyebrow}>Los números</p>
+              <h2 style={S.h2}>Precios claros, sin sorpresas</h2>
             </div>
-            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit,minmax(280px,1fr))', gap: 32 }}>
+
+            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit,minmax(300px,1fr))', gap: 24, maxWidth: 860, margin: '0 auto' }}>
+              {/* Vuelta vacía */}
+              <div style={{ ...S.card }}>
+                <div style={{ display: 'flex', alignItems: 'center', gap: 8, marginBottom: 20 }}>
+                  <Truck size={18} style={{ color: '#D4A843' }} />
+                  <span style={{ fontWeight: 700, color: '#D4A843', fontSize: 14 }}>Vuelta vacía</span>
+                </div>
+                <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr 1fr', gap: 1, background: 'rgba(255,255,255,0.06)', borderRadius: 10, overflow: 'hidden', marginBottom: 16 }}>
+                  {[
+                    { l:'Cliente paga', v:'USD 100', s:'2 m³ × $50' },
+                    { l:'Comisión 20%', v:'USD 20',  s:'Plataforma' },
+                    { l:'Vos recibís',  v:'USD 80',  s:'80% neto', hl: true },
+                  ].map((c,i) => (
+                    <div key={i} style={{ textAlign:'center', padding:'14px 8px', background: c.hl ? 'rgba(0,214,143,0.08)' : 'rgba(7,9,15,0.5)' }}>
+                      <p style={{ fontSize:10, color:'rgba(232,237,245,0.4)', fontWeight:700, textTransform:'uppercase', letterSpacing:'0.07em', margin:'0 0 6px' }}>{c.l}</p>
+                      <p style={{ fontSize:20, fontWeight:900, color: c.hl ? '#00D68F' : '#E8EDF5', letterSpacing:'-0.03em', margin:'0 0 2px' }}>{c.v}</p>
+                      <p style={{ fontSize:11, color:'rgba(232,237,245,0.35)', margin:0 }}>{c.s}</p>
+                    </div>
+                  ))}
+                </div>
+                <p style={{ ...S.muted, fontSize: 13, margin: 0 }}>Precio de referencia USD 50/m³ · mínimo USD 15 · comisión solo si hay entrega</p>
+              </div>
+
+              {/* Flete urbano */}
+              <div style={{ ...S.card }}>
+                <div style={{ display: 'flex', alignItems: 'center', gap: 8, marginBottom: 20 }}>
+                  <Zap size={18} style={{ color: '#00D68F' }} />
+                  <span style={{ fontWeight: 700, color: '#00D68F', fontSize: 14 }}>Flete urbano</span>
+                </div>
+                <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr 1fr', gap: 1, background: 'rgba(255,255,255,0.06)', borderRadius: 10, overflow: 'hidden', marginBottom: 16 }}>
+                  {[
+                    { l:'Cliente paga', v:'USD 30',  s:'Ej. 1 mueble' },
+                    { l:'Comisión 20%', v:'USD 6',   s:'Plataforma' },
+                    { l:'Vos recibís',  v:'USD 24',  s:'80% neto', hl: true },
+                  ].map((c,i) => (
+                    <div key={i} style={{ textAlign:'center', padding:'14px 8px', background: c.hl ? 'rgba(0,214,143,0.08)' : 'rgba(7,9,15,0.5)' }}>
+                      <p style={{ fontSize:10, color:'rgba(232,237,245,0.4)', fontWeight:700, textTransform:'uppercase', letterSpacing:'0.07em', margin:'0 0 6px' }}>{c.l}</p>
+                      <p style={{ fontSize:20, fontWeight:900, color: c.hl ? '#00D68F' : '#E8EDF5', letterSpacing:'-0.03em', margin:'0 0 2px' }}>{c.v}</p>
+                      <p style={{ fontSize:11, color:'rgba(232,237,245,0.35)', margin:0 }}>{c.s}</p>
+                    </div>
+                  ))}
+                </div>
+                <p style={{ ...S.muted, fontSize: 13, margin: 0 }}>Precio libre pactado entre cliente y conductor · comisión 20% · pago protegido siempre</p>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        {/* ── PARA CLIENTES ──────────────────────── */}
+        <section style={{ padding: 'clamp(56px,7vw,88px) 24px' }}>
+          <div style={S.wrap}>
+            <div style={{ textAlign: 'center', marginBottom: 52 }}>
+              <p style={S.eyebrow}>¿Tenés algo que mover?</p>
+              <h2 style={S.h2}>Un solo lugar para todo tipo de carga</h2>
+            </div>
+            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit,minmax(200px,1fr))', gap: 16 }}>
               {[
-                {
-                  icon: <Truck size={24} />, color: '#D4A843',
-                  title: 'Para empresas de transporte',
-                  badge: '🚚 Transportistas',
-                  items: [
-                    'No cambiás tu ruta ni tu operativa',
-                    'Convertís un retorno vacío en ingreso real',
-                    'Cobrás el 80% neto por m³ vendido',
-                    'Sin desvíos: solo cargas en tu ruta exacta',
-                    'Aceptación automática o manual, vos decidís',
-                  ],
-                },
-                {
-                  icon: <Package size={24} />, color: '#00D68F',
-                  title: 'Para consumidores y empresas que envían',
-                  badge: '📦 Consumidores',
-                  items: [
-                    'No pagás un flete completo si no lo necesitás',
-                    'Precio por m³ claro desde el inicio',
-                    'Solo ves vueltas que pasan por tu zona',
-                    'Retiro y entrega confirmados con PIN',
-                    'Seguimiento en tiempo real del estado',
-                  ],
-                },
-              ].map((col, i) => (
-                <div key={i} style={{ ...S.card }}>
-                  <div style={{ display: 'flex', alignItems: 'center', gap: 10, marginBottom: 6 }}>
-                    <span style={{ color: col.color }}>{col.icon}</span>
-                    <span style={{
-                      background: `${col.color}15`, border: `1px solid ${col.color}30`,
-                      color: col.color, borderRadius: 20, padding: '3px 10px',
-                      fontSize: 11, fontWeight: 700,
-                    }}>{col.badge}</span>
-                  </div>
-                  <h3 style={{ fontSize: 17, fontWeight: 700, color: '#E8EDF5', margin: '14px 0 18px', letterSpacing: '-0.015em' }}>{col.title}</h3>
-                  <ul style={{ listStyle: 'none', padding: 0, margin: 0, display: 'flex', flexDirection: 'column', gap: 12 }}>
-                    {col.items.map((item, j) => (
-                      <li key={j} style={{ display: 'flex', alignItems: 'flex-start', gap: 10, color: 'rgba(232,237,245,0.78)', fontSize: 14, lineHeight: 1.5 }}>
-                        <CheckCircle2 size={15} style={{ color: col.color, flexShrink: 0, marginTop: 2 }} />
-                        {item}
-                      </li>
-                    ))}
-                  </ul>
+                { icon:'📦', title:'Mercadería entre ciudades', desc:'Pallets, cajas, encomiendas en rutas como Montevideo–Maldonado, Colonia, Rivera, Paysandú.' },
+                { icon:'🛋️', title:'Muebles y mudanzas', desc:'Dentro de la ciudad o entre ciudades. Un sillón, una cocina, el contenido de un apartamento.' },
+                { icon:'🏭', title:'Carga industrial', desc:'Repuestos, equipos, materiales. Con transportistas verificados y seguro de carga.' },
+                { icon:'🛵', title:'Bultos y encomiendas', desc:'Paquetes chicos que no justifican un flete completo. Solo pagás por el espacio que usás.' },
+              ].map((c,i) => (
+                <div key={i} style={{ ...S.card, textAlign:'center' }}>
+                  <div style={{ fontSize:32, marginBottom:14 }}>{c.icon}</div>
+                  <h4 style={{ fontSize:15, fontWeight:700, color:'#E8EDF5', margin:'0 0 8px', letterSpacing:'-0.01em' }}>{c.title}</h4>
+                  <p style={{ ...S.muted, fontSize:13, margin:0 }}>{c.desc}</p>
                 </div>
               ))}
             </div>
@@ -727,33 +787,34 @@ function MainPage() {
         </section>
 
         {/* ── PROBÁ AHORA ────────────────────────── */}
-        <section id="demo" style={{ padding: 'clamp(72px,9vw,108px) 24px', textAlign: 'center' }}>
-          <div style={{ maxWidth: 580, margin: '0 auto' }}>
+        <section id="demo" style={{ ...S.sectionAlt, padding: 'clamp(72px,9vw,108px) 24px', textAlign: 'center' }}>
+          <div style={{ maxWidth: 600, margin: '0 auto' }}>
             <p style={S.eyebrow}>Sin registro, sin tarjeta</p>
             <h2 style={{ ...S.h2, fontSize: 'clamp(32px,5vw,50px)', marginBottom: 16 }}>
               Probalo ahora mismo
             </h2>
             <p style={{ ...S.muted, marginBottom: 44 }}>
-              Datos de demo precargados. Explorá la plataforma completa como empresa
-              de transporte o como consumidor, sin crear cuenta.
+              Datos de demo precargados. Explorá la plataforma completa — ya sea que
+              tengas un camión de larga distancia, una Sprinter en la ciudad, o
+              necesites mover algo.
             </p>
             <div style={{ display: 'flex', gap: 14, justifyContent: 'center', flexWrap: 'wrap' }}>
               <AccessBtn role="transporter" path="/app/transporter" primary>
-                <Truck size={16} /> Entrar como empresa
+                <Truck size={16} /> Soy transportista
               </AccessBtn>
               <AccessBtn role="consumer" path="/app/send">
-                <Package size={16} /> Entrar como consumidor
+                <Package size={16} /> Necesito mover algo
               </AccessBtn>
               <button onClick={() => setAdminModal(true)} style={{
-                display: 'inline-flex', alignItems: 'center', gap: 8,
-                background: 'transparent', color: 'rgba(232,237,245,0.4)',
-                border: '1px solid rgba(255,255,255,0.1)',
-                borderRadius: 10, padding: '13px 24px', fontSize: 14, fontWeight: 600,
-                cursor: 'pointer', transition: 'opacity .15s',
+                display:'inline-flex', alignItems:'center', gap:8,
+                background:'transparent', color:'rgba(232,237,245,0.4)',
+                border:'1px solid rgba(255,255,255,0.1)',
+                borderRadius:10, padding:'13px 24px', fontSize:14, fontWeight:600,
+                cursor:'pointer', transition:'opacity .15s',
               }}
-              onMouseEnter={e => e.currentTarget.style.opacity = '.7'}
-              onMouseLeave={e => e.currentTarget.style.opacity = '1'}
-              ><ShieldCheck size={14} /> Admin</button>
+              onMouseEnter={e => e.currentTarget.style.opacity='.7'}
+              onMouseLeave={e => e.currentTarget.style.opacity='1'}
+              ><ShieldCheck size={14}/> Admin</button>
             </div>
           </div>
         </section>
@@ -761,7 +822,7 @@ function MainPage() {
 
       {/* ── FOOTER ─────────────────────────────── */}
       <footer style={{ ...S.divHr, padding: '28px 24px', textAlign: 'center', color: 'rgba(232,237,245,0.25)', fontSize: 13 }}>
-        2026 Movantia · Fill Empty Miles · Uruguay
+        2026 Movantia · Vueltas vacías · Fletes urbanos · Uruguay
       </footer>
     </div>
   )
