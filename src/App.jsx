@@ -5,6 +5,7 @@ import RoutePage from './RoutePage.jsx'
 
 // App pages
 import AuthGuard from './components/app/AuthGuard.jsx'
+import DevAccess from './pages/DevAccess.jsx'
 import AppLayout from './components/app/AppLayout.jsx'
 import Login from './pages/auth/Login.jsx'
 import Register from './pages/auth/Register.jsx'
@@ -267,6 +268,9 @@ export default function App() {
 
   return (
     <Routes>
+      {/* Dev bypass */}
+      <RRoute path="/dev" element={<DevAccess />} />
+
       {/* Auth */}
       <RRoute path="/app/auth/login" element={<Login />} />
       <RRoute path="/app/auth/register" element={<Register />} />
