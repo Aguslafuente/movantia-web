@@ -3,12 +3,30 @@ import { supabase } from '../lib/supabase'
 
 const AuthContext = createContext(null)
 
+// ── DEV BYPASS ─────────────────────────────────────
+// Set via localStorage: localStorage.setItem('dev_role', 'transporter'|'consumer'|'admin')
+const DEV_USERS = {
+  transporter: { id: 'dev-transporter', email: 'transporter@dev.local' },
+  consumer:    { id: 'dev-consumer',    email: 'consumer@dev.local' },
+  admin:       { id: 'dev-admin',       email: 'admin@dev.local' },
+}
+const DEV_PROFILES = {
+  transporter: { id: 'dev-transporter', role: 'transporter', full_name: 'Demo Transportista' },
+  consumer:    { id: 'dev-consumer',    role: 'consumer',    full_name: 'Demo Consumidor' },
+  admin:       { id: 'dev-admin',       role: 'admin',       full_name: 'Demo Admin' },
+}
+// ───────────────────────────────────────────────────
+
 export function AuthProvider({ children }) {
-  const [user, setUser] = useState(null)
-  const [profile, setProfile] = useState(null)
-  const [loading, setLoading] = useState(true)
+  const devRole = typeof window !== 'undefined' ? localStorage.getItem('dev_role') : null
+  const [user, setUser] = useState(devRole ? DEV_USERS[devRole] : null)
+  const [profile, setProfile] = useState(devRole ? DEV_PROFILES[devRole] : null)
+  const [loading, setLoading] = useState(!devRole)
 
   useEffect(() => {
+    // Skip Supabase auth when dev bypass is active
+    if (devRole) return
+
     // Get initial session
     supabase.auth.getSession().then(({ data: { session } }) => {
       setUser(session?.user ?? null)
@@ -56,11 +74,19 @@ export function AuthProvider({ children }) {
   }
 
   async function signOut() {
+    localStorage.removeItem('dev_role')
     await supabase.auth.signOut()
   }
 
+  function devLogin(role) {
+    localStorage.setItem('dev_role', role)
+    setUser(DEV_USERS[role])
+    setProfile(DEV_PROFILES[role])
+    setLoading(false)
+  }
+
   return (
-    <AuthContext.Provider value={{ user, profile, loading, signIn, signUp, signOut }}>
+    <AuthContext.Provider value={{ user, profile, loading, signIn, signUp, signOut, devLogin }}>
       {children}
     </AuthContext.Provider>
   )
