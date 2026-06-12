@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react'
 import { useAuth } from '../../contexts/AuthContext'
 import { supabase } from '../../lib/supabase'
+import { formatPrice } from '../../lib/constants'
 import { TrendingUp, DollarSign, Package } from 'lucide-react'
 
 export default function Earnings() {
@@ -41,10 +42,10 @@ export default function Earnings() {
       <h1 style={styles.pageTitle}>Mis ganancias</h1>
 
       <div style={{ display:'grid', gridTemplateColumns:'1fr 1fr', gap:'12px', marginBottom:'24px' }}>
-        <BigStat icon={<DollarSign size={20} color="#D4A843" />} label="Total ganado" value={`USD ${stats.total.toFixed(0)}`} accent="#D4A843" />
-        <BigStat icon={<TrendingUp size={20} color="#00D68F" />} label="Este mes" value={`USD ${stats.thisMonth.toFixed(0)}`} accent="#00D68F" />
+        <BigStat icon={<DollarSign size={20} color="#D4A843" />} label="Total ganado" value={formatPrice(stats.total)} accent="#D4A843" />
+        <BigStat icon={<TrendingUp size={20} color="#00D68F" />} label="Este mes" value={formatPrice(stats.thisMonth)} accent="#00D68F" />
         <BigStat icon={<Package size={20} color="#a78bfa" />} label="Viajes completados" value={stats.count} accent="#a78bfa" />
-        <BigStat icon={<DollarSign size={20} color="#38bdf8" />} label="Promedio por viaje" value={`USD ${stats.avgPerTrip.toFixed(0)}`} accent="#38bdf8" />
+        <BigStat icon={<DollarSign size={20} color="#38bdf8" />} label="Promedio por viaje" value={formatPrice(stats.avgPerTrip)} accent="#38bdf8" />
       </div>
 
       <h2 style={{ fontFamily:'Space Grotesk, sans-serif', fontSize:'15px', fontWeight:600, color:'#9AA3B5', marginBottom:'12px', textTransform:'uppercase', letterSpacing:'0.5px' }}>
@@ -68,7 +69,7 @@ export default function Earnings() {
               </div>
             </div>
             <div style={{ color:'#00D68F', fontWeight:700, fontFamily:'Space Grotesk', fontSize:'15px' }}>
-              +USD {parseFloat(b.transporter_amount).toFixed(0)}
+              +{formatPrice(parseFloat(b.transporter_amount))}
             </div>
           </div>
         ))}
