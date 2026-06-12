@@ -1,11 +1,13 @@
 import { NavLink, useNavigate } from 'react-router-dom'
 import { useAuth } from '../../contexts/AuthContext'
-import { Truck, Package, Plus, DollarSign, History, LogOut, Search, Clock } from 'lucide-react'
+import { Truck, Package, Plus, DollarSign, History, LogOut, Search, Clock, LayoutDashboard, Building2, AlertTriangle } from 'lucide-react'
 
 export default function AppLayout({ children }) {
   const { profile, signOut } = useAuth()
   const navigate = useNavigate()
-  const isTransporter = profile?.role === 'transporter'
+  const role = profile?.role
+  const isTransporter = role === 'transporter'
+  const isAdmin = role === 'admin'
 
   async function handleSignOut() {
     await signOut()
@@ -25,7 +27,14 @@ export default function AppLayout({ children }) {
     { to: '/app/send/history', label: 'Mis envíos', icon: Clock },
   ]
 
-  const navItems = isTransporter ? transporterNav : consumerNav
+  const adminNav = [
+    { to: '/admin', label: 'Dashboard', icon: LayoutDashboard, end: true },
+    { to: '/admin/companies', label: 'Empresas', icon: Building2 },
+    { to: '/admin/bookings', label: 'Reservas', icon: Package },
+    { to: '/admin/incidents', label: 'Incidencias', icon: AlertTriangle },
+  ]
+
+  const navItems = isTransporter ? transporterNav : isAdmin ? adminNav : consumerNav
 
   return (
     <div style={{ display:'flex', flexDirection:'column', minHeight:'100vh', background:'#07090F', color:'#E8EDF5', fontFamily:'DM Sans, sans-serif' }}>
@@ -34,7 +43,7 @@ export default function AppLayout({ children }) {
         <a href="/" style={{ display:'flex', alignItems:'center', gap:'8px', textDecoration:'none' }}>
           <span style={{ fontFamily:'Space Grotesk, sans-serif', fontWeight:700, fontSize:'18px', color:'#D4A843' }}>MOVANTIA</span>
           <span style={{ fontSize:'11px', color:'#9AA3B5', background:'rgba(212,168,67,0.12)', padding:'2px 8px', borderRadius:'20px', fontWeight:500 }}>
-            {isTransporter ? 'Transportista' : 'Mis envíos'}
+            {isTransporter ? 'Transportista' : isAdmin ? 'Admin' : 'Mis envíos'}
           </span>
         </a>
         <button onClick={handleSignOut} style={{ background:'none', border:'none', color:'#9AA3B5', cursor:'pointer', display:'flex', alignItems:'center', gap:'6px', fontSize:'13px' }}>
