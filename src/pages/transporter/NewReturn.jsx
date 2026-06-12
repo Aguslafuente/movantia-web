@@ -23,7 +23,12 @@ export default function NewReturn() {
 
   useEffect(() => {
     async function load() {
-      const { data: co } = await supabase.from('companies').select('*').eq('user_id', user.id).single()
+      let { data: co } = await supabase.from('companies').select('*').eq('user_id', user.id).single()
+      // Dev mode fallback: use first available company
+      if (!co) {
+        const { data: fallback } = await supabase.from('companies').select('*').limit(1).single()
+        co = fallback
+      }
       setCompany(co)
       if (co) {
         const { data: v } = await supabase.from('vehicles').select('*').eq('company_id', co.id).eq('active', true)
