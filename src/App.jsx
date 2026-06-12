@@ -257,15 +257,6 @@ function RoutePageWrapper() {
 }
 
 export default function App() {
-  const [role, setRole] = useState(null)
-  const roleRef = useRef(null)
-  const howRef = useRef(null)
-
-  const pickRole = (r) => {
-    setRole(r)
-    setTimeout(() => howRef.current?.scrollIntoView({ behavior: 'smooth', block: 'start' }), 80)
-  }
-
   return (
     <Routes>
       {/* Dev bypass */}
@@ -302,7 +293,7 @@ export default function App() {
 
       {/* Landing + SEO routes */}
       <RRoute path="/:slug" element={<RoutePageWrapper />} />
-      <RRoute path="/" element={<MainPage role={role} setRole={setRole} roleRef={roleRef} howRef={howRef} pickRole={pickRole} />} />
+      <RRoute path="/" element={<MainPage />} />
     </Routes>
   )
 }
@@ -358,286 +349,276 @@ function DevBar() {
   )
 }
 
-function MainPage({ role, setRole, roleRef, howRef, pickRole }) {
-  return (
-    <div className="site-shell">
-      <div className="page-bg" aria-hidden="true">
-        <div className="page-bg-grid" />
-      </div>
+/* ── helpers ─────────────────────────────── */
+const S = {
+  /* layout */
+  page:   { background: '#07090F', minHeight: '100vh', color: '#E8EDF5', fontFamily: "'Space Grotesk', sans-serif" },
+  wrap:   { maxWidth: 1120, margin: '0 auto', padding: '0 24px' },
+  /* text */
+  eyebrow: { color: '#D4A843', fontSize: 11, fontWeight: 700, letterSpacing: '0.12em', textTransform: 'uppercase', margin: '0 0 10px' },
+  h2:      { fontSize: 'clamp(26px, 4vw, 36px)', fontWeight: 800, color: '#E8EDF5', letterSpacing: '-0.025em', margin: '0 0 12px' },
+  muted:   { color: 'rgba(232,237,245,0.55)', fontSize: 15, lineHeight: 1.65 },
+  /* cards */
+  card:    { background: 'rgba(255,255,255,0.04)', border: '1px solid rgba(255,255,255,0.08)', borderRadius: 16, padding: '28px 24px' },
+  /* dividers */
+  divHr:   { borderTop: '1px solid rgba(255,255,255,0.07)' },
+  sectionAlt: { background: 'rgba(255,255,255,0.025)', borderTop: '1px solid rgba(255,255,255,0.06)', borderBottom: '1px solid rgba(255,255,255,0.06)' },
+}
 
+function NavLink({ href, children }) {
+  return (
+    <a href={href} style={{ color: 'rgba(232,237,245,0.6)', fontSize: 14, fontWeight: 500, padding: '6px 12px', borderRadius: 8, textDecoration: 'none' }}
+      onMouseEnter={e => { e.currentTarget.style.color = '#E8EDF5'; e.currentTarget.style.background = 'rgba(255,255,255,0.06)' }}
+      onMouseLeave={e => { e.currentTarget.style.color = 'rgba(232,237,245,0.6)'; e.currentTarget.style.background = 'transparent' }}
+    >{children}</a>
+  )
+}
+
+function DemoBtn({ role, label, path, primary }) {
+  function go() {
+    try { localStorage.setItem('dev_role', role) } catch(e) {}
+    window.location.href = path
+  }
+  const styles = primary
+    ? { background: '#D4A843', color: '#07090F', border: 'none' }
+    : { background: 'rgba(255,255,255,0.07)', color: '#E8EDF5', border: '1px solid rgba(255,255,255,0.14)' }
+  return (
+    <button onClick={go} style={{
+      ...styles, display: 'inline-flex', alignItems: 'center', gap: 8,
+      borderRadius: 10, padding: '12px 26px', fontSize: 15, fontWeight: 700,
+      cursor: 'pointer', transition: 'opacity .15s',
+    }}
+    onMouseEnter={e => e.currentTarget.style.opacity = '.82'}
+    onMouseLeave={e => e.currentTarget.style.opacity = '1'}
+    >{label}</button>
+  )
+}
+
+function MainPage() {
+  return (
+    <div style={S.page}>
       <DevBar />
 
-      {/* HEADER */}
-      <header className="site-header">
-        <div className="container header-inner">
-          <a className="brand" href="#" aria-label="Movantia inicio">
-            <span className="brand-mark" aria-hidden="true">
-              <BrandMark />
-            </span>
-            <span>
-              <span className="brand-name">Movantia</span>
-              <span className="brand-tagline">Fill Empty Miles</span>
-            </span>
+      {/* ── NAVBAR ─────────────────────────────── */}
+      <header style={{
+        position: 'sticky', top: 0, zIndex: 100,
+        background: 'rgba(7,9,15,0.93)', backdropFilter: 'blur(14px)',
+        borderBottom: '1px solid rgba(255,255,255,0.07)',
+      }}>
+        <div style={{ ...S.wrap, display: 'flex', alignItems: 'center', height: 58, gap: 8 }}>
+          <a href="/" style={{ display: 'flex', alignItems: 'center', gap: 10, textDecoration: 'none', flexShrink: 0, marginRight: 16 }}>
+            <span style={{ width: 30, height: 30, display: 'flex' }}><BrandMark /></span>
+            <span style={{ fontWeight: 800, fontSize: 17, color: '#E8EDF5', letterSpacing: '-0.02em' }}>Movantia</span>
           </a>
-          <nav className="nav-links">
-            <a href="#como-funciona">Cómo funciona</a>
-            <a href="#rutas">Rutas</a>
-            <a href="#contacto">Contacto</a>
+
+          <nav style={{ display: 'flex', gap: 2, flex: 1 }}>
+            <NavLink href="/admin">Métricas</NavLink>
+            <NavLink href="/admin/companies">Empresas</NavLink>
+            <NavLink href="/admin/trips">Vueltas</NavLink>
+            <NavLink href="/admin/bookings">Reservas</NavLink>
+            <NavLink href="/admin/incidents">Incidencias</NavLink>
           </nav>
-          <a href={WA} className="button button-primary" target="_blank" rel="noopener">
-            Hablar con nosotros
-          </a>
+
+          <button onClick={() => { try { localStorage.setItem('dev_role', 'admin') } catch(e) {} window.location.href = '/admin' }}
+            style={{
+              display: 'flex', alignItems: 'center', gap: 6,
+              background: 'rgba(212,168,67,0.1)', border: '1px solid rgba(212,168,67,0.28)',
+              color: '#D4A843', borderRadius: 8, padding: '7px 16px',
+              fontSize: 13, fontWeight: 700, cursor: 'pointer', flexShrink: 0,
+              transition: 'background .15s',
+            }}
+            onMouseEnter={e => e.currentTarget.style.background = 'rgba(212,168,67,0.18)'}
+            onMouseLeave={e => e.currentTarget.style.background = 'rgba(212,168,67,0.1)'}
+          >
+            <ShieldCheck size={14} /> Admin
+          </button>
         </div>
       </header>
 
       <main>
-        {/* ══════════════════════════════════════
-            HERO — hook inmediato
-        ══════════════════════════════════════ */}
-        <section className="v2-hero container">
-          <div className="v2-hero-copy anim-fadein">
-            <div className="eyebrow">
-              <span className="eyebrow-dot" />
-              <Route size={15} />
-              Marketplace de transporte · Uruguay
+        {/* ── HERO ─────────────────────────────────── */}
+        <section style={{ textAlign: 'center', padding: 'clamp(56px,8vw,96px) 24px clamp(48px,6vw,80px)' }}>
+          <div style={{ maxWidth: 660, margin: '0 auto' }}>
+            {/* badge */}
+            <div style={{
+              display: 'inline-flex', alignItems: 'center', gap: 8,
+              background: 'rgba(212,168,67,0.1)', border: '1px solid rgba(212,168,67,0.28)',
+              color: '#D4A843', borderRadius: 20, padding: '5px 16px',
+              fontSize: 12, fontWeight: 700, letterSpacing: '0.03em', marginBottom: 36,
+            }}>
+              <span style={{ width: 7, height: 7, background: '#D4A843', borderRadius: '50%' }} />
+              MVP funcional · datos demo precargados
             </div>
 
-            <h1 className="v2-hero-h1">
-              Mové lo que<br/>
-              necesitás.<br/>
-              <span className="h1-accent">Cuando lo necesitás.</span>
+            {/* heading */}
+            <h1 style={{
+              fontSize: 'clamp(44px,7vw,76px)', fontWeight: 900,
+              lineHeight: 1.08, letterSpacing: '-0.035em',
+              color: '#E8EDF5', margin: '0 0 24px',
+            }}>
+              Volvés vacío.<br />
+              <span style={{ color: '#D4A843' }}>Vendé ese espacio.</span>
             </h1>
 
-            <p className="v2-hero-sub">
-              Fletes largos, mudanzas, cargas chicas. Conectamos a quien necesita
-              mover algo con el transportista indicado. Match en minutos, pago garantizado.
+            {/* subtitle */}
+            <p style={{ ...S.muted, fontSize: 18, maxWidth: 500, margin: '0 auto 40px' }}>
+              Marketplace de cargas para retornos vacíos en Uruguay. Las empresas de transporte
+              publican su espacio libre; los consumidores reservan m³ por su ruta.
             </p>
 
-            <div className="v2-hero-stats">
-              <div className="v2-stat"><strong>&lt; 2h</strong><span>Tiempo al primer match</span></div>
-              <div className="v2-stat-div" />
-              <div className="v2-stat"><strong>8%</strong><span>Comisión por entrega</span></div>
-              <div className="v2-stat-div" />
-              <div className="v2-stat"><strong>Pago protegido</strong><span>Pago garantizado</span></div>
+            {/* CTAs */}
+            <div style={{ display: 'flex', gap: 12, justifyContent: 'center', flexWrap: 'wrap', marginBottom: 20 }}>
+              <DemoBtn role="transporter" label={<><Truck size={16} /> Soy transportista</>} path="/app/transporter" primary />
+              <DemoBtn role="consumer" label={<><Package size={16} /> Quiero enviar carga</>} path="/app/send" />
             </div>
 
-            <div className="v2-hero-ctas">
-              <a href={WA_ENVIAR} className="button button-primary" target="_blank" rel="noopener">
-                Escribinos por WhatsApp <ArrowRight size={17} />
-              </a>
-              <a href={WA_LLEVAR} style={{ color:'var(--text-muted,#8695AE)', fontSize:'14px', textDecoration:'none', alignSelf:'center' }} target="_blank" rel="noopener">
-                Soy transportista →
-              </a>
-            </div>
-          </div>
-
-          <div className="v2-hero-visual anim-fadein anim-fadein-delay">
-            <RouteCard />
+            <a href="/app/auth/login" style={{ color: 'rgba(232,237,245,0.38)', fontSize: 13, textDecoration: 'none' }}
+              onMouseEnter={e => e.currentTarget.style.color = 'rgba(232,237,245,0.65)'}
+              onMouseLeave={e => e.currentTarget.style.color = 'rgba(232,237,245,0.38)'}
+            >o iniciar sesión / cambiar de perfil</a>
           </div>
         </section>
 
-        <ScrollJourneySection />
-
-        {/* ══════════════════════════════════════
-            ROLE CHOOSER
-        ══════════════════════════════════════ */}
-        <section id="elegir" ref={roleRef} className="v2-chooser container">
-          <motion.div
-            className="v2-chooser-head"
-            initial={{ opacity:0, y:28 }}
-            whileInView={{ opacity:1, y:0 }}
-            viewport={{ once:true, margin:'-80px' }}
-            transition={{ duration:.6, ease:[.22,1,.36,1] }}
-          >
-            <p className="section-eyebrow">Elegí tu rol</p>
-            <h2 className="v2-chooser-title">¿Qué querés hacer?</h2>
-            <p className="v2-chooser-sub">
-              Dos lados del mismo match. Elegí el tuyo para ver cómo funciona.
-            </p>
-          </motion.div>
-
-          <div className="v2-chooser-cards">
-            <ChooserCard
-              active={role === 'enviar'}
-              color="gold"
-              icon={<Package size={36} />}
-              label="Carga en ruta"
-              desc="Tengo mercadería para mover en ruta larga. Quiero un camión que ya va hacia ese destino."
-              cta="Quiero enviar"
-              onClick={() => pickRole('enviar')}
-            />
-            <ChooserCard
-              active={role === 'express'}
-              color="blue"
-              icon={<Zap size={36} />}
-              label="Flete express"
-              desc="Necesito una mudanza, envío chico o flete puntual. Subo el pedido y recibo cotizaciones."
-              cta="Pedir cotización"
-              onClick={() => pickRole('express')}
-              badge="Más buscado"
-            />
-            <ChooserCard
-              active={role === 'llevar'}
-              color="green"
-              icon={<Truck size={36} />}
-              label="Soy transportista"
-              desc="Tengo camión, camioneta o utilitario. Quiero recibir pedidos y no volver vacío nunca más."
-              cta="Quiero llevar"
-              onClick={() => pickRole('llevar')}
-            />
-          </div>
-        </section>
-
-        {/* ══════════════════════════════════════
-            HOW IT WORKS (role-specific)
-        ══════════════════════════════════════ */}
-        <div ref={howRef} id="como-funciona">
-          <AnimatePresence mode="wait">
-            {role && (
-              <motion.section
-                key={role}
-                className="v2-how container section-block"
-                initial={{ opacity:0, y:40 }}
-                animate={{ opacity:1, y:0 }}
-                exit={{ opacity:0, y:-20 }}
-                transition={{ duration:.55, ease:[.22,1,.36,1] }}
-              >
-                {/* toggle */}
-                <div className="v2-how-toggle">
-                  <button className={`role-btn${role==='enviar'?' active':''}`} onClick={()=>setRole('enviar')}>
-                    <Package size={15}/> Carga en ruta
-                  </button>
-                  <button className={`role-btn${role==='express'?' active':''}`} onClick={()=>setRole('express')}>
-                    <Zap size={15}/> Flete express
-                  </button>
-                  <button className={`role-btn${role==='llevar'?' active':''}`} onClick={()=>setRole('llevar')}>
-                    <Truck size={15}/> Transportista
-                  </button>
-                </div>
-
-                <div className="v2-how-inner">
-                  {/* Left: animated demo */}
-                  <div className="v2-how-demo">
-                    {role === 'enviar' ? <EnviarDemo /> : <LlevarDemo />}
+        {/* ── CÓMO FUNCIONA ──────────────────────── */}
+        <section style={{ ...S.sectionAlt, padding: 'clamp(48px,6vw,80px) 24px' }}>
+          <div style={S.wrap}>
+            <div style={{ textAlign: 'center', marginBottom: 48 }}>
+              <p style={S.eyebrow}>Proceso</p>
+              <h2 style={S.h2}>Cómo funciona</h2>
+            </div>
+            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit,minmax(260px,1fr))', gap: 20 }}>
+              {[
+                {
+                  num: '01', icon: <Truck size={26} />,
+                  title: 'Empresa publica su vuelta vacía',
+                  desc: 'La empresa ingresa su ruta de retorno, fecha, espacio disponible en m³ y tipo de vehículo. Tarda 2 minutos.',
+                },
+                {
+                  num: '02', icon: <Package size={26} />,
+                  title: 'Consumidor reserva m³',
+                  desc: 'El cliente busca vueltas disponibles en su zona, elige la que le conviene y reserva el espacio que necesita pagando USD 50/m³.',
+                },
+                {
+                  num: '03', icon: <ShieldCheck size={26} />,
+                  title: 'PIN de retiro y entrega',
+                  desc: 'Al retirar y entregar la carga se confirma con un PIN de 4 dígitos. El pago se libera automáticamente al transportista.',
+                },
+              ].map((step, i) => (
+                <div key={i} style={S.card}>
+                  <div style={{ display: 'flex', alignItems: 'center', gap: 10, marginBottom: 18 }}>
+                    <span style={{ fontWeight: 800, fontSize: 12, color: 'rgba(212,168,67,0.55)', letterSpacing: '0.06em' }}>{step.num}</span>
+                    <span style={{ color: '#D4A843' }}>{step.icon}</span>
                   </div>
-
-                  {/* Right: steps */}
-                  <div className="v2-how-steps">
-                    <p className="section-eyebrow">
-                      {role === 'enviar' ? 'Carga en ruta' : role === 'express' ? 'Flete express' : 'Para transportistas'}
-                    </p>
-                    <h2 className="v2-how-title">
-                      {role === 'enviar'
-                        ? 'Tu carga llega. Simple y seguro.'
-                        : role === 'express'
-                        ? 'Pedís, cotizás, confirmás.'
-                        : 'Tu retorno empieza a facturar.'}
-                    </h2>
-                    <StepList steps={role === 'enviar' ? ENVIAR_STEPS : role === 'express' ? EXPRESS_STEPS : LLEVAR_STEPS} role={role} />
-
-                    <a
-                      href={role === 'enviar' ? WA_ENVIAR : role === 'express' ? WA_EXPRESS : WA_LLEVAR}
-                      className="button button-primary v2-how-cta"
-                      target="_blank" rel="noopener"
-                    >
-                      {role === 'enviar' ? 'Publicar mi carga' : role === 'express' ? 'Pedir cotización' : 'Publicar mi ruta'}
-                      <ArrowRight size={18} />
-                    </a>
-                  </div>
-                </div>
-              </motion.section>
-            )}
-          </AnimatePresence>
-        </div>
-
-        {/* ══════════════════════════════════════
-            PRICING CLARITY
-        ══════════════════════════════════════ */}
-        <section className="container">
-          <PricingBanner />
-        </section>
-
-        {/* Mid-page CTA */}
-        <div className="container mid-cta">
-          <a href={WA_EXPRESS} className="button button-primary" target="_blank" rel="noopener">
-            Escribinos por WhatsApp — respondemos hoy <ArrowRight size={17}/>
-          </a>
-          <p className="mid-cta-note">Sin suscripción. Solo pagás cuando hay match confirmado.</p>
-        </div>
-
-        {/* ══════════════════════════════════════
-            POR QUÉ MOVANTIA
-        ══════════════════════════════════════ */}
-        <section className="container section-block">
-          <WhyMovantia />
-        </section>
-
-        {/* ══════════════════════════════════════
-            TESTIMONIALES
-        ══════════════════════════════════════ */}
-        <section className="container section-block">
-          <Testimonials />
-        </section>
-
-        {/* ══════════════════════════════════════
-            FAQ
-        ══════════════════════════════════════ */}
-        <section className="container section-block">
-          <FAQ />
-        </section>
-
-        {/* ══════════════════════════════════════
-            RUTAS
-        ══════════════════════════════════════ */}
-        <section id="rutas" className="container section-block">
-          <div className="companies-panel">
-            <div>
-              <p className="section-eyebrow">Rutas activas</p>
-              <h2>Para rutas repetidas donde hoy se pierde margen.</h2>
-              <p>
-                Pensado para empresas que mueven mercadería recurrente y flotas
-                con espacio libre en rutas ya planificadas.
-              </p>
-            </div>
-            <div className="route-list">
-              {ROUTES.map(r => (
-                <div className="route-item" key={r}>
-                  <CheckCircle2 size={19} />
-                  <span>{r}</span>
+                  <h3 style={{ fontSize: 16, fontWeight: 700, color: '#E8EDF5', margin: '0 0 10px', letterSpacing: '-0.01em' }}>{step.title}</h3>
+                  <p style={{ ...S.muted, fontSize: 14, margin: 0 }}>{step.desc}</p>
                 </div>
               ))}
             </div>
           </div>
         </section>
 
-        {/* ══════════════════════════════════════
-            CTA FINAL
-        ══════════════════════════════════════ */}
-        <section id="contacto" className="container contact-section">
-          <h2>¿Necesitás mover algo o tenés vehículo disponible?</h2>
-          <p>
-            Mandanos un mensaje por WhatsApp. En minutos te conectamos con
-            la otra parte del match.
-          </p>
-          <div style={{ display:'flex', gap:'12px', flexWrap:'wrap', justifyContent:'center' }}>
-            <a href={WA_EXPRESS} className="button button-primary" target="_blank" rel="noopener">
-              Necesito un flete <ArrowRight size={18} />
-            </a>
-            <a href={WA_LLEVAR} className="button button-secondary" target="_blank" rel="noopener">
-              Soy transportista
-            </a>
+        {/* ── EJEMPLO ECONÓMICO ──────────────────── */}
+        <section style={{ padding: 'clamp(48px,6vw,80px) 24px' }}>
+          <div style={S.wrap}>
+            <div style={{ textAlign: 'center', marginBottom: 48 }}>
+              <p style={S.eyebrow}>Transparencia</p>
+              <h2 style={S.h2}>Ejemplo económico</h2>
+              <p style={{ ...S.muted, margin: '6px auto 0', maxWidth: 400 }}>USD 50 por m³ · Comisión 20% · Mínimo USD 15</p>
+            </div>
+
+            <div style={{
+              background: 'rgba(255,255,255,0.03)', border: '1px solid rgba(255,255,255,0.08)',
+              borderRadius: 20, maxWidth: 760, margin: '0 auto', overflow: 'hidden',
+            }}>
+              <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3,1fr)' }}>
+                {[
+                  { label: 'Cliente paga',          amount: 'USD 100', sub: '2 m³ × USD 50/m³',   hl: false, color: '#E8EDF5' },
+                  { label: 'Comisión 20%',           amount: 'USD 20',  sub: 'Plataforma Movantia', hl: false, color: 'rgba(212,168,67,0.9)' },
+                  { label: 'Transportista recibe',   amount: 'USD 80',  sub: '80% del cobro',       hl: true,  color: '#00D68F' },
+                ].map((item, i) => (
+                  <div key={i} style={{
+                    textAlign: 'center', padding: 'clamp(20px,3vw,36px) 16px',
+                    background: item.hl ? 'rgba(0,214,143,0.06)' : 'transparent',
+                    borderLeft: i > 0 ? '1px solid rgba(255,255,255,0.07)' : 'none',
+                  }}>
+                    <p style={{ fontSize: 11, fontWeight: 700, color: 'rgba(232,237,245,0.45)', textTransform: 'uppercase', letterSpacing: '0.08em', margin: '0 0 14px' }}>{item.label}</p>
+                    <p style={{ fontSize: 'clamp(28px,4vw,42px)', fontWeight: 900, color: item.color, letterSpacing: '-0.04em', margin: '0 0 6px' }}>{item.amount}</p>
+                    <p style={{ fontSize: 13, color: 'rgba(232,237,245,0.4)', margin: 0 }}>{item.sub}</p>
+                    {item.hl && (
+                      <span style={{
+                        display: 'inline-block', marginTop: 14,
+                        background: 'rgba(0,214,143,0.12)', border: '1px solid rgba(0,214,143,0.28)',
+                        borderRadius: 6, padding: '3px 10px', fontSize: 11, fontWeight: 700, color: '#00D68F',
+                      }}>Pago garantizado</span>
+                    )}
+                  </div>
+                ))}
+              </div>
+            </div>
+          </div>
+        </section>
+
+        {/* ── BENEFICIOS ─────────────────────────── */}
+        <section style={{ ...S.sectionAlt, padding: 'clamp(48px,6vw,80px) 24px' }}>
+          <div style={{ ...S.wrap, display: 'grid', gridTemplateColumns: 'repeat(auto-fit,minmax(280px,1fr))', gap: 48 }}>
+            {[
+              {
+                icon: <Truck size={22} />, title: 'Para empresas',
+                items: ['No cambiás tu operativa','Vendés capacidad ociosa','Cobrás el 80% por m³','Reglas claras: sin desvíos forzados','Aceptación automática opcional'],
+              },
+              {
+                icon: <Package size={22} />, title: 'Para consumidores',
+                items: ['Enviás sin contratar flete completo','Precio por m³ transparente','Solo vueltas que pasan por tu zona','PIN de retiro y entrega','Seguimiento de estado'],
+              },
+            ].map((col, i) => (
+              <div key={i}>
+                <div style={{ display: 'flex', alignItems: 'center', gap: 10, marginBottom: 24 }}>
+                  <span style={{ color: '#D4A843' }}>{col.icon}</span>
+                  <h3 style={{ fontSize: 18, fontWeight: 800, color: '#E8EDF5', margin: 0, letterSpacing: '-0.015em' }}>{col.title}</h3>
+                </div>
+                <ul style={{ listStyle: 'none', padding: 0, margin: 0, display: 'flex', flexDirection: 'column', gap: 13 }}>
+                  {col.items.map((item, j) => (
+                    <li key={j} style={{ display: 'flex', alignItems: 'flex-start', gap: 10, color: 'rgba(232,237,245,0.8)', fontSize: 15, lineHeight: 1.5 }}>
+                      <CheckCircle2 size={16} style={{ color: '#00D68F', flexShrink: 0, marginTop: 2 }} />
+                      {item}
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            ))}
+          </div>
+        </section>
+
+        {/* ── PROBÁ EL MVP ───────────────────────── */}
+        <section style={{ padding: 'clamp(64px,8vw,100px) 24px', textAlign: 'center' }}>
+          <div style={{ maxWidth: 560, margin: '0 auto' }}>
+            <h2 style={{ ...S.h2, fontSize: 'clamp(30px,5vw,46px)', marginBottom: 14 }}>Probá el MVP ahora</h2>
+            <p style={{ ...S.muted, marginBottom: 40 }}>
+              Datos demo listos. Ingresá como empresa, consumidor o administrador.
+            </p>
+            <div style={{ display: 'flex', gap: 12, justifyContent: 'center', flexWrap: 'wrap' }}>
+              <DemoBtn role="transporter" label={<><Truck size={15}/> Empresa</>}    path="/app/transporter" primary />
+              <DemoBtn role="consumer"    label={<><Package size={15}/> Consumidor</>} path="/app/send" />
+              <button onClick={() => { try { localStorage.setItem('dev_role','admin') } catch(e){} window.location.href='/admin' }}
+                style={{
+                  display:'inline-flex', alignItems:'center', gap:8,
+                  background:'transparent', color:'rgba(232,237,245,0.55)',
+                  border:'1px solid rgba(255,255,255,0.12)',
+                  borderRadius:10, padding:'12px 26px', fontSize:15, fontWeight:600,
+                  cursor:'pointer', transition:'opacity .15s',
+                }}
+                onMouseEnter={e => e.currentTarget.style.opacity = '.75'}
+                onMouseLeave={e => e.currentTarget.style.opacity = '1'}
+              ><ShieldCheck size={15}/> Admin</button>
+            </div>
           </div>
         </section>
       </main>
 
-      <footer className="site-footer">
-        <div className="container footer-inner">
-          <p>2026 Movantia. Fill Empty Miles.</p>
-          <p>Uruguay · Fletes largos · Fletes express · Retornos vacíos</p>
-        </div>
+      {/* ── FOOTER ─────────────────────────────── */}
+      <footer style={{ ...S.divHr, padding: '28px 24px', textAlign: 'center', color: 'rgba(232,237,245,0.28)', fontSize: 13 }}>
+        2026 Movantia · Fill Empty Miles · Uruguay
       </footer>
-
-      <FloatingWA />
     </div>
   )
 }
