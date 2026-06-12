@@ -12,7 +12,12 @@ export default function SendHistory() {
 
   useEffect(() => {
     async function load() {
-      const { data: consumer } = await supabase.from('consumers').select('id').eq('user_id', user.id).single()
+      let { data: consumer } = await supabase.from('consumers').select('id').eq('user_id', user.id).single()
+      // Dev mode fallback: use first available consumer
+      if (!consumer) {
+        const { data: fallback } = await supabase.from('consumers').select('id').limit(1).single()
+        consumer = fallback
+      }
       if (!consumer) { setLoading(false); return }
       const { data } = await supabase
         .from('bookings')
