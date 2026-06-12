@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react'
 import { useParams, useNavigate } from 'react-router-dom'
 import { supabase } from '../../lib/supabase'
 import BookingStatus from '../../components/app/BookingStatus'
-import { formatPrice } from '../../lib/constants'
+import { formatPrice, PACKAGE_CATEGORIES } from '../../lib/constants'
 import { MapPin, Clock, Package, Shield } from 'lucide-react'
 
 export default function Tracking() {
@@ -54,7 +54,7 @@ export default function Tracking() {
       </div>
 
       <div style={styles.card}>
-        <InfoRow icon={<Package size={15} />} label="Paquete" value={`${booking.package_category || 'Personalizado'} · ${booking.package_m3} m³`} />
+        <InfoRow icon={<Package size={15} />} label="Paquete" value={`${PACKAGE_CATEGORIES.find(c => c.value === booking.package_category)?.label || booking.package_category || 'Personalizado'} · ${booking.package_m3} m³`} />
         <InfoRow icon={<MapPin size={15} />} label="Retiro" value={booking.pickup_address} />
         <InfoRow icon={<MapPin size={15} color="#00D68F" />} label="Entrega" value={booking.delivery_address} />
         {booking.estimated_pickup_time && (
