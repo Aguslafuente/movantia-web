@@ -31,7 +31,7 @@ export default function NewReturn() {
       }
       setCompany(co)
       if (co) {
-        const { data: v } = await supabase.from('vehicles').select('*').eq('company_id', co.id).eq('active', true)
+        const { data: v } = await supabase.from('vehicles').select('*').eq('company_id', co.id).neq('active', false)
         setVehicles(v || [])
         if (v?.length) setForm(f => ({ ...f, vehicle_id: v[0].id, available_m3: v[0].capacity_m3 }))
       }
