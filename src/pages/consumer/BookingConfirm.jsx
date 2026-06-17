@@ -79,7 +79,7 @@ export default function BookingConfirm() {
 
       <div style={{ background:'rgba(0,214,143,0.06)', border:'1px solid rgba(0,214,143,0.2)', borderRadius:'10px', padding:'14px', marginBottom:'20px', fontSize:'13px', color:'#9AA3B5', textAlign:'left' }}>
         <Shield size={16} color="#00D68F" style={{ marginBottom:'6px' }} />
-        <p>Tu pago queda <strong style={{ color:'#00D68F' }}>protegido</strong>. El dinero solo se libera al transportista cuando el destinatario confirme que recibió todo bien.</p>
+        <p>Pagaste con tarjeta y el dinero queda <strong style={{ color:'#00D68F' }}>protegido</strong>. Solo se libera al transportista cuando el destinatario confirme que recibió todo bien. Si algo falla, abrís una disputa y el monto se retiene.</p>
       </div>
 
       <button onClick={() => navigate(`/app/send/tracking/${done.bookingId}`)} style={styles.btn}>
@@ -112,11 +112,16 @@ export default function BookingConfirm() {
         <p><strong style={{ color:'#E8EDF5' }}>Importante:</strong> El transportista no cambia su ruta por vos. Tenés que estar listo en la ventana horaria indicada. Si no estás, perdés la reserva sin reembolso.</p>
       </div>
 
+      {/* Card payment info */}
+      <div style={{ background:'rgba(212,168,67,0.05)', border:'1px solid rgba(212,168,67,0.15)', borderRadius:'10px', padding:'14px', marginBottom:'16px', fontSize:'13px', color:'#9AA3B5' }}>
+        <p style={{ marginBottom:'6px' }}>💳 <strong style={{ color:'#E8EDF5' }}>Pago con tarjeta de crédito o débito</strong></p>
+        <p style={{ margin:0, lineHeight:1.5 }}>El dinero <strong style={{ color:'#D4A843' }}>no va al transportista</strong> hasta que vos confirmés que recibiste todo bien. Si algo falla, abrís una disputa y el monto queda retenido.</p>
+      </div>
       <button onClick={handleConfirm} disabled={loading} style={styles.btn}>
-        {loading ? 'Procesando...' : `✓ Pagar y reservar ${formatPrice(price)}`}
+        {loading ? 'Procesando...' : `💳 Pagar con tarjeta ${formatPrice(price)}`}
       </button>
       <p style={{ textAlign:'center', fontSize:'12px', color:'#9AA3B5', marginTop:'10px' }}>
-        💳 Pago simulado (modo demo) · Pago real disponible próximamente
+        🔒 Pago protegido · el dinero se libera solo al confirmar la entrega
       </p>
     </div>
   )
