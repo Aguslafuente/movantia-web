@@ -276,7 +276,7 @@ export default function App() {
 
       {/* Landing + SEO routes */}
       <RRoute path="/:slug" element={<RoutePageWrapper />} />
-      <RRoute path="/" element={<MainPage />} />
+      <RRoute path="/" element={<SplashWrapper><MainPage /></SplashWrapper>} />
     </Routes>
   )
 }
@@ -478,6 +478,53 @@ function AdminModal({ onClose }) {
         >Cancelar</button>
       </div>
     </div>
+  )
+}
+
+/* ─────────────────────────────────────────────────
+   SPLASH SCREEN
+───────────────────────────────────────────────── */
+function SplashWrapper({ children }) {
+  const [done, setDone] = useState(false)
+  const [fading, setFading] = useState(false)
+
+  useEffect(() => {
+    const t1 = setTimeout(() => setFading(true), 2500)
+    const t2 = setTimeout(() => setDone(true), 2900)
+    return () => { clearTimeout(t1); clearTimeout(t2) }
+  }, [])
+
+  return (
+    <>
+      {!done && (
+        <div style={{
+          position: 'fixed', inset: 0, zIndex: 9999,
+          background: '#07090F',
+          display: 'flex', flexDirection: 'column',
+          alignItems: 'center', justifyContent: 'center',
+          gap: 0,
+          opacity: fading ? 0 : 1,
+          transition: 'opacity 0.4s ease',
+          pointerEvents: fading ? 'none' : 'all',
+        }}>
+          <img
+            src="/movantia-favicon.png"
+            alt="Movantia"
+            style={{ width: 80, height: 80, objectFit: 'contain', marginBottom: 20 }}
+          />
+          <span style={{
+            fontFamily: "'Space Grotesk', sans-serif",
+            fontWeight: 800, fontSize: 22,
+            color: '#D4A843', letterSpacing: '0.06em',
+            marginBottom: 32,
+          }}>MOVANTIA</span>
+          <div style={{ width: 180, height: 3, background: '#1E2433', borderRadius: 3, overflow: 'hidden' }}>
+            <div className="splash-bar" />
+          </div>
+        </div>
+      )}
+      {children}
+    </>
   )
 }
 
