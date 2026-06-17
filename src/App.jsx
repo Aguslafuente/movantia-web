@@ -495,7 +495,7 @@ function MainPage() {
       <header style={{ position: 'sticky', top: 0, zIndex: 100, background: 'rgba(7,9,15,0.92)', backdropFilter: 'blur(16px)', borderBottom: '1px solid rgba(255,255,255,0.06)' }}>
         <div style={{ maxWidth: 1120, margin: '0 auto', padding: '0 24px', height: 58, display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
           <a href="/" style={{ display: 'flex', alignItems: 'center', gap: 9, textDecoration: 'none' }}>
-            <span style={{ width: 26, height: 26, display: 'flex' }}><BrandMark /></span>
+            <span style={{ width: 40, height: 40, display: 'flex' }}><BrandMark /></span>
             <span style={{ fontWeight: 800, fontSize: 16, color: '#E8EDF5', letterSpacing: '-0.02em' }}>Movantia</span>
           </a>
           <div style={{ display: 'flex', gap: 8, alignItems: 'center' }}>
@@ -872,7 +872,7 @@ function MainPage() {
       {/* ── FOOTER ── */}
       <footer style={{ borderTop: '1px solid rgba(255,255,255,0.06)', padding: '28px 24px', display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap', gap: 12, maxWidth: 1120, margin: '0 auto' }}>
         <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
-          <span style={{ width: 20, height: 20, display: 'flex' }}><BrandMark /></span>
+          <span style={{ width: 32, height: 32, display: 'flex' }}><BrandMark /></span>
           <span style={{ fontSize: 13, fontWeight: 700, color: 'rgba(232,237,245,0.3)' }}>Movantia</span>
         </div>
         <p style={{ color: 'rgba(232,237,245,0.15)', fontSize: 12, margin: 0 }}>2026 · Uruguay</p>
