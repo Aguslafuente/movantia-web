@@ -487,10 +487,13 @@ function AdminModal({ onClose }) {
 function SplashWrapper({ children }) {
   const [done, setDone] = useState(false)
   const [fading, setFading] = useState(false)
+  const [barWidth, setBarWidth] = useState(0)
 
   useEffect(() => {
-    const t1 = setTimeout(() => setFading(true), 2500)
-    const t2 = setTimeout(() => setDone(true), 2900)
+    // Double rAF ensures the element is painted before transition starts
+    requestAnimationFrame(() => requestAnimationFrame(() => setBarWidth(100)))
+    const t1 = setTimeout(() => setFading(true), 4000)
+    const t2 = setTimeout(() => setDone(true), 4400)
     return () => { clearTimeout(t1); clearTimeout(t2) }
   }, [])
 
@@ -502,7 +505,6 @@ function SplashWrapper({ children }) {
           background: '#07090F',
           display: 'flex', flexDirection: 'column',
           alignItems: 'center', justifyContent: 'center',
-          gap: 0,
           opacity: fading ? 0 : 1,
           transition: 'opacity 0.4s ease',
           pointerEvents: fading ? 'none' : 'all',
@@ -519,7 +521,13 @@ function SplashWrapper({ children }) {
             marginBottom: 32,
           }}>MOVANTIA</span>
           <div style={{ width: 180, height: 3, background: '#1E2433', borderRadius: 3, overflow: 'hidden' }}>
-            <div className="splash-bar" />
+            <div style={{
+              height: '100%',
+              width: `${barWidth}%`,
+              background: 'linear-gradient(90deg, #D4A843, #F0C84A)',
+              borderRadius: 3,
+              transition: 'width 4s cubic-bezier(0.25, 0.46, 0.45, 0.94)',
+            }} />
           </div>
         </div>
       )}
