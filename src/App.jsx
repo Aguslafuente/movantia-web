@@ -542,7 +542,7 @@ function MainPage() {
           <div>
             <div style={{ display: 'inline-flex', alignItems: 'center', gap: 8, marginBottom: 24, background: 'rgba(212,168,67,0.07)', border: '1px solid rgba(212,168,67,0.18)', color: '#D4A843', borderRadius: 20, padding: '5px 14px', fontSize: 12, fontWeight: 700, letterSpacing: '0.05em' }}>
               <span style={{ width: 6, height: 6, background: '#D4A843', borderRadius: '50%', boxShadow: '0 0 8px rgba(212,168,67,0.8)' }} />
-              Uruguay · Pesos · Escrow
+              Uruguay · Pesos · Pago protegido
             </div>
             <h1 style={{ fontSize: 'clamp(38px,5.5vw,68px)', fontWeight: 900, lineHeight: 1.06, letterSpacing: '-0.04em', margin: '0 0 20px', color: '#E8EDF5' }}>
               Conectamos<br />
@@ -667,7 +667,7 @@ function MainPage() {
         <div style={{ maxWidth: 760, margin: '0 auto' }}>
           <div style={{ textAlign: 'center', marginBottom: 36 }}>
             <p style={{ fontSize: 11, fontWeight: 700, color: '#D4A843', letterSpacing: '0.1em', textTransform: 'uppercase', margin: '0 0 10px' }}>Los números</p>
-            <h2 style={{ fontSize: 'clamp(24px,3.5vw,36px)', fontWeight: 800, color: '#E8EDF5', margin: '0 0 12px', letterSpacing: '-0.025em' }}>12% de comisión · pago con escrow</h2>
+            <h2 style={{ fontSize: 'clamp(24px,3.5vw,36px)', fontWeight: 800, color: '#E8EDF5', margin: '0 0 12px', letterSpacing: '-0.025em' }}>12% de comisión · pago con tarjeta protegido</h2>
             <p style={{ fontSize: 15, color: 'rgba(232,237,245,0.4)', margin: 0 }}>Solo cobramos si la entrega se confirma. Sin cargos fijos.</p>
           </div>
           <div style={{ background: '#0D1018', border: '1px solid rgba(255,255,255,0.07)', borderRadius: 16, overflow: 'hidden' }}>
@@ -697,7 +697,7 @@ function MainPage() {
       <section style={{ padding: '0 24px clamp(48px,6vw,80px)', borderTop: '1px solid rgba(255,255,255,0.05)' }}>
         <div style={{ maxWidth: 680, margin: '0 auto', paddingTop: 'clamp(40px,5vw,64px)', display: 'flex', flexWrap: 'wrap', justifyContent: 'center', gap: '14px 40px' }}>
           {[
-            { icon: '🔒', text: 'Pago protegido con escrow' },
+            { icon: '💳', text: 'Pagás con tarjeta · pago protegido' },
             { icon: '✅', text: 'Transportistas verificados' },
             { icon: '🇺🇾', text: 'Pesos uruguayos' },
             { icon: '⚡', text: 'Match en minutos' },
