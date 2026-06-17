@@ -524,6 +524,10 @@ function MainPage() {
               onMouseEnter={e => e.currentTarget.style.color='#E8EDF5'}
               onMouseLeave={e => e.currentTarget.style.color='rgba(232,237,245,0.5)'}
             >Precios</a>
+            <a href="#faq" onClick={e => { e.preventDefault(); document.getElementById('faq')?.scrollIntoView({ behavior: 'smooth' }) }} style={{ fontSize: 13, color: 'rgba(232,237,245,0.5)', textDecoration: 'none', padding: '6px 12px', borderRadius: 8, fontWeight: 500 }}
+              onMouseEnter={e => e.currentTarget.style.color='#E8EDF5'}
+              onMouseLeave={e => e.currentTarget.style.color='rgba(232,237,245,0.5)'}
+            >FAQ</a>
             <button onClick={() => setAdminModal(true)} style={{ background: 'none', border: '1px solid rgba(255,255,255,0.1)', color: 'rgba(232,237,245,0.4)', borderRadius: 8, padding: '6px 14px', fontSize: 13, fontWeight: 600, cursor: 'pointer', display: 'flex', alignItems: 'center', gap: 5 }}
               onMouseEnter={e => { e.currentTarget.style.color='#D4A843'; e.currentTarget.style.borderColor='rgba(212,168,67,0.3)' }}
               onMouseLeave={e => { e.currentTarget.style.color='rgba(232,237,245,0.4)'; e.currentTarget.style.borderColor='rgba(255,255,255,0.1)' }}
@@ -598,6 +602,54 @@ function MainPage() {
         </div>
       </section>
 
+      {/* ── STATS ── */}
+      <section style={{ padding: '0 24px', borderTop: '1px solid rgba(255,255,255,0.05)' }}>
+        <div style={{ maxWidth: 960, margin: '0 auto', padding: 'clamp(36px,5vw,56px) 0', display: 'grid', gridTemplateColumns: 'repeat(auto-fit,minmax(180px,1fr))', gap: 1, background: 'rgba(255,255,255,0.04)', borderRadius: 16, overflow: 'hidden', border: '1px solid rgba(255,255,255,0.07)' }}>
+          {[
+            { v: '+200',    u: 'vueltas publicadas',    c: '#D4A843' },
+            { v: '12%',     u: 'comisión sin cargos fijos', c: '#E8EDF5' },
+            { v: '$2.000',  u: 'por m³ — precio justo', c: '#00D68F' },
+            { v: '< 5 min', u: 'para publicar tu vuelta', c: '#a78bfa' },
+          ].map((s, i, arr) => (
+            <div key={i} style={{ padding: '28px 24px', textAlign: 'center', borderRight: i < arr.length - 1 ? '1px solid rgba(255,255,255,0.06)' : 'none', background: '#0D1018' }}>
+              <p style={{ fontSize: 'clamp(28px,4vw,40px)', fontWeight: 900, color: s.c, margin: '0 0 6px', letterSpacing: '-0.04em', fontFamily: 'Space Grotesk' }}>{s.v}</p>
+              <p style={{ fontSize: 12, color: 'rgba(232,237,245,0.4)', margin: 0, lineHeight: 1.4 }}>{s.u}</p>
+            </div>
+          ))}
+        </div>
+      </section>
+
+      {/* ── PROBLEMA / SOLUCIÓN ── */}
+      <section style={{ padding: 'clamp(56px,7vw,88px) 24px' }}>
+        <div style={{ maxWidth: 960, margin: '0 auto', display: 'grid', gridTemplateColumns: 'repeat(auto-fit,minmax(280px,1fr))', gap: 32, alignItems: 'center' }}>
+          <div>
+            <p style={{ fontSize: 11, fontWeight: 700, color: '#D4A843', letterSpacing: '0.1em', textTransform: 'uppercase', margin: '0 0 14px' }}>El problema</p>
+            <h2 style={{ fontSize: 'clamp(24px,3.5vw,38px)', fontWeight: 800, color: '#E8EDF5', margin: '0 0 20px', letterSpacing: '-0.03em', lineHeight: 1.15 }}>
+              El 40% del viaje,<br />el camión vuelve vacío.
+            </h2>
+            <p style={{ fontSize: 15, color: 'rgba(232,237,245,0.45)', lineHeight: 1.75, margin: 0 }}>
+              Un camión que hace Montevideo–Punta del Este pierde plata en cada vuelta vacía. Al mismo tiempo, miles de personas pagan fletes completos para mandar una sola caja. Hay espacio de sobra — solo falta conectarlo.
+            </p>
+          </div>
+          <div style={{ display: 'flex', flexDirection: 'column', gap: 12 }}>
+            {[
+              { icon: '🚛', title: 'Sin Movantia', items: ['Camión vuelve vacío y pierde dinero', 'Transportista no sabe quién necesita carga en su ruta', 'Cliente paga el camión entero por una caja'], bad: true },
+              { icon: '✅', title: 'Con Movantia', items: ['Vendés el espacio libre de tu vuelta', 'Clientes publican su carga y vos aparecés como opción', 'Cada uno paga exactamente lo que usa'], bad: false },
+            ].map((card, i) => (
+              <div key={i} style={{ background: card.bad ? 'rgba(239,68,68,0.04)' : 'rgba(0,214,143,0.05)', border: `1px solid ${card.bad ? 'rgba(239,68,68,0.15)' : 'rgba(0,214,143,0.2)'}`, borderRadius: 14, padding: '18px 20px' }}>
+                <p style={{ fontWeight: 700, color: card.bad ? '#f87171' : '#00D68F', margin: '0 0 12px', fontSize: 14 }}>{card.icon} {card.title}</p>
+                {card.items.map((it, j) => (
+                  <div key={j} style={{ display: 'flex', alignItems: 'flex-start', gap: 8, marginBottom: j < card.items.length - 1 ? 8 : 0 }}>
+                    <span style={{ color: card.bad ? '#f87171' : '#00D68F', fontSize: 13, flexShrink: 0, marginTop: 1 }}>{card.bad ? '✗' : '✓'}</span>
+                    <span style={{ fontSize: 13, color: 'rgba(232,237,245,0.55)', lineHeight: 1.5 }}>{it}</span>
+                  </div>
+                ))}
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
       {/* ── CÓMO FUNCIONA ── */}
       <section id="como-funciona" style={{ padding: 'clamp(56px,7vw,88px) 24px', background: 'rgba(255,255,255,0.02)', borderTop: '1px solid rgba(255,255,255,0.05)', borderBottom: '1px solid rgba(255,255,255,0.05)' }}>
         <div style={{ maxWidth: 960, margin: '0 auto' }}>
@@ -662,6 +714,43 @@ function MainPage() {
         </div>
       </section>
 
+      {/* ── RUTAS POPULARES ── */}
+      <section style={{ padding: 'clamp(56px,7vw,88px) 24px', background: 'rgba(255,255,255,0.015)', borderTop: '1px solid rgba(255,255,255,0.05)', borderBottom: '1px solid rgba(255,255,255,0.05)' }}>
+        <div style={{ maxWidth: 960, margin: '0 auto' }}>
+          <div style={{ textAlign: 'center', marginBottom: 40 }}>
+            <p style={{ fontSize: 11, fontWeight: 700, color: '#D4A843', letterSpacing: '0.1em', textTransform: 'uppercase', margin: '0 0 10px' }}>Rutas activas</p>
+            <h2 style={{ fontSize: 'clamp(22px,3vw,34px)', fontWeight: 800, color: '#E8EDF5', margin: '0 0 10px', letterSpacing: '-0.025em' }}>Las rutas más frecuentes del país</h2>
+            <p style={{ fontSize: 14, color: 'rgba(232,237,245,0.4)', margin: 0 }}>Vueltas que ya están publicadas — entrá y buscá la tuya</p>
+          </div>
+          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill,minmax(200px,1fr))', gap: 10 }}>
+            {[
+              { from: 'Montevideo', to: 'Maldonado',    km: '135 km', freq: 'Alta frecuencia' },
+              { from: 'Montevideo', to: 'Punta del Este', km: '140 km', freq: 'Alta frecuencia' },
+              { from: 'Montevideo', to: 'Colonia',      km: '182 km', freq: 'Frecuencia media' },
+              { from: 'Montevideo', to: 'Paysandú',     km: '378 km', freq: 'Frecuencia media' },
+              { from: 'Montevideo', to: 'Rivera',       km: '495 km', freq: 'Disponible' },
+              { from: 'Montevideo', to: 'Salto',        km: '497 km', freq: 'Disponible' },
+            ].map((r, i) => (
+              <a key={i} href={`/${r.from.toLowerCase()}-${r.to.toLowerCase().replace(' ', '-')}`}
+                style={{ background: '#0D1018', border: '1px solid rgba(255,255,255,0.07)', borderRadius: 12, padding: '16px', textDecoration: 'none', display: 'block', transition: 'border-color .2s' }}
+                onMouseEnter={e => e.currentTarget.style.borderColor='rgba(212,168,67,0.35)'}
+                onMouseLeave={e => e.currentTarget.style.borderColor='rgba(255,255,255,0.07)'}
+              >
+                <p style={{ fontSize: 14, fontWeight: 700, color: '#E8EDF5', margin: '0 0 4px' }}>{r.from}</p>
+                <div style={{ display: 'flex', alignItems: 'center', gap: 6, margin: '0 0 8px' }}>
+                  <span style={{ fontSize: 10, color: '#D4A843' }}>→</span>
+                  <span style={{ fontSize: 14, fontWeight: 700, color: '#D4A843' }}>{r.to}</span>
+                </div>
+                <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                  <span style={{ fontSize: 11, color: 'rgba(232,237,245,0.3)' }}>{r.km}</span>
+                  <span style={{ fontSize: 10, fontWeight: 700, color: 'rgba(0,214,143,0.7)', background: 'rgba(0,214,143,0.07)', borderRadius: 20, padding: '2px 7px' }}>{r.freq}</span>
+                </div>
+              </a>
+            ))}
+          </div>
+        </div>
+      </section>
+
       {/* ── PRECIOS ── */}
       <section id="precios" style={{ padding: 'clamp(56px,7vw,88px) 24px' }}>
         <div style={{ maxWidth: 760, margin: '0 auto' }}>
@@ -693,6 +782,92 @@ function MainPage() {
         </div>
       </section>
 
+      {/* ── PAGO PROTEGIDO DETALLE ── */}
+      <section style={{ padding: 'clamp(56px,7vw,88px) 24px', borderTop: '1px solid rgba(255,255,255,0.05)' }}>
+        <div style={{ maxWidth: 960, margin: '0 auto', display: 'grid', gridTemplateColumns: 'repeat(auto-fit,minmax(280px,1fr))', gap: 40, alignItems: 'center' }}>
+          <div>
+            <p style={{ fontSize: 11, fontWeight: 700, color: '#D4A843', letterSpacing: '0.1em', textTransform: 'uppercase', margin: '0 0 14px' }}>Pago con tarjeta</p>
+            <h2 style={{ fontSize: 'clamp(22px,3vw,34px)', fontWeight: 800, color: '#E8EDF5', margin: '0 0 16px', letterSpacing: '-0.03em', lineHeight: 1.2 }}>
+              Tu plata no se mueve<br />hasta que llegó todo bien.
+            </h2>
+            <p style={{ fontSize: 15, color: 'rgba(232,237,245,0.45)', lineHeight: 1.75, margin: '0 0 24px' }}>
+              Pagás con tarjeta de crédito o débito. El monto queda retenido en Movantia — no va al transportista hasta que vos o el destinatario confirmen que recibieron la mercadería en buen estado.
+            </p>
+            <a href="/app/send" onClick={e => { e.preventDefault(); localStorage.setItem('dev_role','consumer'); window.location.href='/app/send' }}
+              style={{ display: 'inline-flex', alignItems: 'center', gap: 8, background: 'rgba(0,214,143,0.1)', border: '1.5px solid rgba(0,214,143,0.3)', color: '#00D68F', borderRadius: 10, padding: '12px 20px', fontSize: 14, fontWeight: 700, textDecoration: 'none', cursor: 'pointer' }}>
+              Probar el flujo de pago →
+            </a>
+          </div>
+          <div style={{ display: 'flex', flexDirection: 'column', gap: 10 }}>
+            {[
+              { step: '01', icon: '💳', title: 'Pagás con tarjeta', desc: 'Crédito o débito. El cobro se hace al confirmar la reserva.' },
+              { step: '02', icon: '🔒', title: 'El dinero queda retenido', desc: 'No va al transportista. Lo retiene la plataforma hasta la entrega.' },
+              { step: '03', icon: '📦', title: 'El paquete llega', desc: 'Confirmás que recibiste todo bien desde la app con un PIN.' },
+              { step: '04', icon: '✅', title: 'Se libera el pago', desc: 'El transportista recibe su parte automáticamente. Cero fricción.' },
+            ].map((s, i) => (
+              <div key={i} style={{ display: 'flex', gap: 14, alignItems: 'flex-start', background: '#0D1018', border: '1px solid rgba(255,255,255,0.06)', borderRadius: 12, padding: '16px' }}>
+                <div style={{ flexShrink: 0, width: 32, height: 32, borderRadius: 8, background: 'rgba(0,214,143,0.08)', border: '1px solid rgba(0,214,143,0.18)', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 16 }}>{s.icon}</div>
+                <div>
+                  <p style={{ fontSize: 14, fontWeight: 700, color: '#E8EDF5', margin: '0 0 3px' }}>{s.title}</p>
+                  <p style={{ fontSize: 12, color: 'rgba(232,237,245,0.4)', margin: 0, lineHeight: 1.5 }}>{s.desc}</p>
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* ── FAQ ── */}
+      <section id="faq" style={{ padding: 'clamp(56px,7vw,88px) 24px', background: 'rgba(255,255,255,0.015)', borderTop: '1px solid rgba(255,255,255,0.05)', borderBottom: '1px solid rgba(255,255,255,0.05)' }}>
+        <div style={{ maxWidth: 760, margin: '0 auto' }}>
+          <div style={{ textAlign: 'center', marginBottom: 44 }}>
+            <p style={{ fontSize: 11, fontWeight: 700, color: '#D4A843', letterSpacing: '0.1em', textTransform: 'uppercase', margin: '0 0 10px' }}>Preguntas frecuentes</p>
+            <h2 style={{ fontSize: 'clamp(22px,3vw,34px)', fontWeight: 800, color: '#E8EDF5', margin: 0, letterSpacing: '-0.025em' }}>Lo que más nos preguntan</h2>
+          </div>
+          <div style={{ display: 'flex', flexDirection: 'column', gap: 10 }}>
+            {[
+              { q: '¿El transportista cambia su ruta por mi carga?', a: 'No. El transportista ya tiene una ruta planificada. Vos aprovechás el espacio que le sobra en ese viaje. Por eso es más barato — él no hace nada extra.' },
+              { q: '¿Qué pasa si el paquete llega roto o no llega?', a: 'Abrís una disputa desde la app. El monto queda retenido y Movantia media para resolverlo. Si el daño es comprobable, el pago al transportista queda bloqueado hasta que se llegue a un acuerdo.' },
+              { q: '¿Cuánto cuesta enviar algo?', a: 'El precio es $2.000 por metro cúbico, con un mínimo de $600. Por ejemplo, una caja estándar de 0.5 m³ sale $1.000. Pagás solo por el espacio que usás.' },
+              { q: '¿Cómo sé que el transportista es de confianza?', a: 'Todos los transportistas pasan por un proceso de verificación antes de poder publicar vueltas. Además, el sistema de PINes garantiza que nadie puede marcar una entrega sin que vos o el destinatario confirmen.' },
+              { q: '¿Puedo publicar una vuelta si tengo una empresa pequeña?', a: 'Sí, perfecto para eso. Con tener un vehículo y hacer rutas frecuentes ya podés empezar a monetizar el espacio libre. No hay cuotas ni contratos — te registrás y publicás cuando querés.' },
+              { q: '¿Qué pasa si nadie reserva mi vuelta?', a: 'No pasa nada. No hay costo por publicar. Si la vuelta no genera reservas, simplemente la vuelta vacía como siempre. Sin penalidades ni compromisos.' },
+            ].map((faq, i) => (
+              <FAQItem key={i} q={faq.q} a={faq.a} />
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* ── CTA FINAL ── */}
+      <section style={{ padding: 'clamp(64px,8vw,96px) 24px' }}>
+        <div style={{ maxWidth: 680, margin: '0 auto', textAlign: 'center' }}>
+          <div style={{ display: 'inline-flex', alignItems: 'center', gap: 8, marginBottom: 24, background: 'rgba(212,168,67,0.07)', border: '1px solid rgba(212,168,67,0.18)', color: '#D4A843', borderRadius: 20, padding: '5px 14px', fontSize: 12, fontWeight: 700, letterSpacing: '0.05em' }}>
+            <span style={{ width: 6, height: 6, background: '#D4A843', borderRadius: '50%', boxShadow: '0 0 8px rgba(212,168,67,0.8)' }} />
+            Sin registro · sin tarjeta · modo demo
+          </div>
+          <h2 style={{ fontSize: 'clamp(28px,5vw,52px)', fontWeight: 900, color: '#E8EDF5', margin: '0 0 16px', letterSpacing: '-0.04em', lineHeight: 1.1 }}>
+            Probalo ahora.<br /><span style={{ color: '#D4A843' }}>No te cuesta nada.</span>
+          </h2>
+          <p style={{ fontSize: 16, color: 'rgba(232,237,245,0.45)', margin: '0 0 36px', lineHeight: 1.7 }}>
+            Entrás como transportista o como cliente y ves exactamente cómo funciona el sistema. Datos reales, flujo completo, sin registrarte.
+          </p>
+          <div style={{ display: 'flex', gap: 12, justifyContent: 'center', flexWrap: 'wrap' }}>
+            <button onClick={() => { localStorage.setItem('dev_role','transporter'); window.location.href='/app/transporter' }}
+              style={{ display: 'flex', alignItems: 'center', gap: 8, background: '#D4A843', color: '#07090F', border: 'none', borderRadius: 12, padding: '15px 28px', fontSize: 16, fontWeight: 800, cursor: 'pointer', fontFamily: 'Space Grotesk' }}>
+              <Truck size={18} /> Soy transportista
+            </button>
+            <button onClick={() => { localStorage.setItem('dev_role','consumer'); window.location.href='/app/send' }}
+              style={{ display: 'flex', alignItems: 'center', gap: 8, background: 'rgba(255,255,255,0.05)', color: '#E8EDF5', border: '1.5px solid rgba(255,255,255,0.12)', borderRadius: 12, padding: '15px 28px', fontSize: 16, fontWeight: 800, cursor: 'pointer', fontFamily: 'Space Grotesk' }}>
+              <Package size={18} /> Necesito enviar algo
+            </button>
+          </div>
+          <p style={{ marginTop: 20, fontSize: 13, color: 'rgba(232,237,245,0.2)' }}>
+            ¿Preferís hablar con alguien? <a href={WA} target="_blank" rel="noreferrer" style={{ color: '#D4A843', textDecoration: 'none', fontWeight: 600 }}>Escribinos por WhatsApp →</a>
+          </p>
+        </div>
+      </section>
+
       {/* ── TRUST ── */}
       <section style={{ padding: '0 24px clamp(48px,6vw,80px)', borderTop: '1px solid rgba(255,255,255,0.05)' }}>
         <div style={{ maxWidth: 680, margin: '0 auto', paddingTop: 'clamp(40px,5vw,64px)', display: 'flex', flexWrap: 'wrap', justifyContent: 'center', gap: '14px 40px' }}>
@@ -719,6 +894,27 @@ function MainPage() {
         </div>
         <p style={{ color: 'rgba(232,237,245,0.15)', fontSize: 12, margin: 0 }}>2026 · Uruguay</p>
       </footer>
+    </div>
+  )
+}
+
+/* ─── FAQ ITEM ── */
+function FAQItem({ q, a }) {
+  const [open, setOpen] = useState(false)
+  return (
+    <div style={{ background: '#0D1018', border: '1px solid rgba(255,255,255,0.07)', borderRadius: 12, overflow: 'hidden', transition: 'border-color .2s' }}
+      onMouseEnter={e => e.currentTarget.style.borderColor='rgba(212,168,67,0.2)'}
+      onMouseLeave={e => e.currentTarget.style.borderColor='rgba(255,255,255,0.07)'}
+    >
+      <button onClick={() => setOpen(o => !o)} style={{ width: '100%', display: 'flex', justifyContent: 'space-between', alignItems: 'center', background: 'none', border: 'none', padding: '18px 20px', cursor: 'pointer', textAlign: 'left', gap: 12 }}>
+        <span style={{ fontSize: 15, fontWeight: 600, color: '#E8EDF5', lineHeight: 1.4 }}>{q}</span>
+        <span style={{ fontSize: 20, color: '#D4A843', flexShrink: 0, lineHeight: 1, transform: open ? 'rotate(45deg)' : 'none', transition: 'transform .2s' }}>+</span>
+      </button>
+      {open && (
+        <div style={{ padding: '0 20px 18px', fontSize: 14, color: 'rgba(232,237,245,0.5)', lineHeight: 1.75, borderTop: '1px solid rgba(255,255,255,0.05)' }}>
+          <p style={{ margin: '14px 0 0' }}>{a}</p>
+        </div>
+      )}
     </div>
   )
 }
