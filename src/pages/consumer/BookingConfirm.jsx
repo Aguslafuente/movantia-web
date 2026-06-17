@@ -113,15 +113,25 @@ export default function BookingConfirm() {
       </div>
 
       {/* Card payment info */}
-      <div style={{ background:'rgba(212,168,67,0.05)', border:'1px solid rgba(212,168,67,0.15)', borderRadius:'10px', padding:'14px', marginBottom:'16px', fontSize:'13px', color:'#9AA3B5' }}>
-        <p style={{ marginBottom:'6px' }}>💳 <strong style={{ color:'#E8EDF5' }}>Pago con tarjeta de crédito o débito</strong></p>
-        <p style={{ margin:0, lineHeight:1.5 }}>El dinero <strong style={{ color:'#D4A843' }}>no va al transportista</strong> hasta que vos confirmés que recibiste todo bien. Si algo falla, abrís una disputa y el monto queda retenido.</p>
+      <div style={{ background:'rgba(212,168,67,0.04)', border:'1px solid rgba(212,168,67,0.18)', borderRadius:'12px', padding:'18px', marginBottom:'16px', fontSize:'13px', color:'#9AA3B5' }}>
+        <p style={{ marginBottom:'10px', fontWeight:700, color:'#E8EDF5', fontSize:'14px' }}>💳 Pago con tarjeta de crédito o débito</p>
+        <div style={{ display:'flex', flexDirection:'column', gap:'8px', lineHeight:1.6 }}>
+          <p style={{ margin:0 }}>
+            🔒 <strong style={{ color:'#D4A843' }}>El dinero no va directo al transportista.</strong> Al pagar con tarjeta, el monto queda retenido en la plataforma hasta que vos confirmés que recibiste todo bien.
+          </p>
+          <p style={{ margin:0 }}>
+            ✅ <strong style={{ color:'#E8EDF5' }}>¿Llegó todo en orden?</strong> Confirmás la entrega desde la app y el pago se libera automáticamente al transportista.
+          </p>
+          <p style={{ margin:0 }}>
+            ⚠️ <strong style={{ color:'#E8EDF5' }}>¿Algo salió mal?</strong> Reportás un problema y el monto queda retenido mientras se resuelve la disputa. No perdés la plata.
+          </p>
+        </div>
       </div>
       <button onClick={handleConfirm} disabled={loading} style={styles.btn}>
         {loading ? 'Procesando...' : `💳 Pagar con tarjeta ${formatPrice(price)}`}
       </button>
       <p style={{ textAlign:'center', fontSize:'12px', color:'#9AA3B5', marginTop:'10px' }}>
-        🔒 Pago protegido · el dinero se libera solo al confirmar la entrega
+        🔒 Pago protegido · el dinero se libera solo cuando confirmás la entrega
       </p>
     </div>
   )
