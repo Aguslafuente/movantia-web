@@ -41,7 +41,7 @@ export default function AppLayout({ children }) {
       {/* Top bar */}
       <header style={{ background:'#0D1018', borderBottom:'1px solid rgba(255,255,255,0.07)', padding:'0 20px', height:'56px', display:'flex', alignItems:'center', justifyContent:'space-between', position:'sticky', top:0, zIndex:100 }}>
         <a href="/" style={{ display:'flex', alignItems:'center', gap:'8px', textDecoration:'none' }}>
-          <img src="/movantia-favicon.png" alt="Movantia" style={{ width:'26px', height:'26px', objectFit:'contain' }} />
+          <img src="/movantia-favicon.png" alt="Movantia" style={{ width:'36px', height:'36px', objectFit:'contain' }} />
           <span style={{ fontFamily:'Space Grotesk, sans-serif', fontWeight:700, fontSize:'18px', color:'#D4A843' }}>MOVANTIA</span>
           <span style={{ fontSize:'11px', color:'#9AA3B5', background:'rgba(212,168,67,0.12)', padding:'2px 8px', borderRadius:'20px', fontWeight:500 }}>
             {isTransporter ? 'Transportista' : isAdmin ? 'Admin' : 'Mis envíos'}
