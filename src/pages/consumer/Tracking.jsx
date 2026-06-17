@@ -83,11 +83,11 @@ export default function Tracking() {
       <div style={{ background:'rgba(0,214,143,0.06)', border:'1px solid rgba(0,214,143,0.15)', borderRadius:'10px', padding:'14px', marginBottom:'16px', display:'flex', gap:'10px', alignItems:'flex-start' }}>
         <Shield size={18} color="#00D68F" style={{ flexShrink:0, marginTop:'1px' }} />
         <div>
-          <p style={{ fontSize:'13px', color:'#00D68F', fontWeight:600, marginBottom:'2px' }}>Pago protegido</p>
-          <p style={{ fontSize:'12px', color:'#9AA3B5' }}>
+          <p style={{ fontSize:'13px', color:'#00D68F', fontWeight:600, marginBottom:'4px' }}>💳 Pago con tarjeta protegido</p>
+          <p style={{ fontSize:'12px', color:'#9AA3B5', lineHeight:1.6 }}>
             {booking.payment_status === 'released'
-              ? 'El pago fue liberado al transportista. ¡Gracias por usar Movantia!'
-              : 'Tu pago queda retenido hasta que confirmés la entrega.'}
+              ? '✅ El pago fue liberado al transportista. ¡Gracias por usar Movantia!'
+              : 'Tu pago con tarjeta queda retenido en la plataforma. El transportista lo recibe solo cuando vos confirmés que llegó todo bien. Si algo falla, reportás un problema y el monto se retiene.'}
           </p>
         </div>
       </div>
