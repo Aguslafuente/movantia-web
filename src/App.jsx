@@ -498,126 +498,244 @@ function AdminModal({ onClose }) {
   )
 }
 
-/* ─── LANDING ──────────────────────────────────────────── */
+/* ─────────────────────────────────────────────────
+   LANDING PAGE
+───────────────────────────────────────────────── */
 function MainPage() {
   const [adminModal, setAdminModal] = useState(false)
 
   return (
-    <div style={{ background: '#07090F', minHeight: '100vh', color: '#E8EDF5', fontFamily: "'Space Grotesk', sans-serif" }}>
+    <div style={{ background: '#07090F', minHeight: '100vh', color: '#E8EDF5', fontFamily: "'Space Grotesk', sans-serif", overflowX: 'hidden' }}>
       {adminModal && <AdminModal onClose={() => setAdminModal(false)} />}
 
       {/* NAV */}
       <header style={{
         position: 'sticky', top: 0, zIndex: 100,
-        background: 'rgba(7,9,15,0.94)', backdropFilter: 'blur(14px)',
-        borderBottom: '1px solid rgba(255,255,255,0.07)',
+        background: 'rgba(7,9,15,0.92)', backdropFilter: 'blur(16px)',
+        borderBottom: '1px solid rgba(255,255,255,0.06)',
       }}>
-        <div style={{ maxWidth: 1120, margin: '0 auto', padding: '0 24px', display: 'flex', alignItems: 'center', height: 60, justifyContent: 'space-between' }}>
-          <a href="/" style={{ display: 'flex', alignItems: 'center', gap: 10, textDecoration: 'none' }}>
-            <span style={{ width: 28, height: 28, display: 'flex' }}><BrandMark /></span>
-            <span style={{ fontWeight: 800, fontSize: 17, color: '#E8EDF5', letterSpacing: '-0.02em' }}>Movantia</span>
+        <div style={{ maxWidth: 1120, margin: '0 auto', padding: '0 24px', height: 58, display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
+          <a href="/" style={{ display: 'flex', alignItems: 'center', gap: 9, textDecoration: 'none' }}>
+            <span style={{ width: 26, height: 26, display: 'flex' }}><BrandMark /></span>
+            <span style={{ fontWeight: 800, fontSize: 16, color: '#E8EDF5', letterSpacing: '-0.02em' }}>Movantia</span>
           </a>
-          <button onClick={() => setAdminModal(true)} style={{
-            background: 'rgba(255,255,255,0.04)', border: '1px solid rgba(255,255,255,0.1)',
-            color: 'rgba(232,237,245,0.45)', borderRadius: 8, padding: '7px 14px',
-            fontSize: 13, fontWeight: 600, cursor: 'pointer', display: 'flex', alignItems: 'center', gap: 6,
-          }}
-          onMouseEnter={e => { e.currentTarget.style.background='rgba(212,168,67,0.1)'; e.currentTarget.style.color='#D4A843'; e.currentTarget.style.borderColor='rgba(212,168,67,0.25)' }}
-          onMouseLeave={e => { e.currentTarget.style.background='rgba(255,255,255,0.04)'; e.currentTarget.style.color='rgba(232,237,245,0.45)'; e.currentTarget.style.borderColor='rgba(255,255,255,0.1)' }}
+          <button
+            onClick={() => setAdminModal(true)}
+            style={{ background: 'none', border: '1px solid rgba(255,255,255,0.1)', color: 'rgba(232,237,245,0.4)', borderRadius: 8, padding: '6px 14px', fontSize: 13, fontWeight: 600, cursor: 'pointer', display: 'flex', alignItems: 'center', gap: 6 }}
+            onMouseEnter={e => { e.currentTarget.style.color='#D4A843'; e.currentTarget.style.borderColor='rgba(212,168,67,0.3)' }}
+            onMouseLeave={e => { e.currentTarget.style.color='rgba(232,237,245,0.4)'; e.currentTarget.style.borderColor='rgba(255,255,255,0.1)' }}
           >
-            <ShieldCheck size={14} /> Admin
+            <ShieldCheck size={13} /> Admin
           </button>
         </div>
       </header>
 
       {/* HERO */}
-      <section style={{ textAlign: 'center', padding: 'clamp(72px,10vw,120px) 24px clamp(60px,8vw,90px)' }}>
-        <div style={{
-          display: 'inline-flex', alignItems: 'center', gap: 8, marginBottom: 28,
-          background: 'rgba(212,168,67,0.08)', border: '1px solid rgba(212,168,67,0.2)',
-          color: '#D4A843', borderRadius: 20, padding: '5px 16px', fontSize: 12, fontWeight: 700, letterSpacing: '0.04em',
-        }}>
-          <span style={{ width: 7, height: 7, background: '#D4A843', borderRadius: '50%' }} />
-          Uruguay · pesos · escrow
+      <section style={{ padding: 'clamp(64px,10vw,116px) 24px clamp(48px,6vw,72px)', textAlign: 'center' }}>
+        <div style={{ maxWidth: 680, margin: '0 auto' }}>
+          <div style={{
+            display: 'inline-flex', alignItems: 'center', gap: 8, marginBottom: 28,
+            background: 'rgba(212,168,67,0.07)', border: '1px solid rgba(212,168,67,0.18)',
+            color: '#D4A843', borderRadius: 20, padding: '5px 16px', fontSize: 12, fontWeight: 700, letterSpacing: '0.05em',
+          }}>
+            <span style={{ width: 6, height: 6, background: '#D4A843', borderRadius: '50%', boxShadow: '0 0 8px rgba(212,168,67,0.8)' }} />
+            Uruguay · Pesos uruguayos · Pago protegido
+          </div>
+
+          <h1 style={{ fontSize: 'clamp(50px,9vw,96px)', fontWeight: 900, lineHeight: 1.03, letterSpacing: '-0.045em', margin: '0 0 20px', color: '#E8EDF5' }}>
+            Tu camión<br />
+            <span style={{ color: '#D4A843' }}>vuelve lleno.</span>
+          </h1>
+
+          <p style={{ fontSize: 'clamp(15px,2vw,19px)', color: 'rgba(232,237,245,0.45)', lineHeight: 1.65, maxWidth: 420, margin: '0 auto 44px' }}>
+            Vendé el espacio libre en tu viaje de vuelta.
+            O encontrá quién lleve tu carga por esa ruta.
+          </p>
+
+          <div style={{ display: 'flex', gap: 12, justifyContent: 'center', flexWrap: 'wrap', marginBottom: 18 }}>
+            <AccessBtn role="transporter" path="/app/transporter" primary>
+              <Truck size={16} /> Soy transportista
+            </AccessBtn>
+            <AccessBtn role="consumer" path="/app/send">
+              <Package size={16} /> Necesito enviar algo
+            </AccessBtn>
+          </div>
+
+          <p style={{ fontSize: 12, color: 'rgba(232,237,245,0.18)', margin: 0 }}>
+            Sin registro · datos de demo listos
+          </p>
         </div>
-
-        <h1 style={{
-          fontSize: 'clamp(52px,9vw,96px)', fontWeight: 900,
-          lineHeight: 1.04, letterSpacing: '-0.04em',
-          color: '#E8EDF5', margin: '0 0 22px',
-        }}>
-          Tu camión<br />
-          <span style={{ color: '#D4A843' }}>vuelve lleno.</span>
-        </h1>
-
-        <p style={{ fontSize: 18, color: 'rgba(232,237,245,0.45)', maxWidth: 360, margin: '0 auto 48px', lineHeight: 1.55 }}>
-          Conectamos vueltas vacías con carga que necesita llegar.
-        </p>
-
-        <div style={{ display: 'flex', gap: 12, justifyContent: 'center', flexWrap: 'wrap', marginBottom: 18 }}>
-          <AccessBtn role="transporter" path="/app/transporter" primary>
-            <Truck size={16} /> Tengo un camión
-          </AccessBtn>
-          <AccessBtn role="consumer" path="/app/send">
-            <Package size={16} /> Necesito enviar algo
-          </AccessBtn>
-        </div>
-
-        <p style={{ fontSize: 12, color: 'rgba(232,237,245,0.2)', margin: 0 }}>
-          Demo con datos reales · sin registro · sin tarjeta
-        </p>
       </section>
 
-      {/* CÓMO FUNCIONA — 3 pasos */}
-      <section style={{ padding: '0 24px 80px', maxWidth: 720, margin: '0 auto' }}>
-        <div style={{
-          display: 'grid', gridTemplateColumns: 'repeat(3,1fr)',
-          gap: '2px', background: 'rgba(255,255,255,0.05)',
-          borderRadius: 16, overflow: 'hidden',
-        }}>
-          {[
-            { icon: '📍', title: 'Publicás', sub: 'Tu ruta y espacio libre' },
-            { icon: '⚡', title: 'Match',    sub: 'Carga compatible en minutos' },
-            { icon: '✅', title: 'Cobrás',   sub: 'Pago protegido con escrow' },
-          ].map((s, i) => (
-            <div key={i} style={{ background: '#0D1018', padding: 'clamp(22px,3vw,36px) 14px', textAlign: 'center' }}>
-              <div style={{ fontSize: 32, marginBottom: 10 }}>{s.icon}</div>
-              <div style={{ fontWeight: 800, fontSize: 15, color: '#E8EDF5', marginBottom: 5 }}>{s.title}</div>
-              <div style={{ fontSize: 12, color: '#9AA3B5', lineHeight: 1.4 }}>{s.sub}</div>
+      {/* ROUTE VISUAL */}
+      <section style={{ padding: '0 24px 72px', maxWidth: 660, margin: '0 auto' }}>
+        <div style={{ background: '#0D1018', border: '1px solid rgba(255,255,255,0.07)', borderRadius: 20, padding: '24px', position: 'relative', overflow: 'hidden' }}>
+          <div style={{ position: 'absolute', top: -60, left: '50%', transform: 'translateX(-50%)', width: 320, height: 220, background: 'radial-gradient(ellipse, rgba(212,168,67,0.07) 0%, transparent 70%)', pointerEvents: 'none' }} />
+          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 18 }}>
+            <div>
+              <p style={{ fontSize: 11, color: '#9AA3B5', margin: '0 0 4px', fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.08em' }}>Vuelta activa detectada</p>
+              <p style={{ fontSize: 17, fontWeight: 700, color: '#E8EDF5', margin: 0, letterSpacing: '-0.01em' }}>Maldonado → Montevideo</p>
             </div>
-          ))}
+            <div style={{ display: 'flex', alignItems: 'center', gap: 6, background: 'rgba(0,214,143,0.07)', border: '1px solid rgba(0,214,143,0.2)', borderRadius: 20, padding: '5px 12px' }}>
+              <span style={{ width: 6, height: 6, background: '#00D68F', borderRadius: '50%', boxShadow: '0 0 6px rgba(0,214,143,0.8)' }} />
+              <span style={{ fontSize: 12, color: '#00D68F', fontWeight: 700 }}>Match activo</span>
+            </div>
+          </div>
+          <div style={{ borderRadius: 12, overflow: 'hidden', marginBottom: 18 }}>
+            <RouteSVG />
+          </div>
+          <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr 1fr', gap: 8 }}>
+            {[
+              { label: 'Espacio libre', value: '4.5 m³', color: '#E8EDF5' },
+              { label: 'Hora estimada',  value: '14:30',   color: '#E8EDF5' },
+              { label: 'Ingreso extra',  value: '$9.000',  color: '#D4A843' },
+            ].map((s, i) => (
+              <div key={i} style={{ background: 'rgba(255,255,255,0.03)', borderRadius: 10, padding: '12px 8px', textAlign: 'center' }}>
+                <div style={{ fontSize: 17, fontWeight: 800, color: s.color }}>{s.value}</div>
+                <div style={{ fontSize: 11, color: '#9AA3B5', marginTop: 3 }}>{s.label}</div>
+              </div>
+            ))}
+          </div>
         </div>
       </section>
 
-      {/* PRICING */}
-      <section style={{ padding: '0 24px 100px', textAlign: 'center' }}>
-        <div style={{
-          display: 'inline-flex', background: '#0D1018',
-          border: '1px solid rgba(255,255,255,0.08)', borderRadius: 14, overflow: 'hidden',
-          flexWrap: 'wrap', justifyContent: 'center',
-        }}>
+      {/* TWO PATHS */}
+      <section style={{ padding: '0 24px 80px', maxWidth: 880, margin: '0 auto' }}>
+        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit,minmax(300px,1fr))', gap: 14 }}>
+
+          {/* TRANSPORTISTA */}
+          <div style={{ background: '#0D1018', border: '1px solid rgba(212,168,67,0.14)', borderRadius: 20, padding: '28px 24px', position: 'relative', overflow: 'hidden' }}>
+            <div style={{ position: 'absolute', top: 0, left: 0, right: 0, height: 3, background: 'linear-gradient(90deg,#D4A843,#f0a500)' }} />
+            <div style={{ display: 'inline-flex', alignItems: 'center', gap: 7, background: 'rgba(212,168,67,0.08)', border: '1px solid rgba(212,168,67,0.2)', borderRadius: 20, padding: '4px 12px', marginBottom: 18 }}>
+              <Truck size={12} color="#D4A843" />
+              <span style={{ fontSize: 12, color: '#D4A843', fontWeight: 700 }}>Transportistas</span>
+            </div>
+            <h3 style={{ fontSize: 21, fontWeight: 800, color: '#E8EDF5', margin: '0 0 10px', letterSpacing: '-0.02em', lineHeight: 1.2 }}>
+              Vendé el espacio<br />que ya tenías libre.
+            </h3>
+            <p style={{ fontSize: 14, color: 'rgba(232,237,245,0.4)', margin: '0 0 22px', lineHeight: 1.6 }}>
+              Publicá tu vuelta vacía y conseguí carga para el regreso.
+            </p>
+            <div style={{ display: 'flex', flexDirection: 'column', gap: 11, marginBottom: 26 }}>
+              {[
+                { e: '📍', t: 'Publicás tu ruta en 2 minutos' },
+                { e: '💰', t: '$2.000/m³ · el 88% es tuyo' },
+                { e: '✅', t: 'Pago garantizado antes de salir' },
+              ].map(({ e, t }, i) => (
+                <div key={i} style={{ fontSize: 14, color: 'rgba(232,237,245,0.65)', display: 'flex', alignItems: 'center', gap: 10 }}>
+                  <span style={{ fontSize: 16 }}>{e}</span>{t}
+                </div>
+              ))}
+            </div>
+            <button
+              onClick={() => { localStorage.setItem('dev_role','transporter'); window.location.href='/app/transporter' }}
+              style={{ width: '100%', background: '#D4A843', color: '#07090F', border: 'none', borderRadius: 10, padding: '13px', fontSize: 15, fontWeight: 800, cursor: 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 8, fontFamily: 'Space Grotesk', transition: 'opacity .15s' }}
+              onMouseEnter={e => e.currentTarget.style.opacity='.88'}
+              onMouseLeave={e => e.currentTarget.style.opacity='1'}
+            >
+              <Truck size={16} /> Probar como transportista
+            </button>
+          </div>
+
+          {/* CONSUMIDOR */}
+          <div style={{ background: '#0D1018', border: '1px solid rgba(0,214,143,0.14)', borderRadius: 20, padding: '28px 24px', position: 'relative', overflow: 'hidden' }}>
+            <div style={{ position: 'absolute', top: 0, left: 0, right: 0, height: 3, background: 'linear-gradient(90deg,#00D68F,#00c47f)' }} />
+            <div style={{ display: 'inline-flex', alignItems: 'center', gap: 7, background: 'rgba(0,214,143,0.06)', border: '1px solid rgba(0,214,143,0.2)', borderRadius: 20, padding: '4px 12px', marginBottom: 18 }}>
+              <Package size={12} color="#00D68F" />
+              <span style={{ fontSize: 12, color: '#00D68F', fontWeight: 700 }}>Para quien envía</span>
+            </div>
+            <h3 style={{ fontSize: 21, fontWeight: 800, color: '#E8EDF5', margin: '0 0 10px', letterSpacing: '-0.02em', lineHeight: 1.2 }}>
+              Mandá tu carga<br />sin pagar de más.
+            </h3>
+            <p style={{ fontSize: 14, color: 'rgba(232,237,245,0.4)', margin: '0 0 22px', lineHeight: 1.6 }}>
+              Pagás solo el espacio que usás en un camión que ya iba para allá.
+            </p>
+            <div style={{ display: 'flex', flexDirection: 'column', gap: 11, marginBottom: 26 }}>
+              {[
+                { e: '⚡', t: 'Match con transportistas en minutos' },
+                { e: '🔒', t: 'Tu pago protegido hasta la entrega' },
+                { e: '📦', t: 'Pagás solo el espacio que necesitás' },
+              ].map(({ e, t }, i) => (
+                <div key={i} style={{ fontSize: 14, color: 'rgba(232,237,245,0.65)', display: 'flex', alignItems: 'center', gap: 10 }}>
+                  <span style={{ fontSize: 16 }}>{e}</span>{t}
+                </div>
+              ))}
+            </div>
+            <button
+              onClick={() => { localStorage.setItem('dev_role','consumer'); window.location.href='/app/send' }}
+              style={{ width: '100%', background: 'rgba(0,214,143,0.1)', color: '#00D68F', border: '1.5px solid rgba(0,214,143,0.4)', borderRadius: 10, padding: '13px', fontSize: 15, fontWeight: 800, cursor: 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 8, fontFamily: 'Space Grotesk', transition: 'opacity .15s' }}
+              onMouseEnter={e => e.currentTarget.style.opacity='.8'}
+              onMouseLeave={e => e.currentTarget.style.opacity='1'}
+            >
+              <Package size={16} /> Probar como cliente
+            </button>
+          </div>
+        </div>
+      </section>
+
+      {/* TRUST BAR */}
+      <section style={{ padding: '0 24px 80px' }}>
+        <div style={{ maxWidth: 680, margin: '0 auto', display: 'flex', flexWrap: 'wrap', justifyContent: 'center', gap: '10px 36px' }}>
           {[
-            { label: 'Precio referencia', value: '$2.000/m³', color: '#D4A843' },
-            { label: 'Comisión plataforma', value: '12%',      color: '#E8EDF5' },
-            { label: 'Pago',               value: 'Escrow',    color: '#00D68F' },
-          ].map((item, i, arr) => (
-            <div key={i} style={{
-              padding: '20px 32px', textAlign: 'center',
-              borderRight: i < arr.length - 1 ? '1px solid rgba(255,255,255,0.07)' : 'none',
-            }}>
-              <div style={{ fontSize: 22, fontWeight: 800, color: item.color, fontFamily: 'Space Grotesk' }}>{item.value}</div>
-              <div style={{ fontSize: 11, color: '#9AA3B5', marginTop: 5, textTransform: 'uppercase', letterSpacing: '0.07em' }}>{item.label}</div>
+            { icon: '🔒', text: 'Pago protegido con escrow' },
+            { icon: '✅', text: 'Transportistas verificados' },
+            { icon: '🇺🇾', text: 'Pesos uruguayos' },
+            { icon: '⚡', text: 'Match en minutos' },
+          ].map((item, i) => (
+            <div key={i} style={{ display: 'flex', alignItems: 'center', gap: 7, fontSize: 13, color: 'rgba(232,237,245,0.35)', fontWeight: 500 }}>
+              <span style={{ fontSize: 16 }}>{item.icon}</span>
+              <span>{item.text}</span>
             </div>
           ))}
         </div>
       </section>
 
       {/* FOOTER */}
-      <footer style={{ borderTop: '1px solid rgba(255,255,255,0.07)', padding: '28px 24px', textAlign: 'center' }}>
-        <p style={{ color: 'rgba(232,237,245,0.15)', fontSize: 12, margin: 0 }}>
+      <footer style={{ borderTop: '1px solid rgba(255,255,255,0.06)', padding: '24px', textAlign: 'center' }}>
+        <p style={{ color: 'rgba(232,237,245,0.12)', fontSize: 12, margin: 0 }}>
           2026 Movantia · Uruguay
         </p>
       </footer>
     </div>
+  )
+}
+
+/* ─── ANIMATED ROUTE SVG ──────────────────────── */
+function RouteSVG() {
+  return (
+    <svg viewBox="0 0 420 130" style={{ width: '100%', height: 'auto', display: 'block', background: 'rgba(7,9,15,0.5)', borderRadius: 10 }} xmlns="http://www.w3.org/2000/svg">
+      <defs>
+        <linearGradient id="rg" x1="0%" y1="0%" x2="100%" y2="0%">
+          <stop offset="0%" stopColor="#fbbf24"/>
+          <stop offset="100%" stopColor="#22c55e"/>
+        </linearGradient>
+        <filter id="rGlw">
+          <feGaussianBlur stdDeviation="2.5" result="b"/>
+          <feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge>
+        </filter>
+      </defs>
+      {[70,140,210,280,350].map(x => <line key={x} x1={x} y1="0" x2={x} y2="130" stroke="rgba(255,255,255,0.025)" strokeWidth="1"/>)}
+      {[40,80].map(y => <line key={y} x1="0" y1={y} x2="420" y2={y} stroke="rgba(255,255,255,0.025)" strokeWidth="1"/>)}
+      <path d="M 32 98 C 100 28 320 28 388 98" fill="none" stroke="rgba(255,255,255,0.05)" strokeWidth="2" strokeDasharray="5 9"/>
+      <path id="rp" d="M 32 98 C 100 28 320 28 388 98" fill="none" stroke="url(#rg)" strokeWidth="2.5" strokeLinecap="round" filter="url(#rGlw)"/>
+      <circle cx="32" cy="98" r="6" fill="#0D1018" stroke="#fbbf24" strokeWidth="1.5"/>
+      <circle cx="32" cy="98" r="2.5" fill="#fbbf24"/>
+      <text x="32" y="116" fill="#475569" fontSize="7.5" fontWeight="700" textAnchor="middle">MALDONADO</text>
+      <circle cx="388" cy="98" r="6" fill="#0D1018" stroke="#22c55e" strokeWidth="1.5"/>
+      <circle cx="388" cy="98" r="2.5" fill="#22c55e"/>
+      <text x="388" y="116" fill="#475569" fontSize="7.5" fontWeight="700" textAnchor="middle">MONTEVIDEO</text>
+      <g>
+        <animateMotion dur="4.5s" repeatCount="indefinite" rotate="auto" calcMode="linear">
+          <mpath href="#rp"/>
+        </animateMotion>
+        <rect x="-19" y="-6" width="25" height="12" rx="2" fill="#111827" stroke="rgba(251,191,36,0.35)" strokeWidth="1"/>
+        <rect x="6" y="-8.5" width="13" height="17" rx="2.5" fill="#1e2d3d" stroke="#fbbf24" strokeWidth="1.3"/>
+        <rect x="8.5" y="-6.5" width="6" height="4.5" rx="1" fill="rgba(56,189,248,0.7)"/>
+        <circle cx="-9" cy="7" r="3.2" fill="#0f172a" stroke="rgba(255,255,255,0.2)" strokeWidth="1"/>
+        <circle cx="8"  cy="7" r="3.2" fill="#0f172a" stroke="rgba(255,255,255,0.2)" strokeWidth="1"/>
+        <circle cx="-9" cy="7" r="1.1" fill="rgba(255,255,255,0.15)"/>
+        <circle cx="8"  cy="7" r="1.1" fill="rgba(255,255,255,0.15)"/>
+      </g>
+    </svg>
   )
 }
