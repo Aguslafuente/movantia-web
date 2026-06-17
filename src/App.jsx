@@ -498,970 +498,126 @@ function AdminModal({ onClose }) {
   )
 }
 
-/* ── main landing page ───────────────────── */
+/* ─── LANDING ──────────────────────────────────────────── */
 function MainPage() {
   const [adminModal, setAdminModal] = useState(false)
 
   return (
-    <div style={S.page}>
+    <div style={{ background: '#07090F', minHeight: '100vh', color: '#E8EDF5', fontFamily: "'Space Grotesk', sans-serif" }}>
       {adminModal && <AdminModal onClose={() => setAdminModal(false)} />}
 
-      {/* ── NAVBAR ─────────────────────────────── */}
+      {/* NAV */}
       <header style={{
         position: 'sticky', top: 0, zIndex: 100,
         background: 'rgba(7,9,15,0.94)', backdropFilter: 'blur(14px)',
         borderBottom: '1px solid rgba(255,255,255,0.07)',
       }}>
-        <div style={{ ...S.wrap, display: 'flex', alignItems: 'center', height: 60, gap: 4 }}>
-          <a href="/" style={{ display: 'flex', alignItems: 'center', gap: 10, textDecoration: 'none', flexShrink: 0, marginRight: 20 }}>
-            <span style={{ width: 30, height: 30, display: 'flex' }}><BrandMark /></span>
+        <div style={{ maxWidth: 1120, margin: '0 auto', padding: '0 24px', display: 'flex', alignItems: 'center', height: 60, justifyContent: 'space-between' }}>
+          <a href="/" style={{ display: 'flex', alignItems: 'center', gap: 10, textDecoration: 'none' }}>
+            <span style={{ width: 28, height: 28, display: 'flex' }}><BrandMark /></span>
             <span style={{ fontWeight: 800, fontSize: 17, color: '#E8EDF5', letterSpacing: '-0.02em' }}>Movantia</span>
           </a>
-          <nav style={{ display: 'flex', gap: 2, flex: 1 }}>
-            <NavLink href="#servicios">Servicios</NavLink>
-            <NavLink href="#como-funciona">Cómo funciona</NavLink>
-            <NavLink href="#numeros">Precios</NavLink>
-            <NavLink href="#demo">Probalo gratis</NavLink>
-          </nav>
           <button onClick={() => setAdminModal(true)} style={{
-            display: 'flex', alignItems: 'center', gap: 6,
             background: 'rgba(255,255,255,0.04)', border: '1px solid rgba(255,255,255,0.1)',
             color: 'rgba(232,237,245,0.45)', borderRadius: 8, padding: '7px 14px',
-            fontSize: 13, fontWeight: 600, cursor: 'pointer', flexShrink: 0,
-            transition: 'color .15s, background .15s',
+            fontSize: 13, fontWeight: 600, cursor: 'pointer', display: 'flex', alignItems: 'center', gap: 6,
           }}
           onMouseEnter={e => { e.currentTarget.style.background='rgba(212,168,67,0.1)'; e.currentTarget.style.color='#D4A843'; e.currentTarget.style.borderColor='rgba(212,168,67,0.25)' }}
           onMouseLeave={e => { e.currentTarget.style.background='rgba(255,255,255,0.04)'; e.currentTarget.style.color='rgba(232,237,245,0.45)'; e.currentTarget.style.borderColor='rgba(255,255,255,0.1)' }}
-          ><ShieldCheck size={14} /> Admin</button>
+          >
+            <ShieldCheck size={14} /> Admin
+          </button>
         </div>
       </header>
 
-      <main>
-        {/* ── HERO ─────────────────────────────────── */}
-        <section style={{ textAlign: 'center', padding: 'clamp(64px,9vw,108px) 24px clamp(56px,7vw,88px)' }}>
-          <div style={{ maxWidth: 720, margin: '0 auto' }}>
-            <div style={{
-              display: 'inline-flex', alignItems: 'center', gap: 8, marginBottom: 36,
-              background: 'rgba(212,168,67,0.08)', border: '1px solid rgba(212,168,67,0.22)',
-              color: '#D4A843', borderRadius: 20, padding: '5px 16px',
-              fontSize: 12, fontWeight: 700, letterSpacing: '0.04em',
+      {/* HERO */}
+      <section style={{ textAlign: 'center', padding: 'clamp(72px,10vw,120px) 24px clamp(60px,8vw,90px)' }}>
+        <div style={{
+          display: 'inline-flex', alignItems: 'center', gap: 8, marginBottom: 28,
+          background: 'rgba(212,168,67,0.08)', border: '1px solid rgba(212,168,67,0.2)',
+          color: '#D4A843', borderRadius: 20, padding: '5px 16px', fontSize: 12, fontWeight: 700, letterSpacing: '0.04em',
+        }}>
+          <span style={{ width: 7, height: 7, background: '#D4A843', borderRadius: '50%' }} />
+          Uruguay · pesos · escrow
+        </div>
+
+        <h1 style={{
+          fontSize: 'clamp(52px,9vw,96px)', fontWeight: 900,
+          lineHeight: 1.04, letterSpacing: '-0.04em',
+          color: '#E8EDF5', margin: '0 0 22px',
+        }}>
+          Tu camión<br />
+          <span style={{ color: '#D4A843' }}>vuelve lleno.</span>
+        </h1>
+
+        <p style={{ fontSize: 18, color: 'rgba(232,237,245,0.45)', maxWidth: 360, margin: '0 auto 48px', lineHeight: 1.55 }}>
+          Conectamos vueltas vacías con carga que necesita llegar.
+        </p>
+
+        <div style={{ display: 'flex', gap: 12, justifyContent: 'center', flexWrap: 'wrap', marginBottom: 18 }}>
+          <AccessBtn role="transporter" path="/app/transporter" primary>
+            <Truck size={16} /> Tengo un camión
+          </AccessBtn>
+          <AccessBtn role="consumer" path="/app/send">
+            <Package size={16} /> Necesito enviar algo
+          </AccessBtn>
+        </div>
+
+        <p style={{ fontSize: 12, color: 'rgba(232,237,245,0.2)', margin: 0 }}>
+          Demo con datos reales · sin registro · sin tarjeta
+        </p>
+      </section>
+
+      {/* CÓMO FUNCIONA — 3 pasos */}
+      <section style={{ padding: '0 24px 80px', maxWidth: 720, margin: '0 auto' }}>
+        <div style={{
+          display: 'grid', gridTemplateColumns: 'repeat(3,1fr)',
+          gap: '2px', background: 'rgba(255,255,255,0.05)',
+          borderRadius: 16, overflow: 'hidden',
+        }}>
+          {[
+            { icon: '📍', title: 'Publicás', sub: 'Tu ruta y espacio libre' },
+            { icon: '⚡', title: 'Match',    sub: 'Carga compatible en minutos' },
+            { icon: '✅', title: 'Cobrás',   sub: 'Pago protegido con escrow' },
+          ].map((s, i) => (
+            <div key={i} style={{ background: '#0D1018', padding: 'clamp(22px,3vw,36px) 14px', textAlign: 'center' }}>
+              <div style={{ fontSize: 32, marginBottom: 10 }}>{s.icon}</div>
+              <div style={{ fontWeight: 800, fontSize: 15, color: '#E8EDF5', marginBottom: 5 }}>{s.title}</div>
+              <div style={{ fontSize: 12, color: '#9AA3B5', lineHeight: 1.4 }}>{s.sub}</div>
+            </div>
+          ))}
+        </div>
+      </section>
+
+      {/* PRICING */}
+      <section style={{ padding: '0 24px 100px', textAlign: 'center' }}>
+        <div style={{
+          display: 'inline-flex', background: '#0D1018',
+          border: '1px solid rgba(255,255,255,0.08)', borderRadius: 14, overflow: 'hidden',
+          flexWrap: 'wrap', justifyContent: 'center',
+        }}>
+          {[
+            { label: 'Precio referencia', value: '$2.000/m³', color: '#D4A843' },
+            { label: 'Comisión plataforma', value: '12%',      color: '#E8EDF5' },
+            { label: 'Pago',               value: 'Escrow',    color: '#00D68F' },
+          ].map((item, i, arr) => (
+            <div key={i} style={{
+              padding: '20px 32px', textAlign: 'center',
+              borderRight: i < arr.length - 1 ? '1px solid rgba(255,255,255,0.07)' : 'none',
             }}>
-              <span style={{ width: 7, height: 7, background: '#D4A843', borderRadius: '50%' }} />
-              Pago con escrow · 12% comisión · Pesos uruguayos · Uruguay
+              <div style={{ fontSize: 22, fontWeight: 800, color: item.color, fontFamily: 'Space Grotesk' }}>{item.value}</div>
+              <div style={{ fontSize: 11, color: '#9AA3B5', marginTop: 5, textTransform: 'uppercase', letterSpacing: '0.07em' }}>{item.label}</div>
             </div>
+          ))}
+        </div>
+      </section>
 
-            <h1 style={{
-              fontSize: 'clamp(42px,6.5vw,76px)', fontWeight: 900,
-              lineHeight: 1.06, letterSpacing: '-0.038em',
-              color: '#E8EDF5', margin: '0 0 26px',
-            }}>
-              Conectamos cargas<br />
-              <span style={{ color: '#D4A843' }}>con transportistas.</span>
-            </h1>
-
-            <p style={{ ...S.muted, fontSize: 18, maxWidth: 560, margin: '0 auto 18px' }}>
-              ¿Tenés un camión que vuelve vacío de Maldonado? ¿Tenés una Sprinter disponible
-              en Montevideo? Publicá y recibí clientes.
-            </p>
-            <p style={{ ...S.muted, fontSize: 18, maxWidth: 560, margin: '0 auto 46px' }}>
-              ¿Necesitás mover mercadería entre ciudades o un mueble dentro de la ciudad?
-              Encontramos el transportista ideal en minutos.
-            </p>
-
-            <div style={{ display: 'flex', gap: 14, justifyContent: 'center', flexWrap: 'wrap', marginBottom: 22 }}>
-              <AccessBtn role="transporter" path="/app/transporter" primary>
-                <Truck size={17} /> Soy transportista
-              </AccessBtn>
-              <AccessBtn role="consumer" path="/app/send">
-                <Package size={17} /> Necesito mover algo
-              </AccessBtn>
-            </div>
-            <p style={{ color: 'rgba(232,237,245,0.28)', fontSize: 13, margin: 0 }}>
-              Datos de demo precargados · acceso inmediato · sin tarjeta real
-            </p>
-          </div>
-        </section>
-
-        {/* ── DOS SERVICIOS ──────────────────────── */}
-        <section id="servicios" style={{ ...S.sectionAlt, padding: 'clamp(56px,7vw,88px) 24px' }}>
-          <div style={S.wrap}>
-            <div style={{ textAlign: 'center', marginBottom: 52 }}>
-              <p style={S.eyebrow}>Dos servicios</p>
-              <h2 style={S.h2}>Larga distancia o dentro de la ciudad</h2>
-              <p style={{ ...S.muted, maxWidth: 500, margin: '0 auto' }}>
-                Ya sea que vayas de Montevideo a Maldonado o que estés activo en el barrio,
-                Movantia te conecta con la carga.
-              </p>
-            </div>
-
-            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit,minmax(320px,1fr))', gap: 24 }}>
-              {/* Servicio 1 — Vuelta vacía */}
-              <div style={{ ...S.card, position: 'relative', overflow: 'hidden', padding: '32px 28px' }}>
-                <div style={{ position: 'absolute', top: 0, left: 0, right: 0, height: 4, background: 'linear-gradient(90deg,#D4A843,#f0a500aa)' }} />
-                <div style={{ display: 'inline-flex', alignItems: 'center', gap: 8, marginBottom: 20, background: 'rgba(212,168,67,0.1)', border: '1px solid rgba(212,168,67,0.25)', borderRadius: 20, padding: '4px 14px' }}>
-                  <Truck size={14} style={{ color: '#D4A843' }} />
-                  <span style={{ color: '#D4A843', fontSize: 12, fontWeight: 700 }}>Larga distancia</span>
-                </div>
-                <h3 style={{ fontSize: 22, fontWeight: 800, color: '#E8EDF5', margin: '0 0 12px', letterSpacing: '-0.02em' }}>
-                  Vuelta vacía
-                </h3>
-                <p style={{ ...S.muted, fontSize: 15, margin: '0 0 22px' }}>
-                  Tenés un camión que vuelve vacío de Punta del Este, Rivera o Colonia.
-                  Publicás tu ruta y vendés el espacio libre en m³ a clientes que necesitan
-                  mandar carga por esa misma ruta.
-                </p>
-                <ul style={{ listStyle: 'none', padding: 0, margin: '0 0 28px', display: 'flex', flexDirection: 'column', gap: 10 }}>
-                  {[
-                    'Publicás en 2 min: ruta, fecha, m³ disponibles',
-                    '$2.000/m³ de referencia — precio por espacio, no por flete completo',
-                    'Solo cargas en tu ruta exacta, sin desvíos',
-                    'El 88% del cobro es tuyo (comisión 12%)',
-                  ].map((t,i) => (
-                    <li key={i} style={{ display: 'flex', gap: 10, color: 'rgba(232,237,245,0.78)', fontSize: 14, lineHeight: 1.5 }}>
-                      <CheckCircle2 size={15} style={{ color: '#D4A843', flexShrink: 0, marginTop: 2 }} /> {t}
-                    </li>
-                  ))}
-                </ul>
-                <div style={{ padding: '14px 16px', background: 'rgba(212,168,67,0.07)', border: '1px solid rgba(212,168,67,0.18)', borderRadius: 10 }}>
-                  <p style={{ color: 'rgba(232,237,245,0.5)', fontSize: 12, margin: '0 0 4px', fontWeight: 600, textTransform: 'uppercase', letterSpacing: '0.08em' }}>Ejemplo real</p>
-                  <p style={{ color: '#E8EDF5', fontSize: 14, margin: 0 }}>
-                    Camión vuelve vacío de Maldonado. Cargás 3 m³ de mercadería de un cliente.
-                    <strong style={{ color: '#D4A843' }}> +$4.800 en un viaje que ya ibas a hacer.</strong>
-                  </p>
-                </div>
-              </div>
-
-              {/* Servicio 2 — Flete urbano */}
-              <div style={{ ...S.card, position: 'relative', overflow: 'hidden', padding: '32px 28px' }}>
-                <div style={{ position: 'absolute', top: 0, left: 0, right: 0, height: 4, background: 'linear-gradient(90deg,#00D68F,#00d68faa)' }} />
-                <div style={{ display: 'inline-flex', alignItems: 'center', gap: 8, marginBottom: 20, background: 'rgba(0,214,143,0.08)', border: '1px solid rgba(0,214,143,0.22)', borderRadius: 20, padding: '4px 14px' }}>
-                  <Zap size={14} style={{ color: '#00D68F' }} />
-                  <span style={{ color: '#00D68F', fontSize: 12, fontWeight: 700 }}>Fletes urbanos</span>
-                </div>
-                <h3 style={{ fontSize: 22, fontWeight: 800, color: '#E8EDF5', margin: '0 0 12px', letterSpacing: '-0.02em' }}>
-                  Conductor activo en la ciudad
-                </h3>
-                <p style={{ ...S.muted, fontSize: 15, margin: '0 0 22px' }}>
-                  Tenés una Sprinter, Transit o camioneta y querés trabajar dentro de Montevideo,
-                  Maldonado u otra ciudad. Publicás que estás disponible y los clientes
-                  te envían pedidos de carga en tu zona.
-                </p>
-                <ul style={{ listStyle: 'none', padding: 0, margin: '0 0 28px', display: 'flex', flexDirection: 'column', gap: 10 }}>
-                  {[
-                    'Publicás tu disponibilidad por zona y horario',
-                    'Recibís pedidos: mudanzas, muebles, bultos, encomiendas',
-                    'Ejemplo: mueble de Ciudad Vieja al Prado',
-                    'Precio acordado antes de salir, pago con escrow',
-                  ].map((t,i) => (
-                    <li key={i} style={{ display: 'flex', gap: 10, color: 'rgba(232,237,245,0.78)', fontSize: 14, lineHeight: 1.5 }}>
-                      <CheckCircle2 size={15} style={{ color: '#00D68F', flexShrink: 0, marginTop: 2 }} /> {t}
-                    </li>
-                  ))}
-                </ul>
-                <div style={{ padding: '14px 16px', background: 'rgba(0,214,143,0.06)', border: '1px solid rgba(0,214,143,0.18)', borderRadius: 10 }}>
-                  <p style={{ color: 'rgba(232,237,245,0.5)', fontSize: 12, margin: '0 0 4px', fontWeight: 600, textTransform: 'uppercase', letterSpacing: '0.08em' }}>Ejemplo real</p>
-                  <p style={{ color: '#E8EDF5', fontSize: 14, margin: 0 }}>
-                    Estás en Montevideo con tu Sprinter. Cliente sube un mueble — Ciudad Vieja al Prado.
-                    <strong style={{ color: '#00D68F' }}> Lo confirmás, lo llevás, cobrás.</strong>
-                  </p>
-                </div>
-              </div>
-            </div>
-          </div>
-        </section>
-
-        {/* ── CÓMO FUNCIONA ──────────────────────── */}
-        <section id="como-funciona" style={{ padding: 'clamp(56px,7vw,88px) 24px' }}>
-          <div style={S.wrap}>
-            <div style={{ textAlign: 'center', marginBottom: 52 }}>
-              <p style={S.eyebrow}>El proceso</p>
-              <h2 style={S.h2}>Simple para todos</h2>
-            </div>
-
-            <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 48 }}>
-              {/* Para transportistas */}
-              <div>
-                <p style={{ fontSize: 13, fontWeight: 700, color: '#D4A843', letterSpacing: '0.06em', textTransform: 'uppercase', margin: '0 0 20px', display: 'flex', alignItems: 'center', gap: 8 }}>
-                  <Truck size={15} /> Para transportistas
-                </p>
-                {[
-                  { num:'01', title:'Publicás tu disponibilidad', desc:'Vuelta de larga distancia o conductor urbano activo. Ruta, fecha, vehículo y espacio libre.' },
-                  { num:'02', title:'Recibís un cliente',         desc:'Movantia cruza tu oferta con quien necesita mover algo por esa ruta o zona.' },
-                  { num:'03', title:'Confirmás y cobrás',         desc:'PIN de retiro y entrega. El pago se libera automáticamente. Sin facturación manual.' },
-                ].map((s,i) => (
-                  <div key={i} style={{ display: 'flex', gap: 16, marginBottom: i < 2 ? 28 : 0 }}>
-                    <div style={{ flexShrink: 0, width: 36, height: 36, borderRadius: 10, background: 'rgba(212,168,67,0.1)', border: '1px solid rgba(212,168,67,0.25)', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 12, fontWeight: 800, color: '#D4A843' }}>{s.num}</div>
-                    <div>
-                      <p style={{ fontSize: 15, fontWeight: 700, color: '#E8EDF5', margin: '0 0 4px' }}>{s.title}</p>
-                      <p style={{ ...S.muted, fontSize: 13, margin: 0 }}>{s.desc}</p>
-                    </div>
-                  </div>
-                ))}
-              </div>
-
-              {/* Para clientes */}
-              <div>
-                <p style={{ fontSize: 13, fontWeight: 700, color: '#00D68F', letterSpacing: '0.06em', textTransform: 'uppercase', margin: '0 0 20px', display: 'flex', alignItems: 'center', gap: 8 }}>
-                  <Package size={15} /> Para quien envía
-                </p>
-                {[
-                  { num:'01', title:'Subís tu carga',          desc:'Descripción, origen, destino y fecha. Puede ser mercadería entre ciudades o un mueble dentro de Montevideo.' },
-                  { num:'02', title:'Encontramos el match',    desc:'Movantia busca un transportista disponible que pase por tu zona o ruta. Ves precio y perfil antes de confirmar.' },
-                  { num:'03', title:'Pagás con escrow, recibís', desc:'El pago queda en escrow hasta que confirmás la entrega con PIN. Si algo falla, el dinero se devuelve.' },
-                ].map((s,i) => (
-                  <div key={i} style={{ display: 'flex', gap: 16, marginBottom: i < 2 ? 28 : 0 }}>
-                    <div style={{ flexShrink: 0, width: 36, height: 36, borderRadius: 10, background: 'rgba(0,214,143,0.08)', border: '1px solid rgba(0,214,143,0.22)', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 12, fontWeight: 800, color: '#00D68F' }}>{s.num}</div>
-                    <div>
-                      <p style={{ fontSize: 15, fontWeight: 700, color: '#E8EDF5', margin: '0 0 4px' }}>{s.title}</p>
-                      <p style={{ ...S.muted, fontSize: 13, margin: 0 }}>{s.desc}</p>
-                    </div>
-                  </div>
-                ))}
-              </div>
-            </div>
-          </div>
-        </section>
-
-        {/* ── NÚMEROS ────────────────────────────── */}
-        <section id="numeros" style={{ ...S.sectionAlt, padding: 'clamp(56px,7vw,88px) 24px' }}>
-          <div style={S.wrap}>
-            <div style={{ textAlign: 'center', marginBottom: 52 }}>
-              <p style={S.eyebrow}>Los números</p>
-              <h2 style={S.h2}>12% de comisión · pago con escrow</h2>
-            </div>
-
-            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit,minmax(300px,1fr))', gap: 24, maxWidth: 860, margin: '0 auto' }}>
-              {/* Vuelta vacía */}
-              <div style={{ ...S.card }}>
-                <div style={{ display: 'flex', alignItems: 'center', gap: 8, marginBottom: 20 }}>
-                  <Truck size={18} style={{ color: '#D4A843' }} />
-                  <span style={{ fontWeight: 700, color: '#D4A843', fontSize: 14 }}>Vuelta vacía</span>
-                </div>
-                <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr 1fr', gap: 1, background: 'rgba(255,255,255,0.06)', borderRadius: 10, overflow: 'hidden', marginBottom: 16 }}>
-                  {[
-                    { l:'Cliente paga', v:'$4.000', s:'2 m³ × $2.000' },
-                    { l:'Comisión 12%', v:'$480',   s:'Plataforma' },
-                    { l:'Vos recibís',  v:'$3.520', s:'88% neto', hl: true },
-                  ].map((c,i) => (
-                    <div key={i} style={{ textAlign:'center', padding:'14px 8px', background: c.hl ? 'rgba(0,214,143,0.08)' : 'rgba(7,9,15,0.5)' }}>
-                      <p style={{ fontSize:10, color:'rgba(232,237,245,0.4)', fontWeight:700, textTransform:'uppercase', letterSpacing:'0.07em', margin:'0 0 6px' }}>{c.l}</p>
-                      <p style={{ fontSize:20, fontWeight:900, color: c.hl ? '#00D68F' : '#E8EDF5', letterSpacing:'-0.03em', margin:'0 0 2px' }}>{c.v}</p>
-                      <p style={{ fontSize:11, color:'rgba(232,237,245,0.35)', margin:0 }}>{c.s}</p>
-                    </div>
-                  ))}
-                </div>
-                <p style={{ ...S.muted, fontSize: 13, margin: 0 }}>Precio de referencia $2.000/m³ · mínimo $600 · comisión 12% solo si hay entrega confirmada</p>
-              </div>
-
-              {/* Flete urbano */}
-              <div style={{ ...S.card }}>
-                <div style={{ display: 'flex', alignItems: 'center', gap: 8, marginBottom: 20 }}>
-                  <Zap size={18} style={{ color: '#00D68F' }} />
-                  <span style={{ fontWeight: 700, color: '#00D68F', fontSize: 14 }}>Flete urbano</span>
-                </div>
-                <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr 1fr', gap: 1, background: 'rgba(255,255,255,0.06)', borderRadius: 10, overflow: 'hidden', marginBottom: 16 }}>
-                  {[
-                    { l:'Cliente paga', v:'$2.000', s:'Ej. 1 mueble' },
-                    { l:'Comisión 12%', v:'$240',   s:'Plataforma' },
-                    { l:'Vos recibís',  v:'$1.760', s:'88% neto', hl: true },
-                  ].map((c,i) => (
-                    <div key={i} style={{ textAlign:'center', padding:'14px 8px', background: c.hl ? 'rgba(0,214,143,0.08)' : 'rgba(7,9,15,0.5)' }}>
-                      <p style={{ fontSize:10, color:'rgba(232,237,245,0.4)', fontWeight:700, textTransform:'uppercase', letterSpacing:'0.07em', margin:'0 0 6px' }}>{c.l}</p>
-                      <p style={{ fontSize:20, fontWeight:900, color: c.hl ? '#00D68F' : '#E8EDF5', letterSpacing:'-0.03em', margin:'0 0 2px' }}>{c.v}</p>
-                      <p style={{ fontSize:11, color:'rgba(232,237,245,0.35)', margin:0 }}>{c.s}</p>
-                    </div>
-                  ))}
-                </div>
-                <p style={{ ...S.muted, fontSize: 13, margin: 0 }}>Precio libre pactado entre cliente y conductor · comisión 12% vía escrow · en pesos uruguayos</p>
-              </div>
-            </div>
-          </div>
-        </section>
-
-        {/* ── PARA CLIENTES ──────────────────────── */}
-        <section style={{ padding: 'clamp(56px,7vw,88px) 24px' }}>
-          <div style={S.wrap}>
-            <div style={{ textAlign: 'center', marginBottom: 52 }}>
-              <p style={S.eyebrow}>¿Tenés algo que mover?</p>
-              <h2 style={S.h2}>Un solo lugar para todo tipo de carga</h2>
-            </div>
-            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit,minmax(200px,1fr))', gap: 16 }}>
-              {[
-                { icon:'📦', title:'Mercadería entre ciudades', desc:'Pallets, cajas, encomiendas en rutas como Montevideo–Maldonado, Colonia, Rivera, Paysandú.' },
-                { icon:'🛋️', title:'Muebles y mudanzas', desc:'Dentro de la ciudad o entre ciudades. Un sillón, una cocina, el contenido de un apartamento.' },
-                { icon:'🏭', title:'Carga industrial', desc:'Repuestos, equipos, materiales. Con transportistas verificados y seguro de carga.' },
-                { icon:'🛵', title:'Bultos y encomiendas', desc:'Paquetes chicos que no justifican un flete completo. Solo pagás por el espacio que usás.' },
-              ].map((c,i) => (
-                <div key={i} style={{ ...S.card, textAlign:'center' }}>
-                  <div style={{ fontSize:32, marginBottom:14 }}>{c.icon}</div>
-                  <h4 style={{ fontSize:15, fontWeight:700, color:'#E8EDF5', margin:'0 0 8px', letterSpacing:'-0.01em' }}>{c.title}</h4>
-                  <p style={{ ...S.muted, fontSize:13, margin:0 }}>{c.desc}</p>
-                </div>
-              ))}
-            </div>
-          </div>
-        </section>
-
-        {/* ── PROBÁ AHORA ────────────────────────── */}
-        <section id="demo" style={{ ...S.sectionAlt, padding: 'clamp(72px,9vw,108px) 24px', textAlign: 'center' }}>
-          <div style={{ maxWidth: 600, margin: '0 auto' }}>
-            <p style={S.eyebrow}>Datos de demo precargados</p>
-            <h2 style={{ ...S.h2, fontSize: 'clamp(32px,5vw,50px)', marginBottom: 16 }}>
-              Probalo ahora mismo
-            </h2>
-            <p style={{ ...S.muted, marginBottom: 44 }}>
-              Datos de demo precargados. Explorá la plataforma completa — ya sea que
-              tengas un camión de larga distancia, una Sprinter en la ciudad, o
-              necesites mover algo.
-            </p>
-            <div style={{ display: 'flex', gap: 14, justifyContent: 'center', flexWrap: 'wrap' }}>
-              <AccessBtn role="transporter" path="/app/transporter" primary>
-                <Truck size={16} /> Soy transportista
-              </AccessBtn>
-              <AccessBtn role="consumer" path="/app/send">
-                <Package size={16} /> Necesito mover algo
-              </AccessBtn>
-              <button onClick={() => setAdminModal(true)} style={{
-                display:'inline-flex', alignItems:'center', gap:8,
-                background:'transparent', color:'rgba(232,237,245,0.4)',
-                border:'1px solid rgba(255,255,255,0.1)',
-                borderRadius:10, padding:'13px 24px', fontSize:14, fontWeight:600,
-                cursor:'pointer', transition:'opacity .15s',
-              }}
-              onMouseEnter={e => e.currentTarget.style.opacity='.7'}
-              onMouseLeave={e => e.currentTarget.style.opacity='1'}
-              ><ShieldCheck size={14}/> Admin</button>
-            </div>
-          </div>
-        </section>
-      </main>
-
-      {/* ── FOOTER ─────────────────────────────── */}
-      <footer style={{ ...S.divHr, padding: '28px 24px', textAlign: 'center', color: 'rgba(232,237,245,0.25)', fontSize: 13 }}>
-        2026 Movantia · Vueltas vacías · Fletes urbanos · Uruguay
+      {/* FOOTER */}
+      <footer style={{ borderTop: '1px solid rgba(255,255,255,0.07)', padding: '28px 24px', textAlign: 'center' }}>
+        <p style={{ color: 'rgba(232,237,245,0.15)', fontSize: 12, margin: 0 }}>
+          2026 Movantia · Uruguay
+        </p>
       </footer>
-    </div>
-  )
-}
-
-/* ──────────────────────────────────────
-   STEP LIST — expandable on click
-────────────────────────────────────── */
-function StepList({ steps, role }) {
-  const [open, setOpen] = useState(null)
-
-  return (
-    <div className="v2-steps-list">
-      {steps.map((s, i) => (
-        <motion.div
-          key={s.num}
-          className={`v2-step v2-step--clickable v2-step--${role}${open === i ? ' v2-step--open' : ''}`}
-          initial={{ opacity:0, x:24 }}
-          animate={{ opacity:1, x:0 }}
-          transition={{ delay: i * 0.1 + .15, duration:.5, ease:[.22,1,.36,1] }}
-          onClick={() => setOpen(open === i ? null : i)}
-        >
-          <div className={`v2-step-icon ${role}`}>{s.icon}</div>
-          <div className="v2-step-body">
-            <div className="v2-step-header">
-              <span className="v2-step-num">{s.num}</span>
-              <h3>{s.title}</h3>
-              <span className={`v2-step-chevron${open === i ? ' open' : ''}`}>
-                <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
-                  <path d="M3 5l4 4 4-4" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"/>
-                </svg>
-              </span>
-            </div>
-            <p className="v2-step-summary">{s.text}</p>
-
-            <AnimatePresence initial={false}>
-              {open === i && (
-                <motion.div
-                  className="v2-step-detail"
-                  initial={{ height:0, opacity:0 }}
-                  animate={{ height:'auto', opacity:1 }}
-                  exit={{ height:0, opacity:0 }}
-                  transition={{ duration:.35, ease:[.22,1,.36,1] }}
-                >
-                  <div className="v2-step-detail-inner">
-                    <div className="v2-step-how">
-                      <span className="v2-step-detail-label">Cómo funciona</span>
-                      <p>{s.detail.how}</p>
-                    </div>
-                    <div className="v2-step-tips">
-                      <span className="v2-step-detail-label">A tener en cuenta</span>
-                      <ul>
-                        {s.detail.tips.map((t, ti) => <li key={ti}>{t}</li>)}
-                      </ul>
-                    </div>
-                    <div className="v2-step-time">
-                      <svg width="13" height="13" viewBox="0 0 13 13" fill="none">
-                        <circle cx="6.5" cy="6.5" r="5.5" stroke="currentColor" strokeWidth="1.3"/>
-                        <path d="M6.5 3.5v3l2 1.5" stroke="currentColor" strokeWidth="1.3" strokeLinecap="round"/>
-                      </svg>
-                      {s.detail.time}
-                    </div>
-                  </div>
-                </motion.div>
-              )}
-            </AnimatePresence>
-          </div>
-        </motion.div>
-      ))}
-    </div>
-  )
-}
-
-/* ──────────────────────────────────────
-   CHOOSER CARD
-────────────────────────────────────── */
-function ChooserCard({ active, color, icon, label, desc, cta, onClick, badge }) {
-  return (
-    <motion.button
-      className={`v2-chooser-card v2-chooser-card--${color}${active ? ' active' : ''}`}
-      onClick={onClick}
-      whileHover={{ y: -6, scale: 1.01 }}
-      whileTap={{ scale: 0.98 }}
-      initial={{ opacity:0, y:32 }}
-      whileInView={{ opacity:1, y:0 }}
-      viewport={{ once:true, margin:'-60px' }}
-      transition={{ duration:.55, ease:[.22,1,.36,1] }}
-      style={{ position:'relative' }}
-    >
-      {badge && (
-        <span style={{
-          position:'absolute', top:'-10px', left:'50%', transform:'translateX(-50%)',
-          background:'#38BDF8', color:'#020509', fontSize:'10px', fontWeight:700,
-          padding:'3px 10px', borderRadius:'20px', whiteSpace:'nowrap', letterSpacing:'.04em'
-        }}>{badge}</span>
-      )}
-      <div className="v2-chooser-card-icon">{icon}</div>
-      <strong>{label}</strong>
-      <span>{desc}</span>
-      <div className="v2-chooser-card-cta">
-        {cta} <ArrowRight size={15} />
-      </div>
-      {active && <div className="v2-chooser-card-active-bar" />}
-    </motion.button>
-  )
-}
-
-/* ──────────────────────────────────────
-   ENVIAR DEMO — animated flow
-────────────────────────────────────── */
-function EnviarDemo() {
-  const [step, setStep] = useState(0)
-  useEffect(() => {
-    if (step >= 3) return
-    const t = setTimeout(() => setStep(s => s + 1), 2000)
-    return () => clearTimeout(t)
-  }, [step])
-
-  const DEMO_STEPS = [
-    { icon: <Package size={28}/>, label: 'Publicás tu carga', sub: 'Origen · Destino · Peso', color: '#fbbf24' },
-    { icon: <Zap size={28}/>,     label: 'Match detectado',   sub: 'Transportista disponible', color: '#a78bfa' },
-    { icon: <CreditCard size={28}/>, label: 'Pago protegido', sub: 'Dinero retenido seguro', color: '#38bdf8' },
-    { icon: <CheckCircle2 size={28}/>, label: '¡Entregado!',  sub: 'Pago liberado', color: '#4ade80' },
-  ]
-
-  return (
-    <div className="v2-demo v2-demo--enviar">
-      <div className="v2-demo-phone">
-        <div className="v2-demo-phone-bar">
-          <span className="v2-demo-phone-dot" />
-          <span className="v2-demo-phone-dot" />
-          <span className="v2-demo-phone-dot" />
-        </div>
-
-        <div className="v2-demo-header">
-          <span className="v2-demo-badge gold">Enviar carga</span>
-          <p className="v2-demo-header-title">Nueva solicitud</p>
-        </div>
-
-        <div className="v2-demo-flow">
-          {DEMO_STEPS.map((s, i) => (
-            <div key={i} className={`v2-demo-flow-step${step === i ? ' active' : step > i ? ' done' : ''}`}>
-              <div className="v2-demo-flow-icon" style={{ '--demo-color': s.color }}>
-                {step > i ? <CheckCircle2 size={20}/> : s.icon}
-              </div>
-              <div className="v2-demo-flow-text">
-                <strong>{s.label}</strong>
-                <span>{s.sub}</span>
-              </div>
-              <div className="v2-demo-flow-status">
-                {step > i && <span className="v2-demo-ok">✓</span>}
-                {step === i && <span className="v2-demo-spinner" />}
-              </div>
-              {i < 3 && <div className={`v2-demo-flow-line${step > i ? ' done' : ''}`} />}
-            </div>
-          ))}
-        </div>
-
-        {step === 3 && (
-          <div className="v2-demo-success">
-            <strong>$10.400 liberados</strong>
-            <span>Entrega confirmada · Maldonado</span>
-          </div>
-        )}
-      </div>
-    </div>
-  )
-}
-
-/* ──────────────────────────────────────
-   LLEVAR DEMO — animated route fill
-────────────────────────────────────── */
-function LlevarDemo() {
-  const [step, setStep] = useState(0)
-  useEffect(() => {
-    if (step >= 3) return
-    const t = setTimeout(() => setStep(s => s + 1), 2200)
-    return () => clearTimeout(t)
-  }, [step])
-
-  const LABELS = ['Publicás retorno', 'Match encontrado', 'Carga confirmada', 'Cobro liberado']
-  const COLORS = ['#64748b', '#a78bfa', '#fbbf24', '#4ade80']
-
-  return (
-    <div className="v2-demo v2-demo--llevar">
-      <div className="v2-demo-phone">
-        <div className="v2-demo-phone-bar">
-          <span className="v2-demo-phone-dot" />
-          <span className="v2-demo-phone-dot" />
-          <span className="v2-demo-phone-dot" />
-        </div>
-
-        <div className="v2-demo-header">
-          <span className="v2-demo-badge green">Llevar carga</span>
-          <p className="v2-demo-header-title">Retorno activo</p>
-        </div>
-
-        {/* Route visual */}
-        <div className="v2-demo-route">
-          <svg viewBox="0 0 260 100" className="v2-demo-route-svg">
-            <defs>
-              <linearGradient id="rGrad" x1="0%" y1="0%" x2="100%" y2="0%">
-                <stop offset="0%" stopColor="#fbbf24"/>
-                <stop offset="100%" stopColor="#22c55e"/>
-              </linearGradient>
-              <filter id="rGlow">
-                <feGaussianBlur stdDeviation="2" result="b"/>
-                <feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge>
-              </filter>
-            </defs>
-            <path d="M 16 72 C 60 28 200 28 244 72" fill="none" stroke="rgba(255,255,255,0.06)" strokeWidth="2" strokeDasharray="5 8"/>
-            <path id="rPath" d="M 16 72 C 60 28 200 28 244 72" fill="none" stroke="url(#rGrad)" strokeWidth="2.5" strokeLinecap="round" filter="url(#rGlow)"/>
-            <circle cx="16" cy="72" r="5" fill="#0b1018" stroke="#fbbf24" strokeWidth="1.5"/>
-            <circle cx="16" cy="72" r="2" fill="#fbbf24"/>
-            <text x="16" y="88" fill="#475569" fontSize="7" fontWeight="700" textAnchor="middle">ORIGEN</text>
-            <circle cx="244" cy="72" r="5" fill="#0b1018" stroke="#22c55e" strokeWidth="1.5"/>
-            <circle cx="244" cy="72" r="2" fill="#22c55e"/>
-            <text x="244" y="88" fill="#475569" fontSize="7" fontWeight="700" textAnchor="middle">DESTINO</text>
-            <g>
-              <animateMotion dur="4s" repeatCount="indefinite" rotate="auto">
-                <mpath href="#rPath"/>
-              </animateMotion>
-              <rect x="-13" y="-5" width="18" height="9" rx="1.5" fill="#111827" stroke="rgba(251,191,36,0.4)" strokeWidth="1"/>
-              <rect x="5" y="-6.5" width="10" height="11" rx="2" fill="#1e2d3d" stroke="#fbbf24" strokeWidth="1.2"/>
-              <rect x="6.5" y="-5" width="5" height="3.5" rx="0.8" fill="rgba(56,189,248,0.7)"/>
-              <circle cx="-5" cy="5.5" r="2.5" fill="#0f172a" stroke="rgba(255,255,255,0.2)" strokeWidth="1"/>
-              <circle cx="6"  cy="5.5" r="2.5" fill="#0f172a" stroke="rgba(255,255,255,0.2)" strokeWidth="1"/>
-            </g>
-          </svg>
-
-          <div className="v2-demo-route-info">
-            <div className="v2-demo-route-stat">
-              <span>Estado</span>
-              <strong style={{ color: COLORS[step] }}>{LABELS[step]}</strong>
-            </div>
-            <div className="v2-demo-route-stat">
-              <span>Ingreso est.</span>
-              <strong>$ {[0, 0, 5200, 5200][step] || 0}</strong>
-            </div>
-          </div>
-        </div>
-
-        {/* Progress steps */}
-        <div className="v2-demo-progress">
-          {LABELS.map((l, i) => (
-            <div key={i} className={`v2-demo-prog-step${i <= step ? ' done' : ''}`}>
-              <div className="v2-demo-prog-dot" />
-              <span>{l}</span>
-            </div>
-          ))}
-        </div>
-      </div>
-    </div>
-  )
-}
-
-/* ──────────────────────────────────────
-   FLOATING WHATSAPP
-────────────────────────────────────── */
-function FloatingWA() {
-  const [visible, setVisible] = useState(false)
-  useEffect(() => {
-    const onScroll = () => setVisible(window.scrollY > 300)
-    window.addEventListener('scroll', onScroll, { passive: true })
-    return () => window.removeEventListener('scroll', onScroll)
-  }, [])
-  return (
-    <AnimatePresence>
-      {visible && (
-        <motion.a
-          href={WA}
-          target="_blank"
-          rel="noopener"
-          className="wa-float"
-          initial={{ opacity:0, scale:.7, y:20 }}
-          animate={{ opacity:1, scale:1, y:0 }}
-          exit={{ opacity:0, scale:.7, y:20 }}
-          transition={{ duration:.3, ease:[.22,1,.36,1] }}
-          aria-label="Contactar por WhatsApp"
-        >
-          <svg width="26" height="26" viewBox="0 0 24 24" fill="currentColor">
-            <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/>
-          </svg>
-          <span>¿Consultas?</span>
-        </motion.a>
-      )}
-    </AnimatePresence>
-  )
-}
-
-/* ──────────────────────────────────────
-   PRICING BANNER
-────────────────────────────────────── */
-function PricingBanner() {
-  return (
-    <motion.div
-      className="pricing-banner"
-      initial={{ opacity:0, y:24 }}
-      whileInView={{ opacity:1, y:0 }}
-      viewport={{ once:true, margin:'-60px' }}
-      transition={{ duration:.6, ease:[.22,1,.36,1] }}
-    >
-      <div className="pricing-item">
-        <span className="pricing-label">Para quién envía</span>
-        <strong>Sin costo fijo</strong>
-        <p>Solo pagás el flete acordado cuando hay match confirmado. Sin suscripción, sin cargos ocultos.</p>
-      </div>
-      <div className="pricing-divider" />
-      <div className="pricing-item">
-        <span className="pricing-label">Para transportistas</span>
-        <strong>8% de comisión</strong>
-        <p>Solo cobramos si completás la entrega. Si no hay match o se cancela antes de cargar, no pagás nada.</p>
-      </div>
-      <div className="pricing-divider" />
-      <div className="pricing-item pricing-item--highlight">
-        <span className="pricing-label">Pago protegido incluido</span>
-        <strong>Pago garantizado</strong>
-        <p>El dinero queda retenido hasta confirmar entrega. Cero riesgo para ambos lados.</p>
-      </div>
-    </motion.div>
-  )
-}
-
-/* ──────────────────────────────────────
-   WHY MOVANTIA — comparison table
-────────────────────────────────────── */
-const COMPARE_ROWS = [
-  { feature: 'Precio', traditional: 'Flete completo aunque el camión vuelva vacío', movantia: 'Pagás solo el espacio que usás' },
-  { feature: 'Tiempo', traditional: 'Días buscando transportista por teléfono', movantia: 'Match en minutos o pocas horas' },
-  { feature: 'Pago', traditional: 'Sin garantías, riesgo de impago', movantia: 'Pago protegido — el dinero está asegurado' },
-  { feature: 'Transparencia', traditional: 'Sin trazabilidad ni historial', movantia: 'Remito digital, confirmación de entrega, historial' },
-  { feature: 'Disponibilidad', traditional: 'Dependés de contactos conocidos', movantia: 'Red de transportistas con rutas activas en UY' },
-]
-
-function WhyMovantia() {
-  return (
-    <motion.div
-      className="why-section"
-      initial={{ opacity:0, y:28 }}
-      whileInView={{ opacity:1, y:0 }}
-      viewport={{ once:true, margin:'-60px' }}
-      transition={{ duration:.6, ease:[.22,1,.36,1] }}
-    >
-      <div className="why-head">
-        <p className="section-eyebrow">Comparativa</p>
-        <h2>¿Por qué Movantia?</h2>
-        <p>Lo que antes tomaba días y costaba de más, hoy tarda minutos y se paga justo.</p>
-      </div>
-      <div className="why-table">
-        <div className="why-table-header">
-          <div />
-          <div className="why-col-label why-col-old">Flete tradicional</div>
-          <div className="why-col-label why-col-new">Movantia</div>
-        </div>
-        {COMPARE_ROWS.map((r, i) => (
-          <motion.div
-            key={r.feature}
-            className="why-row"
-            initial={{ opacity:0, x:-16 }}
-            whileInView={{ opacity:1, x:0 }}
-            viewport={{ once:true }}
-            transition={{ delay: i * 0.07, duration:.45, ease:[.22,1,.36,1] }}
-          >
-            <div className="why-feature">{r.feature}</div>
-            <div className="why-cell why-cell--old">
-              <X size={14} className="why-x" />
-              {r.traditional}
-            </div>
-            <div className="why-cell why-cell--new">
-              <CheckCircle2 size={14} className="why-check" />
-              {r.movantia}
-            </div>
-          </motion.div>
-        ))}
-      </div>
-    </motion.div>
-  )
-}
-
-/* ──────────────────────────────────────
-   TESTIMONIALS
-────────────────────────────────────── */
-const TESTIMONIALS = [
-  {
-    name: 'Juan P.',
-    company: 'Distribuidora del Norte',
-    role: 'Cliente',
-    color: 'gold',
-    text: 'Antes pagaba el camión completo para mandar 6 pallets a Paysandú. Con Movantia encontré match en 2 horas y pagué un tercio. No lo podía creer.',
-    stars: 5,
-  },
-  {
-    name: 'Marcelo R.',
-    company: 'Transportes Río Uruguay',
-    role: 'Transportista',
-    color: 'green',
-    text: 'Mis retornos desde Rivera eran siempre en vacío. En el primer mes llené 4 viajes de vuelta. Son $16.000 que antes literalmente tiraba.',
-    stars: 5,
-  },
-  {
-    name: 'Sofía M.',
-    company: 'Importadora Costa Sur',
-    role: 'Cliente',
-    color: 'gold',
-    text: 'Lo que más me importó fue el pago protegido. Muchas veces tuve problemas con pagos a transportistas. Acá el sistema lo maneja solo y sin drama.',
-    stars: 5,
-  },
-]
-
-function Testimonials() {
-  return (
-    <div className="testimonials-section">
-      <motion.div
-        className="testimonials-head"
-        initial={{ opacity:0, y:24 }}
-        whileInView={{ opacity:1, y:0 }}
-        viewport={{ once:true, margin:'-60px' }}
-        transition={{ duration:.6, ease:[.22,1,.36,1] }}
-      >
-        <p className="section-eyebrow">Testimonios</p>
-        <h2>Lo que dicen los primeros usuarios</h2>
-      </motion.div>
-      <div className="testimonials-grid">
-        {TESTIMONIALS.map((t, i) => (
-          <motion.div
-            key={t.name}
-            className={`testimonial-card testimonial-card--${t.color}`}
-            initial={{ opacity:0, y:32 }}
-            whileInView={{ opacity:1, y:0 }}
-            viewport={{ once:true, margin:'-40px' }}
-            transition={{ delay: i * 0.1, duration:.55, ease:[.22,1,.36,1] }}
-          >
-            <div className="testimonial-stars">
-              {Array.from({ length: t.stars }).map((_, si) => (
-                <Star key={si} size={13} fill="currentColor" />
-              ))}
-            </div>
-            <p className="testimonial-text">"{t.text}"</p>
-            <div className="testimonial-author">
-              <div className="testimonial-avatar">{t.name[0]}</div>
-              <div>
-                <strong>{t.name}</strong>
-                <span>{t.company} · {t.role}</span>
-              </div>
-            </div>
-          </motion.div>
-        ))}
-      </div>
-    </div>
-  )
-}
-
-/* ──────────────────────────────────────
-   FAQ
-────────────────────────────────────── */
-const FAQ_ITEMS = [
-  {
-    q: '¿Qué pasa si mi carga llega dañada?',
-    a: 'El dinero queda en pago protegido hasta que vos confirmás que la mercadería llegó en buen estado. Si hay daños, abrís una disputa desde la app. El pago queda retenido mientras se resuelve. En casos graves, coordinamos con el transportista para llegar a un acuerdo o devolvemos el importe.',
-  },
-  {
-    q: '¿Cómo funciona el pago protegido?',
-    a: 'Cuando aceptás un match y pagás, el dinero no va al transportista — queda retenido — no va al transportista hasta que confirmás. Solo se libera cuando vos confirmás la entrega. El transportista sabe que el pago está garantizado, lo que mejora la confianza en ambos lados.',
-  },
-  {
-    q: '¿Qué pasa si no hay match para mi carga?',
-    a: 'Quedás en cola y te avisamos por WhatsApp o email cuando aparezca un transportista compatible. No pagás nada hasta que haya match y lo aceptés. Podés cancelar la publicación en cualquier momento sin costo.',
-  },
-  {
-    q: '¿Los transportistas están verificados?',
-    a: 'Sí. Antes de aparecer en la plataforma, cada transportista pasa por un proceso de verificación: documento de identidad, habilitación del vehículo y seguro vigente. Además, cada entrega suma o resta a su reputación pública.',
-  },
-  {
-    q: '¿Qué tipos de mercadería puedo mover?',
-    a: 'Cargas secas en pallets, cajas o granel son las más comunes. También manejamos refrigerados y plataformas según disponibilidad. No aceptamos materiales peligrosos, animales vivos ni mercadería ilegal.',
-  },
-  {
-    q: '¿Cuánto tiempo tarda en aparecer un match?',
-    a: 'Depende de la ruta y la fecha. Para rutas frecuentes como Montevideo-Maldonado o Montevideo-Colonia, los matches suelen aparecer en minutos a pocas horas. Para rutas menos frecuentes puede tardar 1-2 días. Publicar con anticipación mejora las chances.',
-  },
-]
-
-function FAQ() {
-  const [open, setOpen] = useState(0)
-  return (
-    <motion.div
-      className="faq-section"
-      initial={{ opacity:0, y:24 }}
-      whileInView={{ opacity:1, y:0 }}
-      viewport={{ once:true, margin:'-60px' }}
-      transition={{ duration:.6, ease:[.22,1,.36,1] }}
-    >
-      <div className="faq-head">
-        <p className="section-eyebrow">FAQ</p>
-        <h2>Preguntas frecuentes</h2>
-        <p>Las dudas que más nos llegan antes del primer match.</p>
-      </div>
-      <div className="faq-list">
-        {FAQ_ITEMS.map((item, i) => (
-          <div
-            key={i}
-            className={`faq-item${open === i ? ' faq-item--open' : ''}`}
-            onClick={() => setOpen(open === i ? null : i)}
-          >
-            <div className="faq-question">
-              <span>{item.q}</span>
-              <ChevronDown size={18} className={`faq-chevron${open === i ? ' open' : ''}`} />
-            </div>
-            <AnimatePresence initial={false}>
-              {open === i && (
-                <motion.div
-                  className="faq-answer"
-                  initial={{ height:0, opacity:0 }}
-                  animate={{ height:'auto', opacity:1 }}
-                  exit={{ height:0, opacity:0 }}
-                  transition={{ duration:.32, ease:[.22,1,.36,1] }}
-                >
-                  <p>{item.a}</p>
-                </motion.div>
-              )}
-            </AnimatePresence>
-          </div>
-        ))}
-      </div>
-      <div style={{ marginTop:'32px', textAlign:'center', padding:'24px', background:'rgba(10,16,28,0.8)', borderRadius:'12px', border:'1px solid rgba(255,255,255,0.07)' }}>
-        <p style={{ color:'#8695AE', marginBottom:'12px', fontSize:'15px' }}>¿Todavía tenés dudas? Te respondemos en minutos.</p>
-        <a href="https://wa.me/59898534165?text=Hola%2C%20tengo%20una%20consulta%20sobre%20Movantia" className="button button-primary" target="_blank" rel="noopener">
-          Escribinos por WhatsApp <ArrowRight size={16} />
-        </a>
-      </div>
-    </motion.div>
-  )
-}
-
-/* ──────────────────────────────────────
-   ROUTE CARD (hero)
-────────────────────────────────────── */
-function RouteCard() {
-  return (
-    <div className="route-card" style={{ animation: 'floatCard 7s ease-in-out infinite 1s' }}>
-      <div className="route-card-header">
-        <div>
-          <p>Retorno vacío detectado</p>
-          <h2>Maldonado → Montevideo</h2>
-        </div>
-        <span className="live-badge">
-          <span className="live-dot" />
-          Match activo
-        </span>
-      </div>
-      <div className="route-map">
-        <RouteMapSVG />
-      </div>
-      <div className="info-list">
-        <InfoRow icon={<Truck />}      label="Viaje"  value="Vuelve vacío" />
-        <InfoRow icon={<Building2 />}  label="Carga"  value="8 pallets" />
-        <InfoRow icon={<CreditCard />} label="Pago"   value="Tarjeta — pago protegido" />
-        <InfoRow icon={<ShieldCheck />}label="Seguro" value="Verificado" />
-      </div>
-      <div className="revenue-box">
-        <p>Ingreso recuperado estimado</p>
-        <strong>$5.200</strong>
-        <span>por una vuelta que antes no facturabas</span>
-      </div>
-    </div>
-  )
-}
-
-function RouteMapSVG() {
-  return (
-    <svg viewBox="0 0 400 175" className="route-map-svg" xmlns="http://www.w3.org/2000/svg">
-      <defs>
-        <linearGradient id="rmGrad" x1="0%" y1="0%" x2="100%" y2="0%">
-          <stop offset="0%" stopColor="#fbbf24" />
-          <stop offset="100%" stopColor="#22c55e" />
-        </linearGradient>
-        <filter id="rmGlow" x="-10%" y="-100%" width="120%" height="300%">
-          <feGaussianBlur stdDeviation="3" result="b" />
-          <feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge>
-        </filter>
-      </defs>
-      {[40,80,120,160,200,240,280,320,360].map(x => (
-        <line key={x} x1={x} y1="0" x2={x} y2="175" stroke="rgba(255,255,255,0.035)" strokeWidth="1"/>
-      ))}
-      {[35,70,105,140].map(y => (
-        <line key={y} x1="0" y1={y} x2="400" y2={y} stroke="rgba(255,255,255,0.035)" strokeWidth="1"/>
-      ))}
-      <path d="M 26 128 C 80 50 320 50 374 128" fill="none" stroke="rgba(255,255,255,0.07)" strokeWidth="2" strokeDasharray="6 10" strokeLinecap="round"/>
-      <path id="rmPath" d="M 26 128 C 80 50 320 50 374 128" fill="none" stroke="url(#rmGrad)" strokeWidth="3" strokeLinecap="round" filter="url(#rmGlow)"/>
-      <circle cx="26" cy="128" r="8" fill="rgba(11,16,24,0.9)" stroke="#fbbf24" strokeWidth="1.5"/>
-      <circle cx="26" cy="128" r="3" fill="#fbbf24"/>
-      <text x="26" y="152" fill="#64748b" fontSize="9" fontWeight="700" letterSpacing="0.8" textAnchor="middle">MALDONADO</text>
-      <circle cx="374" cy="128" r="8" fill="rgba(11,16,24,0.9)" stroke="#22c55e" strokeWidth="1.5"/>
-      <circle cx="374" cy="128" r="3" fill="#22c55e"/>
-      <text x="374" y="152" fill="#64748b" fontSize="9" fontWeight="700" textAnchor="middle" letterSpacing="0.8">MONTEVIDEO</text>
-      <g>
-        <animateMotion dur="5s" repeatCount="indefinite" rotate="auto" calcMode="linear">
-          <mpath href="#rmPath"/>
-        </animateMotion>
-        <rect x="-20" y="-7" width="26" height="13" rx="2" fill="#111827" stroke="rgba(251,191,36,0.4)" strokeWidth="1"/>
-        <line x1="-12" y1="-7" x2="-12" y2="6" stroke="rgba(255,255,255,0.08)" strokeWidth="0.8"/>
-        <line x1="-4"  y1="-7" x2="-4"  y2="6" stroke="rgba(255,255,255,0.08)" strokeWidth="0.8"/>
-        <rect x="6" y="-9" width="14" height="16" rx="2.5" fill="#1e2d3d" stroke="#fbbf24" strokeWidth="1.5"/>
-        <rect x="9" y="-7" width="7" height="5" rx="1" fill="rgba(56,189,248,0.75)"/>
-        <circle cx="-10" cy="8" r="3.5" fill="#0f172a" stroke="rgba(255,255,255,0.2)" strokeWidth="1.5"/>
-        <circle cx="8"   cy="8" r="3.5" fill="#0f172a" stroke="rgba(255,255,255,0.2)" strokeWidth="1.5"/>
-        <circle cx="-10" cy="8" r="1.2" fill="rgba(255,255,255,0.18)"/>
-        <circle cx="8"   cy="8" r="1.2" fill="rgba(255,255,255,0.18)"/>
-        <circle cx="21" cy="-1.5" r="1.8" fill="#fbbf24"/>
-        <ellipse cx="21" cy="-1.5" rx="5" ry="3.5" fill="rgba(251,191,36,0.15)"/>
-      </g>
-    </svg>
-  )
-}
-
-function InfoRow({ icon, label, value }) {
-  return (
-    <div className="info-row">
-      <div>
-        {React.cloneElement(icon, { size: 17, 'aria-hidden': true })}
-        <span>{label}</span>
-      </div>
-      <strong>{value}</strong>
     </div>
   )
 }
