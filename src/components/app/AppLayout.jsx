@@ -1,6 +1,6 @@
 import { NavLink, useNavigate } from 'react-router-dom'
 import { useAuth } from '../../contexts/AuthContext'
-import { Truck, Package, Plus, DollarSign, History, LogOut, Search, Clock, LayoutDashboard, Building2, AlertTriangle } from 'lucide-react'
+import { Truck, Package, Plus, DollarSign, History, LogOut, Search, Clock, LayoutDashboard, Building2, AlertTriangle, MapPin } from 'lucide-react'
 
 export default function AppLayout({ children }) {
   const { profile, signOut } = useAuth()
@@ -29,6 +29,7 @@ export default function AppLayout({ children }) {
   const adminNav = [
     { to: '/admin', label: 'Dashboard', icon: LayoutDashboard, end: true },
     { to: '/admin/companies', label: 'Empresas', icon: Building2 },
+    { to: '/admin/trips', label: 'Vueltas', icon: MapPin },
     { to: '/admin/bookings', label: 'Reservas', icon: Package },
     { to: '/admin/incidents', label: 'Incidencias', icon: AlertTriangle },
   ]
