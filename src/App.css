@@ -1168,16 +1168,3 @@ h1,h2,h3,h4,h5,h6,strong,.brand-name,.button {
 @media (max-width:430px) {
   .brand > span:last-child { display:none; }
 }
-
-/* ── SPLASH SCREEN ── */
-@keyframes splashFill {
-  from { width: 0% }
-  to   { width: 100% }
-}
-.splash-bar {
-  height: 100%;
-  width: 0%;
-  background: linear-gradient(90deg, #D4A843, #F0C84A);
-  border-radius: 3px;
-  animation: splashFill 2.5s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards;
-}
