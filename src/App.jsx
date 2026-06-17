@@ -490,11 +490,18 @@ function SplashWrapper({ children }) {
   const [barWidth, setBarWidth] = useState(0)
 
   useEffect(() => {
-    // Double rAF ensures the element is painted before transition starts
+    document.body.style.overflow = 'hidden'
     requestAnimationFrame(() => requestAnimationFrame(() => setBarWidth(100)))
     const t1 = setTimeout(() => setFading(true), 4000)
-    const t2 = setTimeout(() => setDone(true), 4400)
-    return () => { clearTimeout(t1); clearTimeout(t2) }
+    const t2 = setTimeout(() => {
+      window.scrollTo(0, 0)
+      document.body.style.overflow = ''
+      setDone(true)
+    }, 4400)
+    return () => {
+      clearTimeout(t1); clearTimeout(t2)
+      document.body.style.overflow = ''
+    }
   }, [])
 
   return (
