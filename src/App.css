@@ -1168,3 +1168,37 @@ h1,h2,h3,h4,h5,h6,strong,.brand-name,.button {
 @media (max-width:430px) {
   .brand > span:last-child { display:none; }
 }
+
+/* ================================================================
+   MAIN PAGE — MOBILE RESPONSIVE
+   Targets inline-styled elements via className overrides
+   ================================================================ */
+
+/* Hide nav text links on mobile, keep only logo + admin btn */
+@media (max-width: 640px) {
+  .main-nav-links a {
+    display: none !important;
+  }
+}
+
+/* Hero: stack left copy + right card vertically */
+@media (max-width: 720px) {
+  .hero-grid {
+    grid-template-columns: 1fr !important;
+  }
+}
+
+/* Precios: stack the 3-col pricing grid vertically */
+@media (max-width: 580px) {
+  .precios-grid {
+    grid-template-columns: 1fr !important;
+  }
+  /* Replace right border dividers with bottom borders when stacked */
+  .precios-grid > div {
+    border-right: none !important;
+    border-bottom: 1px solid rgba(255,255,255,0.06) !important;
+  }
+  .precios-grid > div:last-child {
+    border-bottom: none !important;
+  }
+}
