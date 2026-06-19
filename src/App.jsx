@@ -560,7 +560,7 @@ function MainPage() {
             <span style={{ width: 40, height: 40, display: 'flex' }}><BrandMark /></span>
             <span style={{ fontWeight: 800, fontSize: 16, color: '#E8EDF5', letterSpacing: '-0.02em' }}>Movantia</span>
           </a>
-          <div style={{ display: 'flex', gap: 8, alignItems: 'center' }}>
+          <div className="main-nav-links" style={{ display: 'flex', gap: 8, alignItems: 'center' }}>
             <a href="#como-funciona" onClick={e => { e.preventDefault(); document.getElementById('como-funciona')?.scrollIntoView({ behavior: 'smooth' }) }} style={{ fontSize: 13, color: 'rgba(232,237,245,0.5)', textDecoration: 'none', padding: '6px 12px', borderRadius: 8, fontWeight: 500 }}
               onMouseEnter={e => e.currentTarget.style.color='#E8EDF5'}
               onMouseLeave={e => e.currentTarget.style.color='rgba(232,237,245,0.5)'}
@@ -585,7 +585,7 @@ function MainPage() {
 
       {/* ── HERO ── */}
       <section style={{ padding: 'clamp(56px,8vw,100px) 24px clamp(48px,6vw,80px)' }}>
-        <div style={{ maxWidth: 1120, margin: '0 auto', display: 'grid', gridTemplateColumns: 'minmax(0,1fr) minmax(0,1fr)', gap: 'clamp(32px,5vw,64px)', alignItems: 'center' }}>
+        <div className="hero-grid" style={{ maxWidth: 1120, margin: '0 auto', display: 'grid', gridTemplateColumns: 'minmax(0,1fr) minmax(0,1fr)', gap: 'clamp(32px,5vw,64px)', alignItems: 'center' }}>
 
           {/* Left — copy */}
           <div>
@@ -805,7 +805,7 @@ function MainPage() {
             <p style={{ fontSize: 15, color: 'rgba(232,237,245,0.4)', margin: 0 }}>Solo cobramos si la entrega se confirma. Sin cargos fijos.</p>
           </div>
           <div style={{ background: '#0D1018', border: '1px solid rgba(255,255,255,0.07)', borderRadius: 16, overflow: 'hidden' }}>
-            <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr 1fr', textAlign: 'center' }}>
+            <div className="precios-grid" style={{ display: 'grid', gridTemplateColumns: '1fr 1fr 1fr', textAlign: 'center' }}>
               {[
                 { l: 'Cliente paga', v: '$4.000', s: '2 m³ × $2.000/m³' },
                 { l: 'Comisión 12%', v: '$480',   s: 'Plataforma', dim: true },
