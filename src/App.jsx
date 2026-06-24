@@ -324,9 +324,9 @@ function DevBar() {
         DEMO →
       </span>
       {[
-        { role: 'transporter', label: '🚚 Transportista', color: '#D4A843' },
-        { role: 'consumer',    label: '📦 Consumidor',    color: '#00D68F' },
-        { role: 'admin',       label: '🛡️ Admin',         color: '#a78bfa' },
+        { role: 'transporter', label: 'Transportista', color: '#D4A843' },
+        { role: 'consumer',    label: 'Consumidor',    color: '#00D68F' },
+        { role: 'admin',       label: 'Admin',         color: '#a78bfa' },
       ].map(({ role, label, color }) => (
         <button
           key={role}
@@ -341,10 +341,12 @@ function DevBar() {
             fontWeight: 600,
             cursor: 'pointer',
             fontFamily: 'Space Grotesk, sans-serif',
+            display: 'inline-flex', alignItems: 'center', gap: 5,
           }}
           onMouseEnter={e => e.currentTarget.style.background = `${color}18`}
           onMouseLeave={e => e.currentTarget.style.background = 'transparent'}
         >
+          {role === 'transporter' ? <Truck size={13} /> : role === 'consumer' ? <Package size={13} /> : <ShieldCheck size={13} />}
           {label}
         </button>
       ))}
