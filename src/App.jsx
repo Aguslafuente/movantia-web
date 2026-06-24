@@ -182,7 +182,7 @@ const LLEVAR_STEPS = [
       how: 'Al llegar al destino, el cliente o vos confirman la entrega. El pago se libera automáticamente a tu cuenta en 1-2 días hábiles. Sin facturas manuales, sin cobros pendientes.',
       tips: [
         'El pago llega a tu cuenta bancaria uruguaya directamente.',
-        'Movantia cobra una comisión del 8% solo si el viaje se completa.',
+        'No pagás nada por publicar: el cobro se concreta solo cuando completás un viaje.',
         'Cada entrega suma a tu reputación y mejora tu posición en los matches futuros.',
       ],
       time: 'Acreditación en 1-2 días hábiles',
@@ -822,7 +822,7 @@ function MainPage() {
         <div style={{ maxWidth: 960, margin: '0 auto', padding: 'clamp(36px,5vw,56px) 0', display: 'grid', gridTemplateColumns: 'repeat(auto-fit,minmax(180px,1fr))', gap: 1, background: 'rgba(255,255,255,0.04)', borderRadius: 16, overflow: 'hidden', border: '1px solid rgba(255,255,255,0.07)' }}>
           {[
             { v: '6',       u: 'rutas conectadas',       c: '#D4A843', info: 'Arrancamos cubriendo las 6 rutas más transitadas del país — Montevideo con Maldonado, Punta del Este, Colonia, Paysandú, Rivera y Salto — y vamos sumando más a medida que crece la red de transportistas.' },
-            { v: '12%',     u: 'comisión sin cargos fijos', c: '#E8EDF5', info: 'Movantia cobra solo 12% sobre cada entrega confirmada. No hay cuota mensual, ni costo por publicar, ni cargos ocultos: si no hay viaje, no pagás nada.' },
+            { v: '0',       u: 'cuotas ni cargos fijos', c: '#E8EDF5', info: 'No hay cuota mensual ni costo por publicar. Publicás tus vueltas o tus cargas gratis y sin compromiso — solo se concreta el cobro cuando hay una entrega.' },
             { v: '$2.000',  u: 'por m³ — precio justo', c: '#00D68F', info: 'El precio de referencia es $2.000 por metro cúbico, con un mínimo de $600. Pagás exactamente por el espacio que ocupa tu carga, no por el camión entero.' },
             { v: '< 5 min', u: 'para publicar tu vuelta', c: '#a78bfa', info: 'Publicar una vuelta o una carga toma menos de 5 minutos desde el celular: completás origen, destino, fecha y espacio disponible, y listo.' },
           ].map((s, i, arr) => (
@@ -972,15 +972,15 @@ function MainPage() {
         <div style={{ maxWidth: 760, margin: '0 auto' }}>
           <div style={{ textAlign: 'center', marginBottom: 36 }}>
             <p style={{ fontSize: 11, fontWeight: 700, color: '#D4A843', letterSpacing: '0.1em', textTransform: 'uppercase', margin: '0 0 10px' }}>Los números</p>
-            <h2 style={{ fontSize: 'clamp(24px,3.5vw,36px)', fontWeight: 800, color: '#E8EDF5', margin: '0 0 12px', letterSpacing: '-0.025em' }}>12% de comisión · pago con tarjeta protegido</h2>
-            <p style={{ fontSize: 15, color: 'rgba(232,237,245,0.6)', margin: 0 }}>Solo cobramos si la entrega se confirma. Sin cargos fijos.</p>
+            <h2 style={{ fontSize: 'clamp(24px,3.5vw,36px)', fontWeight: 800, color: '#E8EDF5', margin: '0 0 12px', letterSpacing: '-0.025em' }}>Precio justo · pago con tarjeta protegido</h2>
+            <p style={{ fontSize: 15, color: 'rgba(232,237,245,0.6)', margin: 0 }}>Pagás solo por el espacio que usás. Sin cuotas ni cargos fijos.</p>
           </div>
           <div className="card-hover stagger-item" style={{ background: '#0D1018', border: '1px solid rgba(255,255,255,0.07)', borderRadius: 16, overflow: 'hidden' }}>
             <div className="precios-grid" style={{ display: 'grid', gridTemplateColumns: '1fr 1fr 1fr', textAlign: 'center' }}>
               {[
-                { l: 'Cliente paga', v: '$4.000', s: '2 m³ × $2.000/m³' },
-                { l: 'Comisión 12%', v: '$480',   s: 'Plataforma', dim: true },
-                { l: 'Transportista recibe', v: '$3.520', s: '88% neto', hl: true },
+                { l: 'Precio por m³', v: '$2.000', s: 'tarifa de referencia' },
+                { l: 'Ejemplo: 2 m³', v: '$4.000', s: '2 m³ × $2.000', hl: true },
+                { l: 'Mínimo de flete', v: '$600', s: 'envíos chicos' },
               ].map((c, i) => (
                 <div key={i} style={{ padding: '24px 16px', background: c.hl ? 'rgba(0,214,143,0.06)' : 'transparent', borderRight: i < 2 ? '1px solid rgba(255,255,255,0.06)' : 'none' }}>
                   <p style={{ fontSize: 10, color: '#9AA3B5', fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.08em', margin: '0 0 8px' }}>{c.l}</p>
@@ -991,7 +991,7 @@ function MainPage() {
             </div>
             <div style={{ padding: '14px 20px', borderTop: '1px solid rgba(255,255,255,0.06)', background: 'rgba(212,168,67,0.03)' }}>
               <p style={{ fontSize: 12, color: 'rgba(232,237,245,0.35)', margin: 0, textAlign: 'center' }}>
-                Precio de referencia $2.000/m³ · mínimo $600 · comisión solo si hay entrega confirmada
+                Precio de referencia $2.000/m³ · mínimo $600 · pagás solo el espacio que usás
               </p>
             </div>
           </div>
