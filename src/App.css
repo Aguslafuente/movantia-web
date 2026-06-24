@@ -1202,3 +1202,41 @@ h1,h2,h3,h4,h5,h6,strong,.brand-name,.button {
     border-bottom: none !important;
   }
 }
+
+/* ════════════════════════════════════════════════
+   MICRO-INTERACCIONES — scroll reveal + hover
+   ════════════════════════════════════════════════ */
+.reveal {
+  opacity: 0;
+  transform: translateY(28px);
+  transition: opacity .7s cubic-bezier(.22,.61,.36,1), transform .7s cubic-bezier(.22,.61,.36,1);
+  will-change: opacity, transform;
+}
+.reveal.in-view { opacity: 1; transform: none; }
+
+.landing-root a,
+.landing-root button {
+  transition: transform .18s ease, opacity .18s ease, box-shadow .25s ease, color .18s ease, border-color .18s ease;
+}
+.landing-root button:hover { transform: translateY(-2px); }
+.landing-root .faq-card > button:hover { transform: none; }
+.landing-root a.wa-fab:hover {
+  transform: translateY(-3px) scale(1.04);
+  box-shadow: 0 16px 34px rgba(37,211,102,0.55);
+}
+
+.card-hover {
+  transition: transform .25s cubic-bezier(.22,.61,.36,1), box-shadow .28s ease, border-color .25s ease !important;
+}
+.card-hover:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 16px 36px rgba(0,0,0,0.42);
+  border-color: rgba(212,168,67,0.4) !important;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .reveal { opacity: 1 !important; transform: none !important; transition: none !important; }
+  .landing-root a:hover,
+  .landing-root button:hover,
+  .card-hover:hover { transform: none !important; box-shadow: none !important; }
+}
