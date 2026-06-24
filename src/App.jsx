@@ -304,6 +304,53 @@ function InfoModal({ info, onClose }) {
   )
 }
 
+function LandingDrawer({ open, onClose, onAdmin }) {
+  useEffect(() => {
+    function onKey(e) { if (e.key === 'Escape') onClose() }
+    window.addEventListener('keydown', onKey)
+    document.body.style.overflow = open ? 'hidden' : ''
+    return () => { window.removeEventListener('keydown', onKey); document.body.style.overflow = '' }
+  }, [open, onClose])
+
+  function section(id) { onClose(); setTimeout(() => document.getElementById(id)?.scrollIntoView({ behavior: 'smooth' }), 60) }
+  function go(role, path) { try { localStorage.setItem('dev_role', role) } catch (e) {} window.location.href = path }
+
+  const item = { display: 'flex', alignItems: 'center', gap: 11, width: '100%', textAlign: 'left', background: 'none', border: 'none', color: 'rgba(232,237,245,0.82)', fontSize: 15, fontWeight: 600, padding: '12px 14px', borderRadius: 10, cursor: 'pointer', fontFamily: "'Space Grotesk', sans-serif", textDecoration: 'none' }
+  const head = { fontSize: 10, fontWeight: 700, color: 'rgba(232,237,245,0.35)', letterSpacing: '0.1em', textTransform: 'uppercase', margin: '14px 8px 4px' }
+
+  return (
+    <>
+      <div onClick={onClose} style={{ position: 'fixed', inset: 0, zIndex: 250, background: 'rgba(0,0,0,0.6)', backdropFilter: 'blur(4px)', opacity: open ? 1 : 0, pointerEvents: open ? 'auto' : 'none', transition: 'opacity .28s ease' }} />
+      <aside style={{ position: 'fixed', top: 0, left: 0, bottom: 0, zIndex: 260, width: 'min(82vw, 300px)', background: '#0D1018', borderRight: '1px solid rgba(255,255,255,0.08)', boxShadow: '8px 0 44px rgba(0,0,0,0.5)', transform: open ? 'translateX(0)' : 'translateX(-100%)', transition: 'transform .3s cubic-bezier(.22,.61,.36,1)', display: 'flex', flexDirection: 'column', padding: '16px 14px', overflowY: 'auto' }}>
+        <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: '0 6px 14px', borderBottom: '1px solid rgba(255,255,255,0.06)' }}>
+          <span style={{ display: 'flex', alignItems: 'center', gap: 9 }}>
+            <span style={{ width: 30, height: 30, display: 'flex' }}><BrandMark /></span>
+            <span style={{ fontWeight: 800, fontSize: 15, color: '#E8EDF5' }}>Movantia</span>
+          </span>
+          <button onClick={onClose} aria-label="Cerrar menú" style={{ background: 'rgba(255,255,255,0.06)', border: 'none', borderRadius: 8, width: 30, height: 30, color: '#E8EDF5', cursor: 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'center' }}><X size={16} /></button>
+        </div>
+
+        <p style={head}>Navegación</p>
+        <button style={item} onClick={() => section('como-funciona')}><Route size={17} color="#D4A843" /> Cómo funciona</button>
+        <button style={item} onClick={() => section('rutas')}><Truck size={17} color="#D4A843" /> Rutas populares</button>
+        <button style={item} onClick={() => section('precios')}><CreditCard size={17} color="#D4A843" /> Precios</button>
+        <button style={item} onClick={() => section('faq')}><ShieldCheck size={17} color="#D4A843" /> Preguntas frecuentes</button>
+
+        <p style={head}>Empezá ahora</p>
+        <button onClick={() => go('transporter', '/app/transporter')} style={{ ...item, background: '#D4A843', color: '#07090F', fontWeight: 800, marginTop: 2 }}><Truck size={17} /> Soy transportista</button>
+        <button onClick={() => go('consumer', '/app/send')} style={{ ...item, background: 'rgba(0,214,143,0.12)', color: '#00D68F', border: '1px solid rgba(0,214,143,0.3)', fontWeight: 800, marginTop: 8 }}><Package size={17} /> Necesito enviar algo</button>
+
+        <p style={head}>Contacto</p>
+        <a href={WA} target="_blank" rel="noreferrer" style={{ ...item, color: '#25D366' }}><WAGlyph size={17} /> WhatsApp</a>
+
+        <div style={{ marginTop: 'auto', paddingTop: 12, borderTop: '1px solid rgba(255,255,255,0.06)' }}>
+          <button onClick={onAdmin} style={{ ...item, color: 'rgba(232,237,245,0.45)', fontSize: 13 }}><ShieldCheck size={15} /> Acceso admin</button>
+        </div>
+      </aside>
+    </>
+  )
+}
+
 export default function App() {
   return (
     <Routes>
@@ -616,6 +663,7 @@ function SplashWrapper({ children }) {
 function MainPage() {
   const [adminModal, setAdminModal] = useState(false)
   const [info, setInfo] = useState(null)
+  const [drawer, setDrawer] = useState(false)
 
   useEffect(() => {
     const root = document.querySelector('.landing-root')
@@ -671,6 +719,7 @@ function MainPage() {
     <div className="landing-root" style={{ background: '#07090F', minHeight: '100vh', color: '#E8EDF5', fontFamily: "'Space Grotesk', sans-serif", overflowX: 'hidden' }}>
       {adminModal && <AdminModal onClose={() => setAdminModal(false)} />}
       {info && <InfoModal info={info} onClose={() => setInfo(null)} />}
+      <LandingDrawer open={drawer} onClose={() => setDrawer(false)} onAdmin={() => { setDrawer(false); setAdminModal(true) }} />
 
       {/* ── NAV ── */}
       <header className="site-header-x" style={{ position: 'sticky', top: 0, zIndex: 100, background: 'rgba(7,9,15,0.92)', backdropFilter: 'blur(16px)', borderBottom: '1px solid rgba(255,255,255,0.06)' }}>
@@ -680,6 +729,7 @@ function MainPage() {
             <span style={{ fontWeight: 800, fontSize: 16, color: '#E8EDF5', letterSpacing: '-0.02em' }}>Movantia</span>
           </a>
           <div className="main-nav-links" style={{ display: 'flex', gap: 8, alignItems: 'center' }}>
+            <button onClick={() => setDrawer(true)} aria-label="Abrir menú" style={{ background: 'none', border: '1px solid rgba(255,255,255,0.1)', color: 'rgba(232,237,245,0.8)', borderRadius: 8, padding: '6px 9px', cursor: 'pointer', display: 'flex', alignItems: 'center' }} onMouseEnter={e => e.currentTarget.style.borderColor='rgba(212,168,67,0.4)'} onMouseLeave={e => e.currentTarget.style.borderColor='rgba(255,255,255,0.1)'}><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round"><line x1="4" y1="7" x2="20" y2="7"/><line x1="4" y1="12" x2="20" y2="12"/><line x1="4" y1="17" x2="20" y2="17"/></svg></button>
             <a href="#como-funciona" onClick={e => { e.preventDefault(); document.getElementById('como-funciona')?.scrollIntoView({ behavior: 'smooth' }) }} style={{ fontSize: 13, color: 'rgba(232,237,245,0.7)', textDecoration: 'none', padding: '6px 12px', borderRadius: 8, fontWeight: 500 }}
               onMouseEnter={e => e.currentTarget.style.color='#E8EDF5'}
               onMouseLeave={e => e.currentTarget.style.color='rgba(232,237,245,0.7)'}
@@ -880,7 +930,7 @@ function MainPage() {
       </section>
 
       {/* ── RUTAS POPULARES ── */}
-      <section style={{ padding: 'clamp(56px,7vw,88px) 24px', background: 'rgba(255,255,255,0.015)', borderTop: '1px solid rgba(255,255,255,0.05)', borderBottom: '1px solid rgba(255,255,255,0.05)' }}>
+      <section id="rutas" style={{ padding: 'clamp(56px,7vw,88px) 24px', background: 'rgba(255,255,255,0.015)', borderTop: '1px solid rgba(255,255,255,0.05)', borderBottom: '1px solid rgba(255,255,255,0.05)' }}>
         <div style={{ maxWidth: 960, margin: '0 auto' }}>
           <div style={{ textAlign: 'center', marginBottom: 40 }}>
             <p style={{ fontSize: 11, fontWeight: 700, color: '#D4A843', letterSpacing: '0.1em', textTransform: 'uppercase', margin: '0 0 10px' }}>Rutas activas</p>
