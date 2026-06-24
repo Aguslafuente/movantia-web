@@ -571,8 +571,25 @@ function SplashWrapper({ children }) {
 function MainPage() {
   const [adminModal, setAdminModal] = useState(false)
 
+  useEffect(() => {
+    const root = document.querySelector('.landing-root')
+    if (!root) return
+    const sections = Array.from(root.querySelectorAll(':scope > section'))
+    const io = new IntersectionObserver((entries) => {
+      entries.forEach((e) => {
+        if (e.isIntersecting) { e.target.classList.add('in-view'); io.unobserve(e.target) }
+      })
+    }, { threshold: 0.08, rootMargin: '0px 0px -6% 0px' })
+    sections.forEach((el, i) => {
+      el.classList.add('reveal')
+      if (i === 0) el.classList.add('in-view')
+      else io.observe(el)
+    })
+    return () => io.disconnect()
+  }, [])
+
   return (
-    <div style={{ background: '#07090F', minHeight: '100vh', color: '#E8EDF5', fontFamily: "'Space Grotesk', sans-serif", overflowX: 'hidden' }}>
+    <div className="landing-root" style={{ background: '#07090F', minHeight: '100vh', color: '#E8EDF5', fontFamily: "'Space Grotesk', sans-serif", overflowX: 'hidden' }}>
       {adminModal && <AdminModal onClose={() => setAdminModal(false)} />}
 
       {/* ── NAV ── */}
@@ -638,7 +655,7 @@ function MainPage() {
           </div>
 
           {/* Right — route card */}
-          <div style={{ background: '#0D1018', border: '1px solid rgba(255,255,255,0.07)', borderRadius: 20, padding: '22px', position: 'relative', overflow: 'hidden' }}>
+          <div className="card-hover" style={{ background: '#0D1018', border: '1px solid rgba(255,255,255,0.07)', borderRadius: 20, padding: '22px', position: 'relative', overflow: 'hidden' }}>
             <div style={{ position: 'absolute', top: -50, right: -50, width: 200, height: 200, background: 'radial-gradient(circle, rgba(212,168,67,0.06) 0%, transparent 70%)', pointerEvents: 'none' }} />
             <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 16 }}>
               <div>
@@ -703,7 +720,7 @@ function MainPage() {
               { icon: <Truck size={15} />, title: 'Sin Movantia', items: ['Camión vuelve vacío y pierde dinero', 'Transportista no sabe quién necesita carga en su ruta', 'Cliente paga el camión entero por una caja'], bad: true },
               { icon: <CheckCircle2 size={15} />, title: 'Con Movantia', items: ['Vendés el espacio libre de tu vuelta', 'Clientes publican su carga y vos aparecés como opción', 'Cada uno paga exactamente lo que usa'], bad: false },
             ].map((card, i) => (
-              <div key={i} style={{ background: card.bad ? 'rgba(239,68,68,0.04)' : 'rgba(0,214,143,0.05)', border: `1px solid ${card.bad ? 'rgba(239,68,68,0.15)' : 'rgba(0,214,143,0.2)'}`, borderRadius: 14, padding: '18px 20px' }}>
+              <div key={i} className="card-hover" style={{ background: card.bad ? 'rgba(239,68,68,0.04)' : 'rgba(0,214,143,0.05)', border: `1px solid ${card.bad ? 'rgba(239,68,68,0.15)' : 'rgba(0,214,143,0.2)'}`, borderRadius: 14, padding: '18px 20px' }}>
                 <p style={{ fontWeight: 700, color: card.bad ? '#f87171' : '#00D68F', margin: '0 0 12px', fontSize: 14, display: 'inline-flex', alignItems: 'center', gap: 7 }}>{card.icon} {card.title}</p>
                 {card.items.map((it, j) => (
                   <div key={j} style={{ display: 'flex', alignItems: 'flex-start', gap: 8, marginBottom: j < card.items.length - 1 ? 8 : 0 }}>
@@ -727,7 +744,7 @@ function MainPage() {
           <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit,minmax(280px,1fr))', gap: 20 }}>
 
             {/* Transportista */}
-            <div style={{ background: '#0D1018', border: '1px solid rgba(212,168,67,0.12)', borderRadius: 16, padding: '24px', position: 'relative', overflow: 'hidden' }}>
+            <div className="card-hover" style={{ background: '#0D1018', border: '1px solid rgba(212,168,67,0.12)', borderRadius: 16, padding: '24px', position: 'relative', overflow: 'hidden' }}>
               <div style={{ position: 'absolute', top: 0, left: 0, right: 0, height: 3, background: 'linear-gradient(90deg,#D4A843,#f0a500)' }} />
               <div style={{ display: 'flex', alignItems: 'center', gap: 8, marginBottom: 20 }}>
                 <Truck size={15} color="#D4A843" />
@@ -753,7 +770,7 @@ function MainPage() {
             </div>
 
             {/* Consumidor */}
-            <div style={{ background: '#0D1018', border: '1px solid rgba(0,214,143,0.12)', borderRadius: 16, padding: '24px', position: 'relative', overflow: 'hidden' }}>
+            <div className="card-hover" style={{ background: '#0D1018', border: '1px solid rgba(0,214,143,0.12)', borderRadius: 16, padding: '24px', position: 'relative', overflow: 'hidden' }}>
               <div style={{ position: 'absolute', top: 0, left: 0, right: 0, height: 3, background: 'linear-gradient(90deg,#00D68F,#00c47f)' }} />
               <div style={{ display: 'flex', alignItems: 'center', gap: 8, marginBottom: 20 }}>
                 <Package size={15} color="#00D68F" />
@@ -799,7 +816,7 @@ function MainPage() {
               { from: 'Montevideo', to: 'Salto',        km: '497 km', freq: 'Disponible' },
             ].map((r, i) => (
               <a key={i} href={`/${r.from.toLowerCase()}-${r.to.toLowerCase().replace(' ', '-')}`}
-                style={{ background: '#0D1018', border: '1px solid rgba(255,255,255,0.07)', borderRadius: 12, padding: '16px', textDecoration: 'none', display: 'block', transition: 'border-color .2s' }}
+                className="card-hover" style={{ background: '#0D1018', border: '1px solid rgba(255,255,255,0.07)', borderRadius: 12, padding: '16px', textDecoration: 'none', display: 'block', transition: 'border-color .2s' }}
                 onMouseEnter={e => e.currentTarget.style.borderColor='rgba(212,168,67,0.35)'}
                 onMouseLeave={e => e.currentTarget.style.borderColor='rgba(255,255,255,0.07)'}
               >
@@ -826,7 +843,7 @@ function MainPage() {
             <h2 style={{ fontSize: 'clamp(24px,3.5vw,36px)', fontWeight: 800, color: '#E8EDF5', margin: '0 0 12px', letterSpacing: '-0.025em' }}>12% de comisión · pago con tarjeta protegido</h2>
             <p style={{ fontSize: 15, color: 'rgba(232,237,245,0.6)', margin: 0 }}>Solo cobramos si la entrega se confirma. Sin cargos fijos.</p>
           </div>
-          <div style={{ background: '#0D1018', border: '1px solid rgba(255,255,255,0.07)', borderRadius: 16, overflow: 'hidden' }}>
+          <div className="card-hover" style={{ background: '#0D1018', border: '1px solid rgba(255,255,255,0.07)', borderRadius: 16, overflow: 'hidden' }}>
             <div className="precios-grid" style={{ display: 'grid', gridTemplateColumns: '1fr 1fr 1fr', textAlign: 'center' }}>
               {[
                 { l: 'Cliente paga', v: '$4.000', s: '2 m³ × $2.000/m³' },
@@ -872,7 +889,7 @@ function MainPage() {
               { step: '03', icon: <Package size={16} color="#00D68F" />, title: 'El paquete llega', desc: 'Confirmás que recibiste todo bien desde la app con un PIN.' },
               { step: '04', icon: <CheckCircle2 size={16} color="#00D68F" />, title: 'Se libera el pago', desc: 'El transportista recibe su parte automáticamente. Cero fricción.' },
             ].map((s, i) => (
-              <div key={i} style={{ display: 'flex', gap: 14, alignItems: 'flex-start', background: '#0D1018', border: '1px solid rgba(255,255,255,0.06)', borderRadius: 12, padding: '16px' }}>
+              <div key={i} className="card-hover" style={{ display: 'flex', gap: 14, alignItems: 'flex-start', background: '#0D1018', border: '1px solid rgba(255,255,255,0.06)', borderRadius: 12, padding: '16px' }}>
                 <div style={{ flexShrink: 0, width: 32, height: 32, borderRadius: 8, background: 'rgba(0,214,143,0.08)', border: '1px solid rgba(0,214,143,0.18)', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 16 }}>{s.icon}</div>
                 <div>
                   <p style={{ fontSize: 14, fontWeight: 700, color: '#E8EDF5', margin: '0 0 3px' }}>{s.title}</p>
@@ -970,7 +987,7 @@ function MainPage() {
 function FAQItem({ q, a }) {
   const [open, setOpen] = useState(false)
   return (
-    <div style={{ background: '#0D1018', border: '1px solid rgba(255,255,255,0.07)', borderRadius: 12, overflow: 'hidden', transition: 'border-color .2s' }}
+    <div className="card-hover faq-card" style={{ background: '#0D1018', border: '1px solid rgba(255,255,255,0.07)', borderRadius: 12, overflow: 'hidden', transition: 'border-color .2s' }}
       onMouseEnter={e => e.currentTarget.style.borderColor='rgba(212,168,67,0.2)'}
       onMouseLeave={e => e.currentTarget.style.borderColor='rgba(255,255,255,0.07)'}
     >
