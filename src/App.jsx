@@ -259,6 +259,71 @@ function RoutePageWrapper() {
   return <RoutePage slug={slug} />
 }
 
+const MAP_CITIES = {
+  'Montevideo': [150, 300], 'Maldonado': [201, 298], 'Punta del Este': [207, 309],
+  'Colonia': [96, 286], 'Paysandú': [70, 175], 'Salto': [72, 120], 'Rivera': [185, 96],
+}
+
+function UruguayMap({ from, to }) {
+  const a = MAP_CITIES[from] || MAP_CITIES['Montevideo']
+  const b = MAP_CITIES[to] || a
+  return (
+    <svg viewBox="0 0 300 360" style={{ width: '100%', height: 'auto', display: 'block' }} role="img" aria-label={`Mapa de la ruta ${from} a ${to}`}>
+      <path d="M60 110 C70 80 120 70 160 78 C200 86 216 120 226 160 C236 210 220 272 200 300 C176 320 130 318 100 300 C70 286 55 250 52 210 C50 170 50 134 60 110 Z" fill="rgba(212,168,67,0.05)" stroke="rgba(255,255,255,0.13)" strokeWidth="1.4" />
+      <line x1={a[0]} y1={a[1]} x2={b[0]} y2={b[1]} stroke="#D4A843" strokeWidth="2.4" strokeDasharray="6 5" strokeLinecap="round">
+        <animate attributeName="stroke-dashoffset" from="22" to="0" dur="0.9s" repeatCount="indefinite" />
+      </line>
+      {[[a, from, '#E8EDF5', 19], [b, to, '#D4A843', -12]].map(([p, label, col, dy], i) => (
+        <g key={i}>
+          <circle cx={p[0]} cy={p[1]} r="9" fill="rgba(212,168,67,0.16)">
+            <animate attributeName="r" values="6;11;6" dur="2.2s" repeatCount="indefinite" />
+          </circle>
+          <circle cx={p[0]} cy={p[1]} r="4.5" fill="#D4A843" />
+          <text x={p[0]} y={p[1] + dy} fill={col} fontSize="11" fontWeight="700" textAnchor="middle" fontFamily="Space Grotesk, sans-serif">{label}</text>
+        </g>
+      ))}
+    </svg>
+  )
+}
+
+function InfoModal({ info, onClose }) {
+  useEffect(() => {
+    function onKey(e) { if (e.key === 'Escape') onClose() }
+    window.addEventListener('keydown', onKey)
+    document.body.style.overflow = 'hidden'
+    return () => { window.removeEventListener('keydown', onKey); document.body.style.overflow = '' }
+  }, [onClose])
+  if (!info) return null
+  return (
+    <div onClick={e => { if (e.target === e.currentTarget) onClose() }}
+      style={{ position: 'fixed', inset: 0, zIndex: 300, background: 'rgba(0,0,0,0.74)', backdropFilter: 'blur(8px)', display: 'flex', alignItems: 'center', justifyContent: 'center', padding: 20 }}>
+      <div style={{ background: '#0D1018', border: '1px solid rgba(255,255,255,0.1)', borderRadius: 18, maxWidth: 440, width: '100%', maxHeight: '88vh', overflowY: 'auto', padding: '26px 24px', position: 'relative' }}>
+        <button onClick={onClose} aria-label="Cerrar" style={{ position: 'absolute', top: 14, right: 14, background: 'rgba(255,255,255,0.06)', border: 'none', borderRadius: 8, width: 30, height: 30, color: '#E8EDF5', cursor: 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'center' }}><X size={16} /></button>
+        {info.eyebrow && <p style={{ fontSize: 11, fontWeight: 700, color: '#D4A843', letterSpacing: '0.1em', textTransform: 'uppercase', margin: '0 0 8px' }}>{info.eyebrow}</p>}
+        <h3 style={{ fontSize: 21, fontWeight: 800, color: '#E8EDF5', margin: '0 0 14px', letterSpacing: '-0.02em', paddingRight: 28 }}>{info.title}</h3>
+        {info.route && (
+          <div style={{ background: '#07090F', border: '1px solid rgba(255,255,255,0.06)', borderRadius: 12, padding: 12, marginBottom: 16 }}>
+            <UruguayMap from={info.route.from} to={info.route.to} />
+            <div style={{ display: 'flex', justifyContent: 'space-between', marginTop: 6, fontSize: 12 }}>
+              <span style={{ color: 'rgba(232,237,245,0.6)' }}>{info.route.km}</span>
+              <span style={{ color: '#00D68F', fontWeight: 700 }}>{info.route.freq}</span>
+            </div>
+          </div>
+        )}
+        {(info.lines || []).map((l, i) => (
+          <p key={i} style={{ fontSize: 14, color: 'rgba(232,237,245,0.72)', lineHeight: 1.66, margin: '0 0 11px' }}>{l}</p>
+        ))}
+        {info.cta && (
+          <a href={info.cta.href} target="_blank" rel="noreferrer"
+            style={{ display: 'inline-flex', alignItems: 'center', gap: 8, marginTop: 4, background: '#D4A843', color: '#07090F', borderRadius: 10, padding: '11px 20px', fontSize: 14, fontWeight: 800, textDecoration: 'none' }}>
+            {info.cta.label}
+          </a>
+        )}
+      </div>
+    </div>
+  )
+}
+
 export default function App() {
   return (
     <Routes>
@@ -570,6 +635,7 @@ function SplashWrapper({ children }) {
 ───────────────────────────────────────────────── */
 function MainPage() {
   const [adminModal, setAdminModal] = useState(false)
+  const [info, setInfo] = useState(null)
 
   useEffect(() => {
     const root = document.querySelector('.landing-root')
@@ -624,6 +690,7 @@ function MainPage() {
   return (
     <div className="landing-root" style={{ background: '#07090F', minHeight: '100vh', color: '#E8EDF5', fontFamily: "'Space Grotesk', sans-serif", overflowX: 'hidden' }}>
       {adminModal && <AdminModal onClose={() => setAdminModal(false)} />}
+      {info && <InfoModal info={info} onClose={() => setInfo(null)} />}
 
       {/* ── NAV ── */}
       <header className="site-header-x" style={{ position: 'sticky', top: 0, zIndex: 100, background: 'rgba(7,9,15,0.92)', backdropFilter: 'blur(16px)', borderBottom: '1px solid rgba(255,255,255,0.06)' }}>
@@ -689,7 +756,7 @@ function MainPage() {
           </div>
 
           {/* Right — route card */}
-          <div className="hero-card stagger-item" style={{ background: '#0D1018', border: '1px solid rgba(255,255,255,0.07)', borderRadius: 20, padding: '22px', position: 'relative', overflow: 'hidden' }}>
+          <div className="hero-card stagger-item" onClick={() => setInfo({ eyebrow: 'Ejemplo real', title: 'Así se ve un match', lines: ['Cuando un camión publica su vuelta vacía, Movantia detecta las cargas que van en esa misma dirección y arma el match automáticamente.', 'El transportista convierte el espacio que le sobra en ingreso extra, y el cliente paga solo por el lugar que usa.'], cta: { label: 'Enviar carga por WhatsApp', href: WA_ENVIAR } })} style={{ background: '#0D1018', border: '1px solid rgba(255,255,255,0.07)', borderRadius: 20, padding: '22px', position: 'relative', overflow: 'hidden', cursor: 'pointer' }}>
             <div style={{ position: 'absolute', top: -50, right: -50, width: 200, height: 200, background: 'radial-gradient(circle, rgba(212,168,67,0.06) 0%, transparent 70%)', pointerEvents: 'none' }} />
             <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 16 }}>
               <div>
@@ -724,12 +791,12 @@ function MainPage() {
       <section style={{ padding: '0 24px', borderTop: '1px solid rgba(255,255,255,0.05)' }}>
         <div style={{ maxWidth: 960, margin: '0 auto', padding: 'clamp(36px,5vw,56px) 0', display: 'grid', gridTemplateColumns: 'repeat(auto-fit,minmax(180px,1fr))', gap: 1, background: 'rgba(255,255,255,0.04)', borderRadius: 16, overflow: 'hidden', border: '1px solid rgba(255,255,255,0.07)' }}>
           {[
-            { v: '6',       u: 'rutas conectadas',       c: '#D4A843' },
-            { v: '12%',     u: 'comisión sin cargos fijos', c: '#E8EDF5' },
-            { v: '$2.000',  u: 'por m³ — precio justo', c: '#00D68F' },
-            { v: '< 5 min', u: 'para publicar tu vuelta', c: '#a78bfa' },
+            { v: '6',       u: 'rutas conectadas',       c: '#D4A843', info: 'Arrancamos cubriendo las 6 rutas más transitadas del país — Montevideo con Maldonado, Punta del Este, Colonia, Paysandú, Rivera y Salto — y vamos sumando más a medida que crece la red de transportistas.' },
+            { v: '12%',     u: 'comisión sin cargos fijos', c: '#E8EDF5', info: 'Movantia cobra solo 12% sobre cada entrega confirmada. No hay cuota mensual, ni costo por publicar, ni cargos ocultos: si no hay viaje, no pagás nada.' },
+            { v: '$2.000',  u: 'por m³ — precio justo', c: '#00D68F', info: 'El precio de referencia es $2.000 por metro cúbico, con un mínimo de $600. Pagás exactamente por el espacio que ocupa tu carga, no por el camión entero.' },
+            { v: '< 5 min', u: 'para publicar tu vuelta', c: '#a78bfa', info: 'Publicar una vuelta o una carga toma menos de 5 minutos desde el celular: completás origen, destino, fecha y espacio disponible, y listo.' },
           ].map((s, i, arr) => (
-            <div key={i} style={{ padding: '28px 24px', textAlign: 'center', borderRight: i < arr.length - 1 ? '1px solid rgba(255,255,255,0.06)' : 'none', background: '#0D1018' }}>
+            <div key={i} onClick={() => setInfo({ eyebrow: 'El número', title: s.u, lines: [s.info] })} style={{ padding: '28px 24px', textAlign: 'center', borderRight: i < arr.length - 1 ? '1px solid rgba(255,255,255,0.06)' : 'none', background: '#0D1018', cursor: 'pointer' }}>
               <p style={{ fontSize: 'clamp(28px,4vw,40px)', fontWeight: 900, color: s.c, margin: '0 0 6px', letterSpacing: '-0.04em', fontFamily: 'Space Grotesk' }}>{s.v}</p>
               <p style={{ fontSize: 12, color: 'rgba(232,237,245,0.6)', margin: 0, lineHeight: 1.4 }}>{s.u}</p>
             </div>
@@ -754,7 +821,7 @@ function MainPage() {
               { icon: <Truck size={15} />, title: 'Sin Movantia', items: ['Camión vuelve vacío y pierde dinero', 'Transportista no sabe quién necesita carga en su ruta', 'Cliente paga el camión entero por una caja'], bad: true },
               { icon: <CheckCircle2 size={15} />, title: 'Con Movantia', items: ['Vendés el espacio libre de tu vuelta', 'Clientes publican su carga y vos aparecés como opción', 'Cada uno paga exactamente lo que usa'], bad: false },
             ].map((card, i) => (
-              <div key={i} className="card-hover stagger-item" style={{ background: card.bad ? 'rgba(239,68,68,0.04)' : 'rgba(0,214,143,0.05)', border: `1px solid ${card.bad ? 'rgba(239,68,68,0.15)' : 'rgba(0,214,143,0.2)'}`, borderRadius: 14, padding: '18px 20px' }}>
+              <div key={i} className="card-hover stagger-item" onClick={() => setInfo({ eyebrow: card.bad ? 'El problema' : 'La solución', title: card.title, lines: [card.bad ? 'Hoy, sin una plataforma que conecte las dos puntas:' : 'Con Movantia, cada viaje rinde más:', ...card.items] })} style={{ background: card.bad ? 'rgba(239,68,68,0.04)' : 'rgba(0,214,143,0.05)', border: `1px solid ${card.bad ? 'rgba(239,68,68,0.15)' : 'rgba(0,214,143,0.2)'}`, borderRadius: 14, padding: '18px 20px', cursor: 'pointer' }}>
                 <p style={{ fontWeight: 700, color: card.bad ? '#f87171' : '#00D68F', margin: '0 0 12px', fontSize: 14, display: 'inline-flex', alignItems: 'center', gap: 7 }}>{card.icon} {card.title}</p>
                 {card.items.map((it, j) => (
                   <div key={j} style={{ display: 'flex', alignItems: 'flex-start', gap: 8, marginBottom: j < card.items.length - 1 ? 8 : 0 }}>
@@ -789,7 +856,7 @@ function MainPage() {
                 { n: '02', t: 'Conseguís carga',    d: 'Alguien necesita mandar algo por tu ruta.' },
                 { n: '03', t: 'Cobrás seguro',       d: 'PIN de entrega libera el pago automáticamente.' },
               ].map((s, i) => (
-                <div key={i} style={{ display: 'flex', gap: 12, marginBottom: i < 2 ? 18 : 0 }}>
+                <div key={i} onClick={() => setInfo({ eyebrow: `Paso ${s.n}`, title: s.t, lines: [s.d] })} style={{ display: 'flex', gap: 12, marginBottom: i < 2 ? 18 : 0, cursor: 'pointer' }}>
                   <div style={{ flexShrink: 0, width: 28, height: 28, borderRadius: 8, background: 'rgba(212,168,67,0.1)', border: '1px solid rgba(212,168,67,0.2)', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 11, fontWeight: 800, color: '#D4A843' }}>{s.n}</div>
                   <div>
                     <p style={{ fontSize: 14, fontWeight: 700, color: '#E8EDF5', margin: '0 0 2px' }}>{s.t}</p>
@@ -815,7 +882,7 @@ function MainPage() {
                 { n: '02', t: 'Encontrás un match',  d: 'Un camión que ya va para allá tiene espacio libre.' },
                 { n: '03', t: 'Pagás protegido',     d: 'El dinero se libera solo cuando confirmás que llegó.' },
               ].map((s, i) => (
-                <div key={i} style={{ display: 'flex', gap: 12, marginBottom: i < 2 ? 18 : 0 }}>
+                <div key={i} onClick={() => setInfo({ eyebrow: `Paso ${s.n}`, title: s.t, lines: [s.d] })} style={{ display: 'flex', gap: 12, marginBottom: i < 2 ? 18 : 0, cursor: 'pointer' }}>
                   <div style={{ flexShrink: 0, width: 28, height: 28, borderRadius: 8, background: 'rgba(0,214,143,0.08)', border: '1px solid rgba(0,214,143,0.2)', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 11, fontWeight: 800, color: '#00D68F' }}>{s.n}</div>
                   <div>
                     <p style={{ fontSize: 14, fontWeight: 700, color: '#E8EDF5', margin: '0 0 2px' }}>{s.t}</p>
@@ -849,8 +916,9 @@ function MainPage() {
               { from: 'Montevideo', to: 'Rivera',       km: '495 km', freq: 'Disponible' },
               { from: 'Montevideo', to: 'Salto',        km: '497 km', freq: 'Disponible' },
             ].map((r, i) => (
-              <a key={i} href={`/${r.from.toLowerCase()}-${r.to.toLowerCase().replace(' ', '-')}`}
-                className="card-hover stagger-item" style={{ background: '#0D1018', border: '1px solid rgba(255,255,255,0.07)', borderRadius: 12, padding: '16px', textDecoration: 'none', display: 'block', transition: 'border-color .2s' }}
+              <button key={i} type="button"
+                onClick={() => setInfo({ eyebrow: 'Ruta activa', title: `${r.from} → ${r.to}`, route: r, lines: ['Esta es una de las rutas más activas de Movantia. Hay transportistas que la hacen seguido y publican el espacio libre de su vuelta.', 'Si necesitás mandar algo por acá, te conectamos con la próxima vuelta disponible y pagás solo por el espacio que usás.'], cta: { label: 'Enviar carga por WhatsApp', href: WA_ENVIAR } })}
+                className="card-hover stagger-item" style={{ background: '#0D1018', border: '1px solid rgba(255,255,255,0.07)', borderRadius: 12, padding: '16px', textAlign: 'left', display: 'block', width: '100%', cursor: 'pointer', fontFamily: 'inherit', transition: 'border-color .2s' }}
                 onMouseEnter={e => e.currentTarget.style.borderColor='rgba(212,168,67,0.35)'}
                 onMouseLeave={e => e.currentTarget.style.borderColor='rgba(255,255,255,0.07)'}
               >
@@ -863,7 +931,7 @@ function MainPage() {
                   <span style={{ fontSize: 11, color: 'rgba(232,237,245,0.3)' }}>{r.km}</span>
                   <span style={{ fontSize: 10, fontWeight: 700, color: 'rgba(0,214,143,0.7)', background: 'rgba(0,214,143,0.07)', borderRadius: 20, padding: '2px 7px' }}>{r.freq}</span>
                 </div>
-              </a>
+              </button>
             ))}
           </div>
         </div>
@@ -923,7 +991,7 @@ function MainPage() {
               { step: '03', icon: <Package size={16} color="#00D68F" />, title: 'El paquete llega', desc: 'Confirmás que recibiste todo bien desde la app con un PIN.' },
               { step: '04', icon: <CheckCircle2 size={16} color="#00D68F" />, title: 'Se libera el pago', desc: 'El transportista recibe su parte automáticamente. Cero fricción.' },
             ].map((s, i) => (
-              <div key={i} className="card-hover stagger-item" style={{ display: 'flex', gap: 14, alignItems: 'flex-start', background: '#0D1018', border: '1px solid rgba(255,255,255,0.06)', borderRadius: 12, padding: '16px' }}>
+              <div key={i} className="card-hover stagger-item" onClick={() => setInfo({ eyebrow: `Paso ${s.step}`, title: s.title, lines: [s.desc] })} style={{ display: 'flex', gap: 14, alignItems: 'flex-start', background: '#0D1018', border: '1px solid rgba(255,255,255,0.06)', borderRadius: 12, padding: '16px', cursor: 'pointer' }}>
                 <div style={{ flexShrink: 0, width: 32, height: 32, borderRadius: 8, background: 'rgba(0,214,143,0.08)', border: '1px solid rgba(0,214,143,0.18)', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 16 }}>{s.icon}</div>
                 <div>
                   <p style={{ fontSize: 14, fontWeight: 700, color: '#E8EDF5', margin: '0 0 3px' }}>{s.title}</p>
@@ -990,14 +1058,14 @@ function MainPage() {
       <section style={{ padding: '0 24px clamp(48px,6vw,80px)', borderTop: '1px solid rgba(255,255,255,0.05)' }}>
         <div style={{ maxWidth: 680, margin: '0 auto', paddingTop: 'clamp(40px,5vw,64px)', display: 'flex', flexWrap: 'wrap', justifyContent: 'center', gap: '14px 40px' }}>
           {[
-            { icon: <CreditCard size={16} />, text: 'Pagás con tarjeta · pago protegido' },
-            { icon: <ShieldCheck size={16} />, text: 'Transportistas verificados' },
-            { icon: <span style={{ fontWeight: 800, fontSize: 15 }}>$</span>, text: 'Pesos uruguayos' },
-            { icon: <Zap size={16} />, text: 'Match en minutos' },
-            { icon: <Route size={16} />, text: 'Solo rutas de Uruguay' },
-            { icon: <WAGlyph size={16} />, text: 'Soporte por WhatsApp' },
+            { icon: <CreditCard size={16} />, text: 'Pagás con tarjeta · pago protegido', info: 'Pagás con tarjeta de crédito o débito. El dinero queda retenido por Movantia y solo se libera al transportista cuando confirmás que recibiste todo bien.' },
+            { icon: <ShieldCheck size={16} />, text: 'Transportistas verificados', info: 'Cada transportista pasa por verificación de documentación y vehículo antes de poder publicar vueltas, y acumula calificaciones reales de cada entrega.' },
+            { icon: <span style={{ fontWeight: 800, fontSize: 15 }}>$</span>, text: 'Pesos uruguayos', info: 'Todo en pesos uruguayos, sin dólares ni conversiones. El precio que ves es el precio que pagás.' },
+            { icon: <Zap size={16} />, text: 'Match en minutos', info: 'En las rutas más frecuentes el match aparece en minutos. Si no hay uno al instante, quedás en cola y te avisamos apenas surge.' },
+            { icon: <Route size={16} />, text: 'Solo rutas de Uruguay', info: 'Movantia está enfocado 100% en Uruguay: rutas locales entre ciudades, con transportistas que ya hacen esos trayectos.' },
+            { icon: <WAGlyph size={16} />, text: 'Soporte por WhatsApp', info: 'Si tenés cualquier duda, escribís por WhatsApp y te responde una persona. Sin formularios ni esperas eternas.' },
           ].map((item, i) => (
-            <div key={i} style={{ display: 'flex', alignItems: 'center', gap: 8, fontSize: 13, color: 'rgba(232,237,245,0.58)', fontWeight: 500 }}>
+            <div key={i} onClick={() => setInfo({ eyebrow: 'Por qué confiar', title: item.text, lines: [item.info] })} style={{ display: 'flex', alignItems: 'center', gap: 8, fontSize: 13, color: 'rgba(232,237,245,0.58)', fontWeight: 500, cursor: 'pointer' }}>
               <span style={{ display: 'flex', color: '#D4A843' }}>{item.icon}</span>{item.text}
             </div>
           ))}
