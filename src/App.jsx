@@ -52,6 +52,26 @@ const WA_ENVIAR = 'https://wa.me/59898534165?text=Hola%2C%20quiero%20enviar%20ca
 const WA_LLEVAR = 'https://wa.me/59898534165?text=Hola%2C%20tengo%20cami%C3%B3n%20y%20quiero%20sumarme%20a%20Movantia'
 const WA_EXPRESS = 'https://wa.me/59898534165?text=Hola%2C%20necesito%20un%20flete%20express%20%E2%80%94%20Movantia'
 
+function WAGlyph({ size = 18 }) {
+  return (
+    <svg width={size} height={size} viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+      <path d="M12.04 2C6.58 2 2.13 6.45 2.13 11.91c0 1.75.46 3.45 1.32 4.95L2 22l5.25-1.38c1.45.79 3.08 1.21 4.79 1.21h.01c5.46 0 9.91-4.45 9.91-9.91 0-2.65-1.03-5.14-2.9-7.01A9.82 9.82 0 0 0 12.04 2zm0 1.67c2.2 0 4.27.86 5.82 2.41a8.18 8.18 0 0 1 2.41 5.82c0 4.54-3.7 8.24-8.24 8.24-1.52 0-3.01-.41-4.31-1.19l-.31-.18-3.2.84.85-3.12-.2-.32a8.18 8.18 0 0 1-1.26-4.36c0-4.54 3.7-8.24 8.24-8.24zm4.52 10.4c-.25-.12-1.47-.72-1.69-.81-.23-.08-.39-.12-.56.12-.16.25-.64.81-.79.97-.14.16-.29.18-.54.06-.25-.12-1.05-.39-2-1.23-.74-.66-1.24-1.47-1.38-1.72-.14-.25-.02-.38.11-.5.11-.11.25-.29.37-.43.12-.14.16-.25.25-.41.08-.16.04-.31-.02-.43-.06-.12-.56-1.34-.76-1.84-.2-.48-.4-.42-.56-.43-.14-.01-.31-.01-.48-.01-.16 0-.43.06-.66.31-.23.25-.87.85-.87 2.07 0 1.22.89 2.4 1.01 2.56.12.16 1.75 2.67 4.23 3.74.59.26 1.05.41 1.41.52.59.19 1.13.16 1.56.1.48-.07 1.47-.6 1.68-1.18.21-.58.21-1.07.14-1.18-.06-.11-.22-.17-.47-.29z"/>
+    </svg>
+  )
+}
+
+function WhatsAppFAB() {
+  return (
+    <a href={WA} target="_blank" rel="noreferrer" aria-label="Escribinos por WhatsApp"
+      className="wa-fab"
+      style={{ position: 'fixed', right: 18, bottom: 18, zIndex: 150, display: 'flex', alignItems: 'center', gap: 9,
+        background: '#25D366', color: '#06251a', borderRadius: 999, padding: '12px 18px', fontSize: 14, fontWeight: 800,
+        textDecoration: 'none', boxShadow: '0 10px 26px rgba(37,211,102,0.38)', fontFamily: "'Space Grotesk', sans-serif" }}>
+      <WAGlyph size={20} /> WhatsApp
+    </a>
+  )
+}
+
 const ROUTES = [
   'Montevideo - Maldonado',
   'Montevideo - Colonia',
@@ -469,12 +489,12 @@ function AdminModal({ onClose }) {
 
         <button onClick={onClose} style={{
           width: '100%', background: 'transparent',
-          color: 'rgba(232,237,245,0.4)', border: 'none',
+          color: 'rgba(232,237,245,0.6)', border: 'none',
           borderRadius: 9, padding: '9px', fontSize: 13,
           cursor: 'pointer', transition: 'color .15s',
         }}
         onMouseEnter={e => e.currentTarget.style.color = 'rgba(232,237,245,0.7)'}
-        onMouseLeave={e => e.currentTarget.style.color = 'rgba(232,237,245,0.4)'}
+        onMouseLeave={e => e.currentTarget.style.color = 'rgba(232,237,245,0.6)'}
         >Cancelar</button>
       </div>
     </div>
@@ -561,21 +581,21 @@ function MainPage() {
             <span style={{ fontWeight: 800, fontSize: 16, color: '#E8EDF5', letterSpacing: '-0.02em' }}>Movantia</span>
           </a>
           <div className="main-nav-links" style={{ display: 'flex', gap: 8, alignItems: 'center' }}>
-            <a href="#como-funciona" onClick={e => { e.preventDefault(); document.getElementById('como-funciona')?.scrollIntoView({ behavior: 'smooth' }) }} style={{ fontSize: 13, color: 'rgba(232,237,245,0.5)', textDecoration: 'none', padding: '6px 12px', borderRadius: 8, fontWeight: 500 }}
+            <a href="#como-funciona" onClick={e => { e.preventDefault(); document.getElementById('como-funciona')?.scrollIntoView({ behavior: 'smooth' }) }} style={{ fontSize: 13, color: 'rgba(232,237,245,0.7)', textDecoration: 'none', padding: '6px 12px', borderRadius: 8, fontWeight: 500 }}
               onMouseEnter={e => e.currentTarget.style.color='#E8EDF5'}
-              onMouseLeave={e => e.currentTarget.style.color='rgba(232,237,245,0.5)'}
+              onMouseLeave={e => e.currentTarget.style.color='rgba(232,237,245,0.7)'}
             >Cómo funciona</a>
-            <a href="#precios" onClick={e => { e.preventDefault(); document.getElementById('precios')?.scrollIntoView({ behavior: 'smooth' }) }} style={{ fontSize: 13, color: 'rgba(232,237,245,0.5)', textDecoration: 'none', padding: '6px 12px', borderRadius: 8, fontWeight: 500 }}
+            <a href="#precios" onClick={e => { e.preventDefault(); document.getElementById('precios')?.scrollIntoView({ behavior: 'smooth' }) }} style={{ fontSize: 13, color: 'rgba(232,237,245,0.7)', textDecoration: 'none', padding: '6px 12px', borderRadius: 8, fontWeight: 500 }}
               onMouseEnter={e => e.currentTarget.style.color='#E8EDF5'}
-              onMouseLeave={e => e.currentTarget.style.color='rgba(232,237,245,0.5)'}
+              onMouseLeave={e => e.currentTarget.style.color='rgba(232,237,245,0.7)'}
             >Precios</a>
-            <a href="#faq" onClick={e => { e.preventDefault(); document.getElementById('faq')?.scrollIntoView({ behavior: 'smooth' }) }} style={{ fontSize: 13, color: 'rgba(232,237,245,0.5)', textDecoration: 'none', padding: '6px 12px', borderRadius: 8, fontWeight: 500 }}
+            <a href="#faq" onClick={e => { e.preventDefault(); document.getElementById('faq')?.scrollIntoView({ behavior: 'smooth' }) }} style={{ fontSize: 13, color: 'rgba(232,237,245,0.7)', textDecoration: 'none', padding: '6px 12px', borderRadius: 8, fontWeight: 500 }}
               onMouseEnter={e => e.currentTarget.style.color='#E8EDF5'}
-              onMouseLeave={e => e.currentTarget.style.color='rgba(232,237,245,0.5)'}
+              onMouseLeave={e => e.currentTarget.style.color='rgba(232,237,245,0.7)'}
             >FAQ</a>
-            <button onClick={() => setAdminModal(true)} style={{ background: 'none', border: '1px solid rgba(255,255,255,0.1)', color: 'rgba(232,237,245,0.4)', borderRadius: 8, padding: '6px 14px', fontSize: 13, fontWeight: 600, cursor: 'pointer', display: 'flex', alignItems: 'center', gap: 5 }}
+            <button onClick={() => setAdminModal(true)} style={{ background: 'none', border: '1px solid rgba(255,255,255,0.1)', color: 'rgba(232,237,245,0.6)', borderRadius: 8, padding: '6px 14px', fontSize: 13, fontWeight: 600, cursor: 'pointer', display: 'flex', alignItems: 'center', gap: 5 }}
               onMouseEnter={e => { e.currentTarget.style.color='#D4A843'; e.currentTarget.style.borderColor='rgba(212,168,67,0.3)' }}
-              onMouseLeave={e => { e.currentTarget.style.color='rgba(232,237,245,0.4)'; e.currentTarget.style.borderColor='rgba(255,255,255,0.1)' }}
+              onMouseLeave={e => { e.currentTarget.style.color='rgba(232,237,245,0.6)'; e.currentTarget.style.borderColor='rgba(255,255,255,0.1)' }}
             >
               <ShieldCheck size={13} /> Admin
             </button>
@@ -598,7 +618,7 @@ function MainPage() {
               vueltas vacías<br />
               <span style={{ color: '#D4A843' }}>con carga real.</span>
             </h1>
-            <p style={{ fontSize: 'clamp(14px,1.8vw,17px)', color: 'rgba(232,237,245,0.5)', lineHeight: 1.7, margin: '0 0 36px', maxWidth: 440 }}>
+            <p style={{ fontSize: 'clamp(14px,1.8vw,17px)', color: 'rgba(232,237,245,0.7)', lineHeight: 1.7, margin: '0 0 36px', maxWidth: 440 }}>
               Si tenés un camión que vuelve vacío, vendé ese espacio.<br />
               Si necesitás mandar carga, pagás solo lo que usás.
             </p>
@@ -611,7 +631,7 @@ function MainPage() {
               </AccessBtn>
             </div>
             <p style={{ fontSize: 12, color: 'rgba(232,237,245,0.18)', marginTop: 14 }}>
-              Demo con datos reales · sin registro · sin tarjeta
+              Gratis para empezar · sin cuotas fijas · soporte por WhatsApp
             </p>
           </div>
 
@@ -651,14 +671,14 @@ function MainPage() {
       <section style={{ padding: '0 24px', borderTop: '1px solid rgba(255,255,255,0.05)' }}>
         <div style={{ maxWidth: 960, margin: '0 auto', padding: 'clamp(36px,5vw,56px) 0', display: 'grid', gridTemplateColumns: 'repeat(auto-fit,minmax(180px,1fr))', gap: 1, background: 'rgba(255,255,255,0.04)', borderRadius: 16, overflow: 'hidden', border: '1px solid rgba(255,255,255,0.07)' }}>
           {[
-            { v: '+200',    u: 'vueltas publicadas',    c: '#D4A843' },
+            { v: '6',       u: 'rutas conectadas',       c: '#D4A843' },
             { v: '12%',     u: 'comisión sin cargos fijos', c: '#E8EDF5' },
             { v: '$2.000',  u: 'por m³ — precio justo', c: '#00D68F' },
             { v: '< 5 min', u: 'para publicar tu vuelta', c: '#a78bfa' },
           ].map((s, i, arr) => (
             <div key={i} style={{ padding: '28px 24px', textAlign: 'center', borderRight: i < arr.length - 1 ? '1px solid rgba(255,255,255,0.06)' : 'none', background: '#0D1018' }}>
               <p style={{ fontSize: 'clamp(28px,4vw,40px)', fontWeight: 900, color: s.c, margin: '0 0 6px', letterSpacing: '-0.04em', fontFamily: 'Space Grotesk' }}>{s.v}</p>
-              <p style={{ fontSize: 12, color: 'rgba(232,237,245,0.4)', margin: 0, lineHeight: 1.4 }}>{s.u}</p>
+              <p style={{ fontSize: 12, color: 'rgba(232,237,245,0.6)', margin: 0, lineHeight: 1.4 }}>{s.u}</p>
             </div>
           ))}
         </div>
@@ -672,17 +692,17 @@ function MainPage() {
             <h2 style={{ fontSize: 'clamp(24px,3.5vw,38px)', fontWeight: 800, color: '#E8EDF5', margin: '0 0 20px', letterSpacing: '-0.03em', lineHeight: 1.15 }}>
               El 40% del viaje,<br />el camión vuelve vacío.
             </h2>
-            <p style={{ fontSize: 15, color: 'rgba(232,237,245,0.45)', lineHeight: 1.75, margin: 0 }}>
+            <p style={{ fontSize: 15, color: 'rgba(232,237,245,0.66)', lineHeight: 1.75, margin: 0 }}>
               Un camión que hace Montevideo–Punta del Este pierde plata en cada vuelta vacía. Al mismo tiempo, miles de personas pagan fletes completos para mandar una sola caja. Hay espacio de sobra — solo falta conectarlo.
             </p>
           </div>
           <div style={{ display: 'flex', flexDirection: 'column', gap: 12 }}>
             {[
-              { icon: '🚛', title: 'Sin Movantia', items: ['Camión vuelve vacío y pierde dinero', 'Transportista no sabe quién necesita carga en su ruta', 'Cliente paga el camión entero por una caja'], bad: true },
-              { icon: '✅', title: 'Con Movantia', items: ['Vendés el espacio libre de tu vuelta', 'Clientes publican su carga y vos aparecés como opción', 'Cada uno paga exactamente lo que usa'], bad: false },
+              { icon: <Truck size={15} />, title: 'Sin Movantia', items: ['Camión vuelve vacío y pierde dinero', 'Transportista no sabe quién necesita carga en su ruta', 'Cliente paga el camión entero por una caja'], bad: true },
+              { icon: <CheckCircle2 size={15} />, title: 'Con Movantia', items: ['Vendés el espacio libre de tu vuelta', 'Clientes publican su carga y vos aparecés como opción', 'Cada uno paga exactamente lo que usa'], bad: false },
             ].map((card, i) => (
               <div key={i} style={{ background: card.bad ? 'rgba(239,68,68,0.04)' : 'rgba(0,214,143,0.05)', border: `1px solid ${card.bad ? 'rgba(239,68,68,0.15)' : 'rgba(0,214,143,0.2)'}`, borderRadius: 14, padding: '18px 20px' }}>
-                <p style={{ fontWeight: 700, color: card.bad ? '#f87171' : '#00D68F', margin: '0 0 12px', fontSize: 14 }}>{card.icon} {card.title}</p>
+                <p style={{ fontWeight: 700, color: card.bad ? '#f87171' : '#00D68F', margin: '0 0 12px', fontSize: 14, display: 'inline-flex', alignItems: 'center', gap: 7 }}>{card.icon} {card.title}</p>
                 {card.items.map((it, j) => (
                   <div key={j} style={{ display: 'flex', alignItems: 'flex-start', gap: 8, marginBottom: j < card.items.length - 1 ? 8 : 0 }}>
                     <span style={{ color: card.bad ? '#f87171' : '#00D68F', fontSize: 13, flexShrink: 0, marginTop: 1 }}>{card.bad ? '✗' : '✓'}</span>
@@ -720,14 +740,14 @@ function MainPage() {
                   <div style={{ flexShrink: 0, width: 28, height: 28, borderRadius: 8, background: 'rgba(212,168,67,0.1)', border: '1px solid rgba(212,168,67,0.2)', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 11, fontWeight: 800, color: '#D4A843' }}>{s.n}</div>
                   <div>
                     <p style={{ fontSize: 14, fontWeight: 700, color: '#E8EDF5', margin: '0 0 2px' }}>{s.t}</p>
-                    <p style={{ fontSize: 12, color: 'rgba(232,237,245,0.4)', margin: 0, lineHeight: 1.5 }}>{s.d}</p>
+                    <p style={{ fontSize: 12, color: 'rgba(232,237,245,0.6)', margin: 0, lineHeight: 1.5 }}>{s.d}</p>
                   </div>
                 </div>
               ))}
               <button onClick={() => { localStorage.setItem('dev_role','transporter'); window.location.href='/app/transporter' }} style={{ width: '100%', marginTop: 22, background: '#D4A843', color: '#07090F', border: 'none', borderRadius: 9, padding: '12px', fontSize: 14, fontWeight: 800, cursor: 'pointer', fontFamily: 'Space Grotesk', transition: 'opacity .15s' }}
                 onMouseEnter={e => e.currentTarget.style.opacity='.88'}
                 onMouseLeave={e => e.currentTarget.style.opacity='1'}
-              >Probar como transportista</button>
+              >Empezar como transportista</button>
             </div>
 
             {/* Consumidor */}
@@ -746,14 +766,14 @@ function MainPage() {
                   <div style={{ flexShrink: 0, width: 28, height: 28, borderRadius: 8, background: 'rgba(0,214,143,0.08)', border: '1px solid rgba(0,214,143,0.2)', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 11, fontWeight: 800, color: '#00D68F' }}>{s.n}</div>
                   <div>
                     <p style={{ fontSize: 14, fontWeight: 700, color: '#E8EDF5', margin: '0 0 2px' }}>{s.t}</p>
-                    <p style={{ fontSize: 12, color: 'rgba(232,237,245,0.4)', margin: 0, lineHeight: 1.5 }}>{s.d}</p>
+                    <p style={{ fontSize: 12, color: 'rgba(232,237,245,0.6)', margin: 0, lineHeight: 1.5 }}>{s.d}</p>
                   </div>
                 </div>
               ))}
               <button onClick={() => { localStorage.setItem('dev_role','consumer'); window.location.href='/app/send' }} style={{ width: '100%', marginTop: 22, background: 'rgba(0,214,143,0.1)', color: '#00D68F', border: '1.5px solid rgba(0,214,143,0.35)', borderRadius: 9, padding: '12px', fontSize: 14, fontWeight: 800, cursor: 'pointer', fontFamily: 'Space Grotesk', transition: 'opacity .15s' }}
                 onMouseEnter={e => e.currentTarget.style.opacity='.8'}
                 onMouseLeave={e => e.currentTarget.style.opacity='1'}
-              >Probar como cliente</button>
+              >Empezar como cliente</button>
             </div>
           </div>
         </div>
@@ -765,7 +785,7 @@ function MainPage() {
           <div style={{ textAlign: 'center', marginBottom: 40 }}>
             <p style={{ fontSize: 11, fontWeight: 700, color: '#D4A843', letterSpacing: '0.1em', textTransform: 'uppercase', margin: '0 0 10px' }}>Rutas activas</p>
             <h2 style={{ fontSize: 'clamp(22px,3vw,34px)', fontWeight: 800, color: '#E8EDF5', margin: '0 0 10px', letterSpacing: '-0.025em' }}>Las rutas más frecuentes del país</h2>
-            <p style={{ fontSize: 14, color: 'rgba(232,237,245,0.4)', margin: 0 }}>Vueltas que ya están publicadas — entrá y buscá la tuya</p>
+            <p style={{ fontSize: 14, color: 'rgba(232,237,245,0.6)', margin: 0 }}>Vueltas que ya están publicadas — entrá y buscá la tuya</p>
           </div>
           <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill,minmax(200px,1fr))', gap: 10 }}>
             {[
@@ -802,7 +822,7 @@ function MainPage() {
           <div style={{ textAlign: 'center', marginBottom: 36 }}>
             <p style={{ fontSize: 11, fontWeight: 700, color: '#D4A843', letterSpacing: '0.1em', textTransform: 'uppercase', margin: '0 0 10px' }}>Los números</p>
             <h2 style={{ fontSize: 'clamp(24px,3.5vw,36px)', fontWeight: 800, color: '#E8EDF5', margin: '0 0 12px', letterSpacing: '-0.025em' }}>12% de comisión · pago con tarjeta protegido</h2>
-            <p style={{ fontSize: 15, color: 'rgba(232,237,245,0.4)', margin: 0 }}>Solo cobramos si la entrega se confirma. Sin cargos fijos.</p>
+            <p style={{ fontSize: 15, color: 'rgba(232,237,245,0.6)', margin: 0 }}>Solo cobramos si la entrega se confirma. Sin cargos fijos.</p>
           </div>
           <div style={{ background: '#0D1018', border: '1px solid rgba(255,255,255,0.07)', borderRadius: 16, overflow: 'hidden' }}>
             <div className="precios-grid" style={{ display: 'grid', gridTemplateColumns: '1fr 1fr 1fr', textAlign: 'center' }}>
@@ -835,26 +855,26 @@ function MainPage() {
             <h2 style={{ fontSize: 'clamp(22px,3vw,34px)', fontWeight: 800, color: '#E8EDF5', margin: '0 0 16px', letterSpacing: '-0.03em', lineHeight: 1.2 }}>
               Tu plata no se mueve<br />hasta que llegó todo bien.
             </h2>
-            <p style={{ fontSize: 15, color: 'rgba(232,237,245,0.45)', lineHeight: 1.75, margin: '0 0 24px' }}>
+            <p style={{ fontSize: 15, color: 'rgba(232,237,245,0.66)', lineHeight: 1.75, margin: '0 0 24px' }}>
               Pagás con tarjeta de crédito o débito. El monto queda retenido en Movantia — no va al transportista hasta que vos o el destinatario confirmen que recibieron la mercadería en buen estado.
             </p>
             <a href="/app/send" onClick={e => { e.preventDefault(); localStorage.setItem('dev_role','consumer'); window.location.href='/app/send' }}
               style={{ display: 'inline-flex', alignItems: 'center', gap: 8, background: 'rgba(0,214,143,0.1)', border: '1.5px solid rgba(0,214,143,0.3)', color: '#00D68F', borderRadius: 10, padding: '12px 20px', fontSize: 14, fontWeight: 700, textDecoration: 'none', cursor: 'pointer' }}>
-              Probar el flujo de pago →
+              Quiero enviar carga →
             </a>
           </div>
           <div style={{ display: 'flex', flexDirection: 'column', gap: 10 }}>
             {[
-              { step: '01', icon: '💳', title: 'Pagás con tarjeta', desc: 'Crédito o débito. El cobro se hace al confirmar la reserva.' },
-              { step: '02', icon: '🔒', title: 'El dinero queda retenido', desc: 'No va al transportista. Lo retiene la plataforma hasta la entrega.' },
-              { step: '03', icon: '📦', title: 'El paquete llega', desc: 'Confirmás que recibiste todo bien desde la app con un PIN.' },
-              { step: '04', icon: '✅', title: 'Se libera el pago', desc: 'El transportista recibe su parte automáticamente. Cero fricción.' },
+              { step: '01', icon: <CreditCard size={16} color="#00D68F" />, title: 'Pagás con tarjeta', desc: 'Crédito o débito. El cobro se hace al confirmar la reserva.' },
+              { step: '02', icon: <Shield size={16} color="#00D68F" />, title: 'El dinero queda retenido', desc: 'No va al transportista. Lo retiene la plataforma hasta la entrega.' },
+              { step: '03', icon: <Package size={16} color="#00D68F" />, title: 'El paquete llega', desc: 'Confirmás que recibiste todo bien desde la app con un PIN.' },
+              { step: '04', icon: <CheckCircle2 size={16} color="#00D68F" />, title: 'Se libera el pago', desc: 'El transportista recibe su parte automáticamente. Cero fricción.' },
             ].map((s, i) => (
               <div key={i} style={{ display: 'flex', gap: 14, alignItems: 'flex-start', background: '#0D1018', border: '1px solid rgba(255,255,255,0.06)', borderRadius: 12, padding: '16px' }}>
                 <div style={{ flexShrink: 0, width: 32, height: 32, borderRadius: 8, background: 'rgba(0,214,143,0.08)', border: '1px solid rgba(0,214,143,0.18)', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 16 }}>{s.icon}</div>
                 <div>
                   <p style={{ fontSize: 14, fontWeight: 700, color: '#E8EDF5', margin: '0 0 3px' }}>{s.title}</p>
-                  <p style={{ fontSize: 12, color: 'rgba(232,237,245,0.4)', margin: 0, lineHeight: 1.5 }}>{s.desc}</p>
+                  <p style={{ fontSize: 12, color: 'rgba(232,237,245,0.6)', margin: 0, lineHeight: 1.5 }}>{s.desc}</p>
                 </div>
               </div>
             ))}
@@ -889,13 +909,13 @@ function MainPage() {
         <div style={{ maxWidth: 680, margin: '0 auto', textAlign: 'center' }}>
           <div style={{ display: 'inline-flex', alignItems: 'center', gap: 8, marginBottom: 24, background: 'rgba(212,168,67,0.07)', border: '1px solid rgba(212,168,67,0.18)', color: '#D4A843', borderRadius: 20, padding: '5px 14px', fontSize: 12, fontWeight: 700, letterSpacing: '0.05em' }}>
             <span style={{ width: 6, height: 6, background: '#D4A843', borderRadius: '50%', boxShadow: '0 0 8px rgba(212,168,67,0.8)' }} />
-            Sin registro · sin tarjeta · modo demo
+            Gratis para arrancar · sin cuotas · cancelás cuando querés
           </div>
           <h2 style={{ fontSize: 'clamp(28px,5vw,52px)', fontWeight: 900, color: '#E8EDF5', margin: '0 0 16px', letterSpacing: '-0.04em', lineHeight: 1.1 }}>
-            Probalo ahora.<br /><span style={{ color: '#D4A843' }}>No te cuesta nada.</span>
+            Empezá hoy.<br /><span style={{ color: '#D4A843' }}>Arrancar es gratis.</span>
           </h2>
-          <p style={{ fontSize: 16, color: 'rgba(232,237,245,0.45)', margin: '0 0 36px', lineHeight: 1.7 }}>
-            Entrás como transportista o como cliente y ves exactamente cómo funciona el sistema. Datos reales, flujo completo, sin registrarte.
+          <p style={{ fontSize: 16, color: 'rgba(232,237,245,0.66)', margin: '0 0 36px', lineHeight: 1.7 }}>
+            Publicá tu vuelta o enviá tu carga en menos de 2 minutos. Sin cuotas ni contratos — solo pagás cuando hay entrega confirmada.
           </p>
           <div style={{ display: 'flex', gap: 12, justifyContent: 'center', flexWrap: 'wrap' }}>
             <button onClick={() => { localStorage.setItem('dev_role','transporter'); window.location.href='/app/transporter' }}
@@ -917,15 +937,15 @@ function MainPage() {
       <section style={{ padding: '0 24px clamp(48px,6vw,80px)', borderTop: '1px solid rgba(255,255,255,0.05)' }}>
         <div style={{ maxWidth: 680, margin: '0 auto', paddingTop: 'clamp(40px,5vw,64px)', display: 'flex', flexWrap: 'wrap', justifyContent: 'center', gap: '14px 40px' }}>
           {[
-            { icon: '💳', text: 'Pagás con tarjeta · pago protegido' },
-            { icon: '✅', text: 'Transportistas verificados' },
-            { icon: '🇺🇾', text: 'Pesos uruguayos' },
-            { icon: '⚡', text: 'Match en minutos' },
-            { icon: '📍', text: 'Solo rutas de Uruguay' },
-            { icon: '💬', text: 'Soporte por WhatsApp' },
+            { icon: <CreditCard size={16} />, text: 'Pagás con tarjeta · pago protegido' },
+            { icon: <ShieldCheck size={16} />, text: 'Transportistas verificados' },
+            { icon: <span style={{ fontSize: 15 }}>🇺🇾</span>, text: 'Pesos uruguayos' },
+            { icon: <Zap size={16} />, text: 'Match en minutos' },
+            { icon: <Route size={16} />, text: 'Solo rutas de Uruguay' },
+            { icon: <WAGlyph size={16} />, text: 'Soporte por WhatsApp' },
           ].map((item, i) => (
-            <div key={i} style={{ display: 'flex', alignItems: 'center', gap: 8, fontSize: 13, color: 'rgba(232,237,245,0.38)', fontWeight: 500 }}>
-              <span style={{ fontSize: 17 }}>{item.icon}</span>{item.text}
+            <div key={i} style={{ display: 'flex', alignItems: 'center', gap: 8, fontSize: 13, color: 'rgba(232,237,245,0.58)', fontWeight: 500 }}>
+              <span style={{ display: 'flex', color: '#D4A843' }}>{item.icon}</span>{item.text}
             </div>
           ))}
         </div>
@@ -939,6 +959,7 @@ function MainPage() {
         </div>
         <p style={{ color: 'rgba(232,237,245,0.15)', fontSize: 12, margin: 0 }}>2026 · Uruguay</p>
       </footer>
+      <WhatsAppFAB />
     </div>
   )
 }
@@ -956,7 +977,7 @@ function FAQItem({ q, a }) {
         <span style={{ fontSize: 20, color: '#D4A843', flexShrink: 0, lineHeight: 1, transform: open ? 'rotate(45deg)' : 'none', transition: 'transform .2s' }}>+</span>
       </button>
       {open && (
-        <div style={{ padding: '0 20px 18px', fontSize: 14, color: 'rgba(232,237,245,0.5)', lineHeight: 1.75, borderTop: '1px solid rgba(255,255,255,0.05)' }}>
+        <div style={{ padding: '0 20px 18px', fontSize: 14, color: 'rgba(232,237,245,0.7)', lineHeight: 1.75, borderTop: '1px solid rgba(255,255,255,0.05)' }}>
           <p style={{ margin: '14px 0 0' }}>{a}</p>
         </div>
       )}
