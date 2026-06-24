@@ -259,33 +259,6 @@ function RoutePageWrapper() {
   return <RoutePage slug={slug} />
 }
 
-const MAP_CITIES = {
-  'Montevideo': [150, 300], 'Maldonado': [201, 298], 'Punta del Este': [207, 309],
-  'Colonia': [96, 286], 'Paysandú': [70, 175], 'Salto': [72, 120], 'Rivera': [185, 96],
-}
-
-function UruguayMap({ from, to }) {
-  const a = MAP_CITIES[from] || MAP_CITIES['Montevideo']
-  const b = MAP_CITIES[to] || a
-  return (
-    <svg viewBox="0 0 300 360" style={{ width: '100%', height: 'auto', display: 'block' }} role="img" aria-label={`Mapa de la ruta ${from} a ${to}`}>
-      <path d="M60 110 C70 80 120 70 160 78 C200 86 216 120 226 160 C236 210 220 272 200 300 C176 320 130 318 100 300 C70 286 55 250 52 210 C50 170 50 134 60 110 Z" fill="rgba(212,168,67,0.05)" stroke="rgba(255,255,255,0.13)" strokeWidth="1.4" />
-      <line x1={a[0]} y1={a[1]} x2={b[0]} y2={b[1]} stroke="#D4A843" strokeWidth="2.4" strokeDasharray="6 5" strokeLinecap="round">
-        <animate attributeName="stroke-dashoffset" from="22" to="0" dur="0.9s" repeatCount="indefinite" />
-      </line>
-      {[[a, from, '#E8EDF5', 19], [b, to, '#D4A843', -12]].map(([p, label, col, dy], i) => (
-        <g key={i}>
-          <circle cx={p[0]} cy={p[1]} r="9" fill="rgba(212,168,67,0.16)">
-            <animate attributeName="r" values="6;11;6" dur="2.2s" repeatCount="indefinite" />
-          </circle>
-          <circle cx={p[0]} cy={p[1]} r="4.5" fill="#D4A843" />
-          <text x={p[0]} y={p[1] + dy} fill={col} fontSize="11" fontWeight="700" textAnchor="middle" fontFamily="Space Grotesk, sans-serif">{label}</text>
-        </g>
-      ))}
-    </svg>
-  )
-}
-
 function InfoModal({ info, onClose }) {
   useEffect(() => {
     function onKey(e) { if (e.key === 'Escape') onClose() }
@@ -302,9 +275,16 @@ function InfoModal({ info, onClose }) {
         {info.eyebrow && <p style={{ fontSize: 11, fontWeight: 700, color: '#D4A843', letterSpacing: '0.1em', textTransform: 'uppercase', margin: '0 0 8px' }}>{info.eyebrow}</p>}
         <h3 style={{ fontSize: 21, fontWeight: 800, color: '#E8EDF5', margin: '0 0 14px', letterSpacing: '-0.02em', paddingRight: 28 }}>{info.title}</h3>
         {info.route && (
-          <div style={{ background: '#07090F', border: '1px solid rgba(255,255,255,0.06)', borderRadius: 12, padding: 12, marginBottom: 16 }}>
-            <UruguayMap from={info.route.from} to={info.route.to} />
-            <div style={{ display: 'flex', justifyContent: 'space-between', marginTop: 6, fontSize: 12 }}>
+          <div style={{ background: '#07090F', border: '1px solid rgba(255,255,255,0.06)', borderRadius: 12, padding: 8, marginBottom: 16 }}>
+            <iframe
+              title={`Ruta ${info.route.from} a ${info.route.to}`}
+              src={`https://www.google.com/maps?saddr=${encodeURIComponent(info.route.from + ', Uruguay')}&daddr=${encodeURIComponent(info.route.to + ', Uruguay')}&output=embed`}
+              style={{ width: '100%', height: 260, border: 0, borderRadius: 8, display: 'block' }}
+              loading="lazy"
+              referrerPolicy="no-referrer-when-downgrade"
+              allowFullScreen
+            />
+            <div style={{ display: 'flex', justifyContent: 'space-between', marginTop: 8, padding: '0 4px', fontSize: 12 }}>
               <span style={{ color: 'rgba(232,237,245,0.6)' }}>{info.route.km}</span>
               <span style={{ color: '#00D68F', fontWeight: 700 }}>{info.route.freq}</span>
             </div>
