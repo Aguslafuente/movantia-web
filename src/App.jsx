@@ -939,7 +939,7 @@ function MainPage() {
           {[
             { icon: <CreditCard size={16} />, text: 'Pagás con tarjeta · pago protegido' },
             { icon: <ShieldCheck size={16} />, text: 'Transportistas verificados' },
-            { icon: <span style={{ fontSize: 15 }}>🇺🇾</span>, text: 'Pesos uruguayos' },
+            { icon: <span style={{ fontWeight: 800, fontSize: 15 }}>$</span>, text: 'Pesos uruguayos' },
             { icon: <Zap size={16} />, text: 'Match en minutos' },
             { icon: <Route size={16} />, text: 'Solo rutas de Uruguay' },
             { icon: <WAGlyph size={16} />, text: 'Soporte por WhatsApp' },
