@@ -605,13 +605,29 @@ function MainPage() {
     return () => { window.removeEventListener('scroll', onScroll); if (raf) cancelAnimationFrame(raf) }
   }, [])
 
+  useEffect(() => {
+    const header = document.querySelector('.site-header-x')
+    if (!header) return
+    let raf = 0
+    const onScroll = () => {
+      if (raf) return
+      raf = requestAnimationFrame(() => {
+        header.classList.toggle('is-scrolled', window.scrollY > 24)
+        raf = 0
+      })
+    }
+    window.addEventListener('scroll', onScroll, { passive: true })
+    onScroll()
+    return () => { window.removeEventListener('scroll', onScroll); if (raf) cancelAnimationFrame(raf) }
+  }, [])
+
   return (
     <div className="landing-root" style={{ background: '#07090F', minHeight: '100vh', color: '#E8EDF5', fontFamily: "'Space Grotesk', sans-serif", overflowX: 'hidden' }}>
       {adminModal && <AdminModal onClose={() => setAdminModal(false)} />}
 
       {/* ── NAV ── */}
-      <header style={{ position: 'sticky', top: 0, zIndex: 100, background: 'rgba(7,9,15,0.92)', backdropFilter: 'blur(16px)', borderBottom: '1px solid rgba(255,255,255,0.06)' }}>
-        <div style={{ maxWidth: 1120, margin: '0 auto', padding: '0 24px', height: 58, display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
+      <header className="site-header-x" style={{ position: 'sticky', top: 0, zIndex: 100, background: 'rgba(7,9,15,0.92)', backdropFilter: 'blur(16px)', borderBottom: '1px solid rgba(255,255,255,0.06)' }}>
+        <div className="header-inner-x" style={{ maxWidth: 1120, margin: '0 auto', padding: '0 24px', height: 58, display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
           <a href="/" style={{ display: 'flex', alignItems: 'center', gap: 9, textDecoration: 'none' }}>
             <span style={{ width: 40, height: 40, display: 'flex' }}><BrandMark /></span>
             <span style={{ fontWeight: 800, fontSize: 16, color: '#E8EDF5', letterSpacing: '-0.02em' }}>Movantia</span>
@@ -640,8 +656,9 @@ function MainPage() {
       </header>
 
       {/* ── HERO ── */}
-      <section style={{ padding: 'clamp(56px,8vw,100px) 24px clamp(48px,6vw,80px)' }}>
-        <div className="hero-grid" style={{ maxWidth: 1120, margin: '0 auto', display: 'grid', gridTemplateColumns: 'minmax(0,1fr) minmax(0,1fr)', gap: 'clamp(32px,5vw,64px)', alignItems: 'center' }}>
+      <section style={{ padding: 'clamp(56px,8vw,100px) 24px clamp(48px,6vw,80px)', position: 'relative', overflow: 'hidden' }}>
+        <div className="hero-ambient" aria-hidden="true" />
+        <div className="hero-grid" style={{ position: 'relative', zIndex: 1, maxWidth: 1120, margin: '0 auto', display: 'grid', gridTemplateColumns: 'minmax(0,1fr) minmax(0,1fr)', gap: 'clamp(32px,5vw,64px)', alignItems: 'center' }}>
 
           {/* Left — copy */}
           <div>
